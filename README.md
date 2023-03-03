@@ -1,2 +1,7 @@
-# Capgrid
-ERPNext customisation for Capgrid Solutions
+## Capgrid
+
+ERPNext Customisations for Capgrid
+
+#### License
+
+MIT

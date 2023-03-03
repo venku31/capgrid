@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include capgrid *.css
+recursive-include capgrid *.csv
+recursive-include capgrid *.html
+recursive-include capgrid *.ico
+recursive-include capgrid *.js
+recursive-include capgrid *.json
+recursive-include capgrid *.md
+recursive-include capgrid *.png
+recursive-include capgrid *.py
+recursive-include capgrid *.svg
+recursive-include capgrid *.txt
+recursive-exclude capgrid *.pyc
