@@ -188,3 +188,14 @@ user_data_fields = [
 #	"capgrid.auth.validate"
 # ]
 
+from erpnext.controllers.accounts_controller import AccountsController as _AccountsController
+from erpnext.accounts import party as _party
+# from pos_bahrain.api.taxes_and_totals import calculate_change_amount,calculate_write_off_amount,update_paid_amount_for_return_ov
+from capgrid.api.purchase_invoice import get_due_date,validate_due_date,set_payment_schedule,get_payment_term_details,get_payment_terms
+from capgrid.api.party import get_due_date
+_AccountsController.get_due_date = get_due_date
+_AccountsController.validate_due_date = validate_due_date
+_AccountsController.set_payment_schedule = set_payment_schedule
+_AccountsController.get_payment_term_details = get_payment_term_details
+_AccountsController.get_payment_terms = get_payment_terms
+_party.get_due_date = get_due_date
