@@ -1,1 +1,4 @@
 # frappe -- https://github.com/frappe/frappe is installed via 'bench init'
+frappe
+erpnext
+toolz==0.12.0

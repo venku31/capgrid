@@ -1,0 +1,71 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-03-14 09:47:28.959231",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "part_number",
+  "purchase_order",
+  "type_o_po",
+  "qty",
+  "packet",
+  "insert"
+ ],
+ "fields": [
+  {
+   "fieldname": "part_number",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Part Number",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "purchase_order",
+   "fieldtype": "Link",
+   "label": "Purchase Order",
+   "options": "Purchase Order"
+  },
+  {
+   "default": "Regular",
+   "fieldname": "type_o_po",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Type O PO",
+   "options": "Regular"
+  },
+  {
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Qty"
+  },
+  {
+   "fieldname": "packet",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Packet"
+  },
+  {
+   "fieldname": "insert",
+   "fieldtype": "Button",
+   "in_list_view": 1,
+   "label": "Insert"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-03-14 22:27:02.364869",
+ "modified_by": "Administrator",
+ "module": "Capgrid",
+ "name": "Inward GRN Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

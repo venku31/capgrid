@@ -1,0 +1,64 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-03-14 09:58:56.127866",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "part_number",
+  "packet",
+  "purchase_order",
+  "type_of_po",
+  "qty"
+ ],
+ "fields": [
+  {
+   "fieldname": "part_number",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Part Number",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "packet",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Packet"
+  },
+  {
+   "fieldname": "purchase_order",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "PO",
+   "options": "Purchase Order"
+  },
+  {
+   "fieldname": "type_of_po",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Type Of PO",
+   "options": "Regular"
+  },
+  {
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Qty"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-03-14 10:00:50.653042",
+ "modified_by": "Administrator",
+ "module": "Capgrid",
+ "name": "Inward GRN Item Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
