@@ -16,13 +16,14 @@
 //  }
 // })
 frappe.ui.form.on("Inward GRN", {
-    validate: function(frm){
-    		frm.doc.inward_grn_item.forEach(function(item){ //Target Table
+   button: function(frm){
+   frm.doc.inward_grn_item.forEach(function(item){ //Target Table
    var a = frappe.model.add_child(cur_frm.doc, "Inward GRN", "inward_grn_item_details");
     	a.part_number = item.part_number;
 		a.qty = item.qty;
 		a.packet = item.packet; //Source table field copied to Target field
     // }
+    refresh_field("inward_grn_item_details");
        });
        }
     });
