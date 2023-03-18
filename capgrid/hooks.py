@@ -95,13 +95,16 @@ app_license = "MIT"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
+doc_events = {
 #	"*": {
 #		"on_update": "method",
 #		"on_cancel": "method",
 #		"on_trash": "method"
 #	}
-# }
+"Inward GRN": {
+        "on_update": "capgrid.capgrid.doctype.inward_grn.inward_grn.before_validate",
+    },
+}
 
 # Scheduled Tasks
 # ---------------

@@ -10,13 +10,19 @@
  "field_order": [
   "naming_series",
   "supplier",
-  "supplier_name",
   "column_break_uysgk",
-  "grn_date",
-  "supplier_invoice_no",
+  "supplier_name",
   "column_break_xhhbi",
+  "grn_date",
+  "column_break_clbbw",
   "grn_time",
+  "column_break_66glb",
+  "company",
+  "section_break_ogny5",
+  "supplier_invoice_no",
+  "column_break_y12kx",
   "supplier_invoice_date",
+  "column_break_b7rld",
   "button",
   "section_break_skv0b",
   "inward_grn_item",
@@ -25,6 +31,10 @@
   "generate_barcode",
   "column_break_ksmrx",
   "print_barcode",
+  "column_break_j5vo6",
+  "generate_grn",
+  "column_break_lvy0o",
+  "purchase_receipt",
   "amended_from"
  ],
  "fields": [
@@ -126,7 +136,55 @@
   {
    "fieldname": "button",
    "fieldtype": "Button",
-   "label": "Button"
+   "label": "Update"
+  },
+  {
+   "fieldname": "section_break_ogny5",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_y12kx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_b7rld",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_66glb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_clbbw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_j5vo6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "generate_grn",
+   "fieldtype": "Button",
+   "label": "Generate GRN"
+  },
+  {
+   "fieldname": "column_break_lvy0o",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "purchase_receipt",
+   "fieldtype": "Link",
+   "label": "Purchase Receipt",
+   "options": "Purchase Receipt",
+   "read_only": 1
   }
  ],
  "hide_toolbar": 1,
@@ -134,7 +192,7 @@
  "is_submittable": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-03-15 09:44:30.683573",
+ "modified": "2023-03-18 13:28:08.228739",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Inward GRN",
