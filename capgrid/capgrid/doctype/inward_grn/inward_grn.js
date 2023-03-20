@@ -58,6 +58,7 @@ frappe.ui.form.on("Inward GRN", {
                      'product_description' : frm.doc.inward_grn_item_details,
                      'bill_no' : frm.doc.supplier_invoice_no,
                      'bill_date' : frm.doc.supplier_invoice_date,
+                     // 'purchase_receipt' : frm.doc.purchase_receipt
                   },
                   callback(r) {
                      if (r.message){
@@ -76,6 +77,24 @@ frappe.ui.form.on("Inward GRN", {
       var me = this;
       var doc = frm.doc
       var print_format = "Barcodeprintqty"; // print format name
+      
+      var w = window.open(frappe.urllib.get_full_url("/printview?"
+         +"doctype="+encodeURIComponent(cdt)
+         +"&name="+encodeURIComponent(cdn)
+         +"&trigger_print=1"
+         +"&format=" + print_format
+         +"&no_letterhead=0"
+         ));
+      
+         if(!w) {
+            msgprint(__("Please enable pop-ups for printing.")); return;
+         }
+      },
+      generate_barcode: function(frm, cdt, cdn) {
+      
+      var me = this;
+      var doc = frm.doc
+      var print_format = "BarcodePrintpacket"; // print format name
       
       var w = window.open(frappe.urllib.get_full_url("/printview?"
          +"doctype="+encodeURIComponent(cdt)

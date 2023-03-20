@@ -12,6 +12,7 @@ class InwardGRN(Document):
 @frappe.whitelist()
 def create_pr(company,supplier,product_description,bill_no,bill_date):
     # set_or_create_batch(doc, method)
+    
     pr = frappe.new_doc("Purchase Receipt")
     pr.company = company
     pr.supplier = supplier
@@ -19,6 +20,7 @@ def create_pr(company,supplier,product_description,bill_no,bill_date):
     pr.supplier_delivery_note = bill_no
     pr.supplier_invoice_date = bill_date
     product = json.loads(product_description)
+    
     for i in product:
         if not 'batch_no' in i:
             raise AttributeError('Generate Batch')

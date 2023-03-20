@@ -1,0 +1,130 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"r1DRrVRjcw\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"leAw3WlTVj\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h2\\\">INWARD</span>\",\"col\":10}},{\"id\":\"piHEIi1fmi\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Inward GRN\",\"col\":3}},{\"id\":\"bRda541ZAf\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h2\\\">QUALITY</span>\",\"col\":12}},{\"id\":\"Jyg-IBf4ns\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quality Inspection\",\"col\":3}},{\"id\":\"NgoXM62gIT\",\"type\":\"paragraph\",\"data\":{\"text\":\"<span class=\\\"h2\\\">PUTAWAY</span>\",\"col\":12}},{\"id\":\"l5YRyDEhNH\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Putaway Rule\",\"col\":3}},{\"id\":\"R9orYqe5cN\",\"type\":\"paragraph\",\"data\":{\"text\":\"<span class=\\\"h2\\\">PICKING AND DISPATCH</span>\",\"col\":12}},{\"id\":\"c_8FoW9E1B\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Delivery Note\",\"col\":3}},{\"id\":\"N2GZa_QnjV\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pick List\",\"col\":3}}]",
+ "creation": "2023-03-19 22:09:13.093445",
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 1,
+ "icon": "getting-started",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "Capgrid",
+ "links": [
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Chart of Accounts",
+   "link_count": 0,
+   "link_to": "Account",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Company",
+   "link_count": 0,
+   "link_to": "Company",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Item",
+   "link_count": 0,
+   "link_to": "Item",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "PUTAWAY",
+   "link_count": 0,
+   "link_to": "Putaway Rule",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Lead",
+   "link_count": 0,
+   "link_to": "Lead",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Import Data",
+   "link_count": 0,
+   "link_to": "Data Import",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  }
+ ],
+ "modified": "2023-03-19 22:27:31.139562",
+ "modified_by": "Administrator",
+ "module": "Capgrid",
+ "name": "Capgrid",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "restrict_to_domain": "",
+ "roles": [],
+ "sequence_id": 1.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Quality Inspection",
+   "link_to": "Quality Inspection",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Putaway Rule",
+   "link_to": "Putaway Rule",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Inward GRN",
+   "link_to": "Inward GRN",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Delivery Note",
+   "link_to": "Delivery Note",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Pick List",
+   "link_to": "Pick List",
+   "type": "DocType"
+  }
+ ],
+ "title": "Capgrid"
+}
