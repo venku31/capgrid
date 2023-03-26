@@ -34,7 +34,7 @@
    "fieldname": "packet",
    "fieldtype": "Int",
    "in_list_view": 1,
-   "label": "Packet"
+   "label": "# of packets"
   },
   {
    "columns": 3,
@@ -63,7 +63,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-03-26 10:35:07.922733",
+ "modified": "2023-03-26 10:53:21.905493",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Inward GRN Item",

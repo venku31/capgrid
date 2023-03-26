@@ -34,6 +34,7 @@ def create_pr(company,supplier,product_description,bill_no,bill_date):
             })
             pr.save(ignore_permissions = True)
     return pr.name
+
 ##Batch
 @frappe.whitelist()
 def set_or_create_batch(doc, method):

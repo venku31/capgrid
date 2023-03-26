@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"r1DRrVRjcw\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"leAw3WlTVj\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h2\\\">INWARD</span>\",\"col\":10}},{\"id\":\"piHEIi1fmi\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Inward GRN\",\"col\":3}},{\"id\":\"bRda541ZAf\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h2\\\">QUALITY</span>\",\"col\":12}},{\"id\":\"Jyg-IBf4ns\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quality Inspection\",\"col\":3}},{\"id\":\"NgoXM62gIT\",\"type\":\"paragraph\",\"data\":{\"text\":\"<span class=\\\"h2\\\">PUTAWAY</span>\",\"col\":12}},{\"id\":\"l5YRyDEhNH\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Putaway Rule\",\"col\":3}},{\"id\":\"R9orYqe5cN\",\"type\":\"paragraph\",\"data\":{\"text\":\"<span class=\\\"h2\\\">PICKING AND DISPATCH</span>\",\"col\":12}},{\"id\":\"c_8FoW9E1B\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Delivery Note\",\"col\":3}},{\"id\":\"N2GZa_QnjV\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pick List\",\"col\":3}}]",
+ "content": "[{\"id\":\"r1DRrVRjcw\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"leAw3WlTVj\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h2\\\">INWARD</span>\",\"col\":10}},{\"id\":\"piHEIi1fmi\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Inward GRN\",\"col\":3}},{\"id\":\"bRda541ZAf\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h2\\\">QUALITY</span>\",\"col\":12}},{\"id\":\"3qDvbGbR2D\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quality Inspection Page\",\"col\":3}},{\"id\":\"NgoXM62gIT\",\"type\":\"paragraph\",\"data\":{\"text\":\"<span class=\\\"h2\\\">PUTAWAY</span>\",\"col\":12}},{\"id\":\"l5YRyDEhNH\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Putaway Rule\",\"col\":3}},{\"id\":\"R9orYqe5cN\",\"type\":\"paragraph\",\"data\":{\"text\":\"<span class=\\\"h2\\\">PICKING AND DISPATCH</span>\",\"col\":12}},{\"id\":\"c_8FoW9E1B\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Delivery Note\",\"col\":3}},{\"id\":\"N2GZa_QnjV\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pick List\",\"col\":3}}]",
  "creation": "2023-03-19 22:09:13.093445",
  "docstatus": 0,
  "doctype": "Workspace",
@@ -77,7 +77,7 @@
    "type": "Link"
   }
  ],
- "modified": "2023-03-19 22:27:31.139562",
+ "modified": "2023-03-26 14:26:56.005738",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Capgrid",
@@ -92,9 +92,9 @@
  "shortcuts": [
   {
    "color": "Grey",
-   "doc_view": "List",
-   "label": "Quality Inspection",
-   "link_to": "Quality Inspection",
+   "doc_view": "New",
+   "label": "Quality Inspection Page",
+   "link_to": "Quality Inspection Page",
    "type": "DocType"
   },
   {
@@ -106,7 +106,7 @@
   },
   {
    "color": "Grey",
-   "doc_view": "List",
+   "doc_view": "New",
    "label": "Inward GRN",
    "link_to": "Inward GRN",
    "type": "DocType"
