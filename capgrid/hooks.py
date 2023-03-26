@@ -102,7 +102,8 @@ doc_events = {
 #		"on_trash": "method"
 #	}
 "Inward GRN": {
-        "on_update": "capgrid.capgrid.doctype.inward_grn.inward_grn.before_validate",
+        #  "on_update": "capgrid.capgrid.doctype.inward_grn.inward_grn.before_validate",
+		#  "validate": "capgrid.capgrid.doctype.inward_grn.inward_grn.before_validate",
     },
 }
 

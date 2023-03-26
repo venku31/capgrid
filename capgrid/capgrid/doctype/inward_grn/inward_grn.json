@@ -23,7 +23,9 @@
   "column_break_y12kx",
   "supplier_invoice_date",
   "column_break_b7rld",
-  "button",
+  "purchase_order",
+  "column_break_ovodt",
+  "po_type",
   "section_break_skv0b",
   "inward_grn_item",
   "inward_grn_item_details",
@@ -116,11 +118,13 @@
   {
    "fieldname": "generate_barcode",
    "fieldtype": "Button",
+   "hidden": 1,
    "label": "Print Packet Barcode"
   },
   {
    "fieldname": "print_barcode",
    "fieldtype": "Button",
+   "hidden": 1,
    "label": "Print Barcode"
   },
   {
@@ -132,11 +136,6 @@
    "fieldtype": "Select",
    "hidden": 1,
    "label": "Series"
-  },
-  {
-   "fieldname": "button",
-   "fieldtype": "Button",
-   "label": "Update"
   },
   {
    "fieldname": "section_break_ogny5",
@@ -173,6 +172,7 @@
   {
    "fieldname": "generate_grn",
    "fieldtype": "Button",
+   "hidden": 1,
    "label": "Generate GRN"
   },
   {
@@ -185,6 +185,23 @@
    "label": "Purchase Receipt",
    "options": "Purchase Receipt",
    "read_only": 1
+  },
+  {
+   "fieldname": "purchase_order",
+   "fieldtype": "Link",
+   "label": "Purchase Order",
+   "options": "Purchase Order"
+  },
+  {
+   "fieldname": "column_break_ovodt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "purchase_order.po_type",
+   "fieldname": "po_type",
+   "fieldtype": "Select",
+   "label": "PO Type",
+   "options": "\nSample\nRegular\nRegular Challan\nOpen\nTooling\nService"
   }
  ],
  "hide_toolbar": 1,
@@ -192,7 +209,7 @@
  "is_submittable": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-03-19 22:30:44.006840",
+ "modified": "2023-03-26 09:53:41.772525",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Inward GRN",

@@ -16,6 +16,7 @@
  ],
  "fields": [
   {
+   "columns": 2,
    "fieldname": "part_number",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -28,11 +29,12 @@
    "columns": 1,
    "fieldname": "packet",
    "fieldtype": "Int",
+   "hidden": 1,
    "in_list_view": 1,
    "label": "Packet"
   },
   {
-   "columns": 1,
+   "columns": 2,
    "fieldname": "purchase_order",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -75,7 +77,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-03-17 16:51:09.548469",
+ "modified": "2023-03-26 10:33:11.613037",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Inward GRN Item Details",
