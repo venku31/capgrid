@@ -31,7 +31,7 @@ app_license = "MIT"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+# doctype_js = {"Lot Number" : "public/js/lot_number.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -106,8 +106,15 @@ doc_events = {
 		#  "after_validate": "capgrid.capgrid.doctype.inward_grn.inward_grn.before_validate",
     },
 "Quality Inspection Page": {
-		"validate": "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_quality_inspection"
+		"validate": "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_quality_inspection",
 	},
+"GRN Inward": {
+         "on_update": "capgrid.capgrid.doctype.grn_inward.grn_inward.before_validate",
+		#  "on_update": "capgrid.capgrid.doctype.grn_inward.grn_inward.after_validate",
+	},
+# "Lot Number": {
+# 		"validate": "capgrid.capgrid.doctype.lot_number.lot_number.autoname",
+# 	},
 }
 
 # Scheduled Tasks
@@ -130,6 +137,15 @@ doc_events = {
 #		"capgrid.tasks.monthly"
 #	]
 # }
+fixtures = [
+            {"doctype": "Inventory Dimension", "filters": [
+            [   
+            "name", "in", [
+                      "Lot Number"
+    		       ]
+                ]
+            ]},
+            ]
 
 # Testing
 # -------

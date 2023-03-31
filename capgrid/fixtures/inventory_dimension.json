@@ -1,0 +1,21 @@
+[
+ {
+  "apply_to_all_doctypes": 1,
+  "condition": null,
+  "dimension_name": "Lot Number",
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Inventory Dimension",
+  "document_type": null,
+  "fetch_from_parent": "Lot Number",
+  "istable": 0,
+  "mandatory_depends_on": null,
+  "modified": "2023-03-29 12:07:35.394657",
+  "name": "Lot Number",
+  "reference_document": "Lot Number",
+  "reqd": 0,
+  "source_fieldname": "lot_number",
+  "target_fieldname": "lot_number",
+  "type_of_transaction": "Both"
+ }
+]

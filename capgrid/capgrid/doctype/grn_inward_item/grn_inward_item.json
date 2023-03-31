@@ -1,0 +1,78 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-03-29 13:11:12.201810",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "part_number",
+  "description",
+  "qty",
+  "packet",
+  "update",
+  "lot_no"
+ ],
+ "fields": [
+  {
+   "fieldname": "part_number",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Part Number",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "columns": 3,
+   "fetch_from": "part_number.item_name",
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Description",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Qty"
+  },
+  {
+   "columns": 1,
+   "fieldname": "packet",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "# of packets"
+  },
+  {
+   "columns": 2,
+   "fieldname": "lot_no",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Lot No",
+   "options": "Lot Number"
+  },
+  {
+   "columns": 1,
+   "fieldname": "update",
+   "fieldtype": "Button",
+   "in_list_view": 1,
+   "label": "Update"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-03-30 17:15:35.219576",
+ "modified_by": "Administrator",
+ "module": "Capgrid",
+ "name": "GRN Inward Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
