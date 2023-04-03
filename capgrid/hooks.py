@@ -106,11 +106,11 @@ doc_events = {
 		#  "after_validate": "capgrid.capgrid.doctype.inward_grn.inward_grn.before_validate",
     },
 "Quality Inspection Page": {
-		"validate": "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_quality_inspection",
+		"on_submit": "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_quality_inspection",
 	},
 "GRN Inward": {
          "on_update": "capgrid.capgrid.doctype.grn_inward.grn_inward.before_validate",
-		#  "on_update": "capgrid.capgrid.doctype.grn_inward.grn_inward.after_validate",
+		#  "after_save": "capgrid.capgrid.doctype.grn_inward.grn_inward.after_validate",
 	},
 # "Lot Number": {
 # 		"validate": "capgrid.capgrid.doctype.lot_number.lot_number.autoname",

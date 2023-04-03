@@ -134,9 +134,9 @@
   },
   {
    "fieldname": "reference_name",
-   "fieldtype": "Dynamic Link",
+   "fieldtype": "Link",
    "label": "Source Document Name",
-   "options": "reference_doctype",
+   "options": "GRN Inward",
    "read_only": 1
   },
   {
@@ -187,6 +187,7 @@
    "read_only": 1
   },
   {
+   "fetch_from": "reference_name.purchase_order",
    "fieldname": "purchase_order",
    "fieldtype": "Link",
    "label": "Purchase Order",
@@ -211,7 +212,7 @@
  "image_field": "image",
  "links": [],
  "max_attachments": 5,
- "modified": "2023-03-30 22:12:44.957683",
+ "modified": "2023-04-01 22:37:07.898536",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Lot Number",

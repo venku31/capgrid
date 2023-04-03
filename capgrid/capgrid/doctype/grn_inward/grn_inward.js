@@ -37,7 +37,7 @@ frappe.ui.form.on("GRN Inward", {
                frappe.db.set_value("GRN Inward",cur_frm.doc.name,"purchase_receipt", r.message);
             }
          })  
-         refresh_field("grn_inward");
+         // refresh_field("grn_inward");
          // frm.save()
    //   }).css({'color':'white','font-weight': 'bold', 'background-color': 'Green'});
    }
@@ -53,9 +53,9 @@ frappe.ui.form.on("GRN Inward", {
       +"&no_letterhead=0"
       ));
    
-      if(!w) {
-         msgprint(__("Please enable pop-ups for printing.")); return;
-      }
+      // if(!w) {
+      //    msgprint(__("Please enable pop-ups for printing.")); return;
+      // }
 	}
 });
 // frappe.ui.form.on("Inward GRN", {
@@ -78,7 +78,11 @@ frappe.ui.form.on("GRN Inward", {
 //        });
 //        }
 //     });
-
+frappe.ui.form.on('GRN Inward Item', {
+      packet:function(frm, cdt, cdn){ 
+         frm.save();   
+          }
+          });
 frappe.ui.form.on("GRN Inward Item", {
    update: function(frm, cdt, cdn){ 
       var item = locals[cdt][cdn];
@@ -97,55 +101,13 @@ frappe.ui.form.on("GRN Inward Item", {
 		a.packet = i+1; 
     // }
    }
-     refresh_field("grn_inward_item_details");
+   //   refresh_field("grn_inward_item_details");
        });
        frm.save();
-       },
-   // validate: function(frm, cdt, cdn){ 
-   //       var item = locals[cdt][cdn];
-   //       cur_frm.clear_table("grn_inward_item_details");
-   //       frm.doc.grn_inward_item.forEach(function(item){ 
-   //          var total_qty = 0;
-   //          total_qty +=  ((item.qty/item.packet));
-   //          for (let i = 0; i < item.packet; i++) {
-   //       var a = frappe.model.add_child(cur_frm.doc, "GRN Inward", "grn_inward_item_details");
-   //       a.part_number = item.part_number;
-   //       a.item_name = item.description;
-   //       a.purchase_order = frm.doc.purchase_order;
-   //       a.type_of_po = frm.doc.po_type;
-   //       a.qty = item.qty/item.packet;
-   //       a.lot_no = item.lot_no;
-   //       a.packet = i+1; 
-   //     // }
-   //    }
-   //    //   refresh_field("grn_inward_item_details");
-   //        });
-   //       //  frm.save();
-   //        }  
-    });
+       }
+       });
 
-    frappe.ui.form.on('GRN Inward', {
-      generate_grn(frm) {
-      frappe.call({
-                  method: 'capgrid.capgrid.doctype.grn_inward.grn_inward.create_pr',
-                  args: {
-                     'company':frm.doc.company,
-                     'supplier': frm.doc.supplier,
-                     'product_description' : frm.doc.inward_grn_item_details,
-                     'bill_no' : frm.doc.supplier_invoice_no,
-                     'bill_date' : frm.doc.supplier_invoice_date,
-                     // 'purchase_receipt' : frm.doc.purchase_receipt
-                  },
-                  callback(r) {
-                     if (r.message){
-                        console.log(r.message)
-                        cur_frm.set_value("purchase_receipt", r.message);
-                  
-                     }
-                  }
-               })
-      }
-   })    
+   
 
    frappe.ui.form.on('GRN Inward', {
       on_submit: function(frm, cdt, cdn) {
@@ -162,34 +124,38 @@ frappe.ui.form.on("GRN Inward Item", {
          +"&no_letterhead=0"
          ));
       
-         if(!w) {
-            msgprint(__("Please enable pop-ups for printing.")); return;
-         }
+         // if(!w) {
+         //    msgprint(__("Please enable pop-ups for printing.")); return;
+         // }
       },
-      generate_barcode: function(frm, cdt, cdn) {
+      create_new: function(frm, cdt, cdn) {
+         frappe.set_route("Form", "GRN Inward", "new_grn_inward");
+      // var me = this;
+      // var doc = frm.doc
+      // var print_format = "BarcodePacketLabel"; // print format name
       
-      var me = this;
-      var doc = frm.doc
-      var print_format = "BarcodePacketLabel"; // print format name
+      // var w = window.open(frappe.urllib.get_full_url("/printview?"
+      //    +"doctype="+encodeURIComponent(cdt)
+      //    +"&name="+encodeURIComponent(cdn)
+      //    +"&trigger_print=1"
+      //    +"&format=" + print_format
+      //    +"&no_letterhead=0"
+      //    ));
       
-      var w = window.open(frappe.urllib.get_full_url("/printview?"
-         +"doctype="+encodeURIComponent(cdt)
-         +"&name="+encodeURIComponent(cdn)
-         +"&trigger_print=1"
-         +"&format=" + print_format
-         +"&no_letterhead=0"
-         ));
-      
-         if(!w) {
-            msgprint(__("Please enable pop-ups for printing.")); return;
-         }
+      //    if(!w) {
+      //       msgprint(__("Please enable pop-ups for printing.")); return;
+      //    }
       }
       })
 
 	cur_frm.fields_dict.purchase_order.get_query = function(doc) {
 		return {
 			filters: {
-				supplier:cur_frm.doc.supplier
+				supplier:cur_frm.doc.supplier,
+            docstatus: 1,
+            status: ["not in", ["Closed", "On Hold"]],
+            per_received: ["<", 99.99],
+            company: me.frm.doc.company
 			}
 		}
 	}
@@ -222,4 +188,21 @@ frappe.ui.form.on("GRN Inward Item", {
          }
       }
       })
-  
+      frappe.ui.form.on('GRN Inward', {
+         onload_post_render: function(frm) {
+            frm.get_field("create_new").$input.addClass('btn-primary');
+            },
+           validate: function(frm) {
+            if (!frm.doc.supplier){
+					frappe.msgprint(__("Please select Supplier"));
+					frappe.validated = false;
+				};
+            if (!frm.doc.supplier_invoice_no){
+					frappe.msgprint(__("Please add supplier invoice details"));
+					frappe.validated = false;
+				};
+            // cur_frm.fields_dict.child_table_name.grid.toggle_reqd
+            // ("grn_inward_item_details", 1)
+           }
+      })
+      

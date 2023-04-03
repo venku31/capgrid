@@ -23,17 +23,17 @@ class QualityInspectionPage(Document):
 	pass
 
 @frappe.whitelist()
-def search_batch(batch):
+def search_lot(batch):
     # item_data = search_serial_or_batch_or_barcode_number(batch)
     # if item_data != 0:
-    stock = frappe.db.sql("""SELECT iw.name as grn,iw.purchase_order,iw.purchase_receipt,iwd.part_number,iwd.item_name,iwd.packet,iwd.qty,iwd.batch_no
-	from `tabInward GRN` iw LEFT JOIN `tabInward GRN Item Details` iwd ON (iw.name=iwd.parent) where iw.docstatus=1 and iwd.batch_no = '%(batch)s' """%{"batch": batch}, as_dict = 1)
+    stock = frappe.db.sql("""SELECT iw.name as grn,iw.purchase_order,iw.purchase_receipt,iwd.part_number,iwd.item_name,iwd.packet,iwd.qty,iwd.batch_no,iwd.lot_no,iw.supplier,iw.supplier_name,iw.supplier_invoice_no,iw.supplier_invoice_date,iw.owner
+	from `tabGRN Inward` iw LEFT JOIN `tabGRN Inward Item Details` iwd ON (iw.name=iwd.parent) where iw.docstatus=1 and iwd.batch_no = '%(batch)s' """%{"batch": batch}, as_dict = 1)
     return stock
     
 def create_quality_inspection(doc, handler=""):
     for item in doc.quality_inspection_page_table:
         qi = frappe.new_doc("Quality Inspection")
-        qi.update({ "inspection_type": "Incoming" , "reference_type": "Purchase Receipt","reference_name": item.purchase_receipt,"status":item.status,"item_code":item.part_number,"batch_no":item.batch_no,"sample_size":1,"inspected_by":"Administrator"})
+        qi.update({ "inspection_type": "Incoming" , "reference_type": "Purchase Receipt","reference_name": item.purchase_receipt,"status":item.status,"item_code":item.part_number,"lot_number":item.batch_no,"sample_size":item.qty,"inspected_by":doc.owner})
         
         qi.docstatus=1
         qi.insert()

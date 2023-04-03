@@ -10,13 +10,15 @@
   "description",
   "packets",
   "qty",
-  "status",
   "batch_no",
+  "status",
+  "lot_no",
   "purchase_receipt",
   "inward_grn"
  ],
  "fields": [
   {
+   "columns": 2,
    "fieldname": "part_number",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -25,7 +27,7 @@
    "reqd": 1
   },
   {
-   "columns": 2,
+   "columns": 3,
    "fieldname": "description",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -36,6 +38,7 @@
    "columns": 1,
    "fieldname": "packets",
    "fieldtype": "Float",
+   "hidden": 1,
    "in_list_view": 1,
    "label": "Packets"
   },
@@ -47,38 +50,49 @@
    "label": "Qty"
   },
   {
-   "columns": 1,
+   "columns": 2,
    "fieldname": "batch_no",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Lot No",
-   "options": "Batch"
+   "options": "Lot Number",
+   "read_only": 1
   },
   {
    "fieldname": "purchase_receipt",
    "fieldtype": "Link",
    "label": "Purchase Receipt",
-   "options": "Purchase Receipt"
+   "options": "Purchase Receipt",
+   "read_only": 1
   },
   {
    "fieldname": "inward_grn",
    "fieldtype": "Link",
    "label": "Inward GRN",
-   "options": "Inward GRN"
+   "options": "GRN Inward",
+   "read_only": 1
   },
   {
+   "columns": 2,
    "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Status",
-   "options": "\nAccepted\nRejected",
+   "options": "\nAccepted\nRejected\nOn Hold",
    "reqd": 1
+  },
+  {
+   "fieldname": "lot_no",
+   "fieldtype": "Link",
+   "label": "Main Lot",
+   "options": "Lot Number",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-03-26 21:21:06.491452",
+ "modified": "2023-04-02 17:56:14.673910",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Quality Inspection Page Table",

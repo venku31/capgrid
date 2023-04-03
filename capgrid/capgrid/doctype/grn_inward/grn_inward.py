@@ -105,24 +105,25 @@ def set_or_create_main_lot(doc, method=None):
 @frappe.whitelist()
 def before_validate(doc, method):
     set_or_create_main_lot(doc, method)
-    set_or_create_lot(doc, method)
+    set_or_create_batch(doc, method)
 
 ##Batch
 @frappe.whitelist()
-def set_or_create_lot(doc, method):
-    def set_existing_lot(item):
+def set_or_create_batch(doc, method):
+    def set_existing_batch(item):
         if not item.batch_no:
-        #     has_batch_no, has_expiry_date = frappe.db.get_value(
-        #         "Item", item.part_number, ["has_batch_no", "has_expiry_date"]
-        #     )
-        #     if has_batch_no:
-            lot_no = frappe.db.exists(
+            has_batch_no, has_expiry_date = frappe.db.get_value(
+                "Item", item.part_number, ["has_batch_no", "has_expiry_date"]
+            )
+            # if has_batch_no:
+            batch_no = frappe.db.exists(
                     "Lot Number",
                     {"item": item.part_number,"supplier": doc.supplier,"reference_doctype": doc.doctype,"reference_name": doc.name,"type":"Child","packet":item.packet},
                 )
-            item.batch_no = lot_no
+            item.batch_no = batch_no
+            item.save()
 
-    get_lot_in_previous_items = compose(
+    get_batch_in_previous_items = compose(
         lambda x: x.get("batch_no"),
         excepts(StopIteration, first, lambda _: {}),
         lambda x: filter(
@@ -132,25 +133,26 @@ def set_or_create_lot(doc, method):
         ),
     )
 
-    def create_new_lot(item):
+    def create_new_batch(item):
         # warehouse = "t_warehouse" if doc.doctype == "Stock Entry" else "warehouse"
         for item in doc.grn_inward_item_details:
-            # if not item.batch_no:
-            #     has_batch_no, create_new_batch = frappe.db.get_value(
-            #     "Item",
-            #     item.part_number,
-            #     ["has_batch_no", "create_new_batch"],
-            #     )
-            #     if has_batch_no:
-            lot_in_items = get_lot_in_previous_items(item)
-            if lot_in_items:
-                item.batch_no = lot_in_items
-                return
-            for item in doc.grn_inward_item_details:
-                lot = frappe.get_doc(
+            if not item.batch_no:
+                has_batch_no, create_new_batch = frappe.db.get_value(
+                "Item",
+                item.part_number,
+                ["has_batch_no", "create_new_batch"],
+                )
+                # if has_batch_no:
+                batch_in_items = get_batch_in_previous_items(item)
+                if batch_in_items:
+                    item.batch_no = batch_in_items
+                    return
+                for item in doc.grn_inward_item_details:
+                    batch = frappe.get_doc(
                     {
                     "doctype": "Lot Number",
                     "naming_series":"parent_lot.-.##",
+                    "parent_lot":frappe.db.get_value("GRN Inward Item", {"parent": doc.name, "part_number": item.part_number}, "lot_no"),
                     "item": item.part_number,
                     "supplier": doc.supplier,
                     "lot_qty": item.qty,
@@ -158,18 +160,16 @@ def set_or_create_lot(doc, method):
                     "reference_name": doc.name or "",
                     # "purchase_order":doc.purchase_order or " ",
                     "packet":item.packet,
-                    "parent_lot":frappe.db.get_value("GRN Inward Item", {"parent": doc.name, "part_number": item.part_number}, "lot_no"),
                     "type":"Child"
                     }
-                ).insert()
-                item.batch_no = lot.name
-            doc.save(ignore_permissions = True)
+                    ).insert()
+                    item.batch_no = batch.name
+                doc.save(ignore_permissions = True)
 
     if doc._action == "save":
         for item in doc.grn_inward_item_details:
             if not item.batch_no :
-                set_existing_lot(item)
-        # doc.save(ignore_permissions = True)
+                set_existing_batch(item)
 
         # TODO: when `before_validate` gets merged into master create_new_batch should
         # run when doc._action == 'submit'.
@@ -177,12 +177,11 @@ def set_or_create_lot(doc, method):
         # `before_save` method
         for item in doc.grn_inward_item_details:
             if not item.batch_no :
-                create_new_lot(item)
-                doc.save(ignore_permissions = True)
-    
+                create_new_batch(item)
+
 @frappe.whitelist()
 def after_validate(doc, method):
-    set_or_create_lot(doc, method)
+    set_or_create_batch(doc, method)
 
 
 @frappe.whitelist()
