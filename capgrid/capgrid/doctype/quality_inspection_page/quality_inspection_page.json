@@ -98,6 +98,7 @@
   {
    "fieldname": "supplier",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Supplier",
    "options": "Supplier",
    "read_only": 1
@@ -113,6 +114,8 @@
   {
    "fieldname": "supplier_invoice_no",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Supplier Invoice No",
    "read_only": 1
   },
@@ -131,6 +134,7 @@
    "fetch_if_empty": 1,
    "fieldname": "supplier_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Supplier Name",
    "read_only": 1
   },
@@ -141,6 +145,8 @@
   {
    "fieldname": "grn",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "GRN",
    "options": "GRN Inward",
    "read_only": 1
@@ -175,6 +181,8 @@
    "fetch_from": "grn.purchase_order",
    "fieldname": "purchase_order",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Purchase Order",
    "options": "Purchase Order",
    "read_only": 1
@@ -194,6 +202,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "depends_on": "eval:!doc.__islocal",
    "fieldname": "create_new",
    "fieldtype": "Button",
    "label": "Create New"
@@ -202,7 +211,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-04-03 11:56:03.732846",
+ "modified": "2023-04-04 12:14:52.701911",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Quality Inspection Page",

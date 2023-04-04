@@ -61,3 +61,16 @@ frappe.ui.form.on('Quality Inspection Page', {
 			}
 	});
 	
+frappe.ui.form.on('Quality Inspection Page Table', {
+		batch_no: function(frm, cdt, cdn) {
+			var d = locals[cdt][cdn];
+			$.each(frm.doc.quality_inspection_page_table, function(i, row) {
+				if (row.batch_no === d.batch_no && row.name != d.name) {
+				   frappe.msgprint('Lot No already exists on the table.');
+				   frappe.model.remove_from_locals(cdt, cdn);
+				   frm.refresh_field('quality_inspection_page_table');
+				   return false;
+				}
+			});
+		}
+	});

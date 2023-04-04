@@ -53,6 +53,7 @@
    "fieldname": "supplier",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Supplier",
    "options": "Supplier"
   },
@@ -64,6 +65,7 @@
    "fetch_from": "supplier.supplier_name",
    "fieldname": "supplier_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Supplier Name",
    "read_only": 1
   },
@@ -97,6 +99,7 @@
   {
    "fieldname": "company",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Company",
    "options": "Company",
    "reqd": 1
@@ -108,6 +111,8 @@
   {
    "fieldname": "supplier_invoice_no",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Supplier Invoice No"
   },
   {
@@ -126,6 +131,7 @@
   {
    "fieldname": "purchase_order",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Purchase Order",
    "options": "Purchase Order"
   },
@@ -211,6 +217,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "depends_on": "eval:!doc.__islocal",
    "fieldname": "create_new",
    "fieldtype": "Button",
    "label": "Create New"
@@ -221,7 +228,7 @@
  "is_submittable": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-04-03 12:26:05.323629",
+ "modified": "2023-04-04 12:16:29.073545",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "GRN Inward",
