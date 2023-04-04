@@ -2,11 +2,11 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Quality Inspection Page', {
-	scan_barcode: function(frm, cdt, cdn){
-		fetch_batch_entry(frm, cdt, cdn);	
+	scan_barcode: function(frm){
+		fetch_batch_entry(frm);	
 	}
 });
-function fetch_batch_entry(frm, cdt, cdn) {
+function fetch_batch_entry(frm) {
 	console.log("1")
 	frappe.call({
 	  "method": "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.search_lot",
