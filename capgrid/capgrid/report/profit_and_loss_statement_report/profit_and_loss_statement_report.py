@@ -2,7 +2,8 @@ import frappe
 from frappe import _
 from frappe.utils import flt
 
-from erpnext.accounts.report.financial_statements import (
+# from erpnext.accounts.report.financial_statements import (
+from capgrid.capgrid.report.financial_statements import (
 	get_columns,
 	get_data,
 	get_filtered_list_for_consolidated_report,

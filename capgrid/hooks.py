@@ -101,10 +101,10 @@ doc_events = {
 #		"on_cancel": "method",
 #		"on_trash": "method"
 #	}
-"Inward GRN": {
-         "on_update": "capgrid.capgrid.doctype.inward_grn.inward_grn.before_validate",
-		#  "after_validate": "capgrid.capgrid.doctype.inward_grn.inward_grn.before_validate",
-    },
+# "Inward GRN": {
+#          "on_update": "capgrid.capgrid.doctype.inward_grn.inward_grn.before_validate",
+# 		#  "after_validate": "capgrid.capgrid.doctype.inward_grn.inward_grn.before_validate",
+#     },
 "Quality Inspection Page": {
 		"on_submit": "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_quality_inspection",
 	},

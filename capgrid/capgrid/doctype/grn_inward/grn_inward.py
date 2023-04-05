@@ -31,6 +31,7 @@ def create_pr(company,supplier,product_description,bill_no,bill_date):
             "qty": i["qty"],
             "lot_number": i["lot_no"],
             })
+            pr.flags.ignore_mandatory = True
             pr.save(ignore_permissions = True)
     return pr.name
 #Main Lot

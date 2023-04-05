@@ -1,0 +1,37 @@
+{
+ "add_total_row": 1,
+ "columns": [],
+ "creation": "2023-04-05 17:56:31.119515",
+ "disable_prepared_report": 1,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "other",
+ "modified": "2023-04-05 18:31:08.276114",
+ "modified_by": "Administrator",
+ "module": "Capgrid",
+ "name": "GRN Inwards Report",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "Select grn.name,grn.grn_date,grn.grn_time,grn.supplier,grn.supplier_name,grn.purchase_receipt,det.part_number,det.item_name,det.lot_no as MainLot,det.batch_no as ChildLot,det.qty,grn.purchase_order,grn.supplier_invoice_no,grn.supplier_invoice_date \nfrom `tabGRN Inward` grn join `tabGRN Inward Item Details` det ON(grn.name=det.parent and grn.docstatus=1)",
+ "ref_doctype": "GRN Inward",
+ "report_name": "GRN Inwards Report",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Purchase User"
+  },
+  {
+   "role": "Purchase Manager"
+  },
+  {
+   "role": "Stock User"
+  }
+ ]
+}
