@@ -15,17 +15,23 @@
   "item_name",
   "image",
   "manufacturing_date",
+  "expiry_date",
+  "stock_uom",
   "column_break_3",
   "parent_lot",
   "lot_qty",
-  "stock_uom",
-  "expiry_date",
+  "accepted_qty",
+  "rejected_qty",
   "source",
   "supplier",
+  "quality_inspection_page",
+  "quality_inspection_status",
   "column_break_9",
   "reference_doctype",
   "reference_name",
   "purchase_order",
+  "purchase_receipt",
+  "created_by",
   "type",
   "packet",
   "section_break_7",
@@ -91,7 +97,7 @@
    "fieldname": "lot_qty",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Lot Quantity",
+   "label": "Inward Quantity",
    "read_only": 1
   },
   {
@@ -177,7 +183,8 @@
    "fieldname": "parent_lot",
    "fieldtype": "Link",
    "label": "Parent Lot",
-   "options": "Lot Number"
+   "options": "Lot Number",
+   "read_only": 1
   },
   {
    "fieldname": "naming_series",
@@ -206,13 +213,51 @@
    "label": "Type",
    "options": "\nParent\nChild",
    "read_only": 1
+  },
+  {
+   "fieldname": "quality_inspection_page",
+   "fieldtype": "Link",
+   "label": "Quality Inspection Page",
+   "options": "Quality Inspection Page",
+   "read_only": 1
+  },
+  {
+   "fieldname": "quality_inspection_status",
+   "fieldtype": "Data",
+   "label": "Quality Inspection Status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "accepted_qty",
+   "fieldtype": "Float",
+   "label": "Accepted Qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "rejected_qty",
+   "fieldtype": "Float",
+   "label": "Rejected Qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "purchase_receipt",
+   "fieldtype": "Link",
+   "label": "Purchase Receipt",
+   "options": "Purchase Receipt",
+   "read_only": 1
+  },
+  {
+   "fieldname": "created_by",
+   "fieldtype": "Data",
+   "label": "Created By",
+   "read_only": 1
   }
  ],
  "icon": "fa fa-archive",
  "image_field": "image",
  "links": [],
  "max_attachments": 5,
- "modified": "2023-04-01 22:37:07.898536",
+ "modified": "2023-04-16 22:16:32.755317",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Lot Number",

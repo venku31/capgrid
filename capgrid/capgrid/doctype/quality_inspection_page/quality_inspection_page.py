@@ -45,3 +45,18 @@ def create_quality_inspection(doc, handler=""):
         
         qi.docstatus=1
         qi.insert()
+    update_lot(doc)
+
+def update_lot(doc):
+    for row in doc.quality_inspection_page_table:
+        if row.batch_no :
+            lot = frappe.get_doc('Lot Number', row.batch_no)
+   
+            lot.quality_inspection_page = doc.name
+            lot.accepted_qty = row.accepted_qty
+            lot.rejected_qty = row.rejected_qty
+            lot.purchase_receipt = doc.purchase_receipt
+            lot.created_by = doc.created_by
+            lot.save(ignore_permissions=True)
+            frappe.db.commit()
+ 

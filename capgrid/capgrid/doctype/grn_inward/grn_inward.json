@@ -28,6 +28,8 @@
   "purchase_order",
   "column_break_ovodt",
   "po_type",
+  "column_break_hfbr9",
+  "update",
   "section_break_skv0b",
   "grn_inward_item",
   "grn_inward_item_details",
@@ -39,6 +41,7 @@
   "created_by",
   "column_break_lvy0o",
   "purchase_receipt",
+  "dashboard_tab",
   "amended_from"
  ],
  "fields": [
@@ -221,6 +224,20 @@
    "fieldname": "create_new",
    "fieldtype": "Button",
    "label": "Create New"
+  },
+  {
+   "fieldname": "dashboard_tab",
+   "fieldtype": "Tab Break",
+   "label": "Dashboard"
+  },
+  {
+   "fieldname": "column_break_hfbr9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "update",
+   "fieldtype": "Button",
+   "label": "Update Lot"
   }
  ],
  "hide_toolbar": 1,
@@ -228,7 +245,7 @@
  "is_submittable": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-04-04 12:16:29.073545",
+ "modified": "2023-04-16 23:05:09.020478",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "GRN Inward",

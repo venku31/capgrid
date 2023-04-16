@@ -110,7 +110,7 @@ doc_events = {
 	},
 "GRN Inward": {
          "on_update": "capgrid.capgrid.doctype.grn_inward.grn_inward.before_validate",
-		#  "after_save": "capgrid.capgrid.doctype.grn_inward.grn_inward.after_validate",
+		 "validate": "capgrid.capgrid.doctype.grn_inward.grn_inward.validate_supplier_invoice_no",
 	},
 # "Lot Number": {
 # 		"validate": "capgrid.capgrid.doctype.lot_number.lot_number.autoname",

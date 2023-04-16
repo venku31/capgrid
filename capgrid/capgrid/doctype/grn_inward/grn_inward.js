@@ -43,7 +43,7 @@ frappe.ui.form.on("GRN Inward", {
    }
    var me = this;
    var doc = frm.doc
-   var print_format = "BarcodePacketLabel"; // print format name
+   var print_format = "BarcodeLabesidebyside"; // print format name
    
    var w = window.open(frappe.urllib.get_full_url("/printview?"
       +"doctype="+encodeURIComponent(cdt)
@@ -83,7 +83,7 @@ frappe.ui.form.on('GRN Inward Item', {
          frm.save();   
           }
           });
-frappe.ui.form.on("GRN Inward Item", {
+frappe.ui.form.on("GRN Inward", {
    update: function(frm, cdt, cdn){ 
       var item = locals[cdt][cdn];
       cur_frm.clear_table("grn_inward_item_details");
@@ -114,7 +114,7 @@ frappe.ui.form.on("GRN Inward Item", {
       
       var me = this;
       var doc = frm.doc
-      var print_format = "BarcodePacketLabel"; // print format name
+      var print_format = "BarcodeLabesidebyside"; // print format name
       
       var w = window.open(frappe.urllib.get_full_url("/printview?"
          +"doctype="+encodeURIComponent(cdt)
@@ -173,7 +173,7 @@ frappe.ui.form.on("GRN Inward Item", {
       print_barcode: function(frm, cdt, cdn) {
       var me = this;
       var doc = frm.doc
-      var print_format = "BarcodePacketLabel"; // print format name
+      var print_format = "BarcodeLabesidebyside"; // print format name
       
       var w = window.open(frappe.urllib.get_full_url("/printview?"
          +"doctype="+encodeURIComponent(cdt)
@@ -191,6 +191,7 @@ frappe.ui.form.on("GRN Inward Item", {
       frappe.ui.form.on('GRN Inward', {
          onload_post_render: function(frm) {
             frm.get_field("create_new").$input.addClass('btn-primary');
+            frm.get_field("update").$input.addClass('btn-primary');
             },
            validate: function(frm) {
             if (!frm.doc.supplier){
@@ -206,3 +207,31 @@ frappe.ui.form.on("GRN Inward Item", {
            }
       })
       
+      // frappe.ui.form.on("GRN Inward", {
+      //    validate: function(frm) {
+      //        if (frm.doc.__islocal) {
+      //       if(frm.doc.docstatus<2){
+      //       frappe.call({
+      //          "method": "frappe.client.get",
+      //          "args": {
+      //             "doctype": "GRN Inward",
+      //             fieldname: "supplier_invoice_no",
+      //             filters: { supplier_invoice_no: frm.doc.supplier_invoice_no, supplier: frm.doc.supplier, docstatus: ["!=", "2"]},
+               
+      //          },
+      //          "callback": function(response) {
+      //             var sinv = response.message;
+      
+      //             if (sinv) {
+      //                frappe.msgprint("GRN is Already Exists for this supplier Invoice " + sinv.name + sinv.supplier);
+      //                frappe.validated=false;
+      //             } else {
+                      
+      //                frappe.validated=True;				
+                      
+      //             }
+      //          }
+      //       });
+      //    }
+      //    }
+      // }});

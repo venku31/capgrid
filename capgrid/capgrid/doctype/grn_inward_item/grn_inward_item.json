@@ -61,14 +61,14 @@
    "columns": 1,
    "fieldname": "update",
    "fieldtype": "Button",
-   "in_list_view": 1,
-   "label": "Update"
+   "label": "Update",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-01 22:47:48.820479",
+ "modified": "2023-04-16 23:13:10.790870",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "GRN Inward Item",

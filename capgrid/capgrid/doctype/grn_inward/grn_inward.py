@@ -1,10 +1,12 @@
 import frappe
+from frappe import _
 from frappe.model.document import Document
 from frappe.utils import date_diff, add_months, today, add_days, nowdate,formatdate
 import json
 from toolz import excepts, first, compose
 from frappe.model.db_query import DatabaseQuery
 from frappe.desk.reportview import get_match_cond, get_filters_cond
+from erpnext.accounts.utils import get_account_currency, get_fiscal_year
 
 class GRNInward(Document):
 	pass
@@ -213,3 +215,24 @@ def po_item_query(doctype, txt, searchfield, start, page_len, filters):
             'page_len': page_len,
             'txt': "%%%s%%" % txt
         })
+
+def validate_supplier_invoice_no(self,method=None):
+    if self.supplier_invoice_no:
+        fiscal_year = get_fiscal_year(self.grn_date, company=self.company, as_dict=True)
+        si = frappe.db.sql('''select name,supplier from `tabGRN Inward`
+            where
+                supplier_invoice_no = %(supplier_invoice_no)s
+                and name != %(name)s
+                and supplier = %(supplier)s
+                and docstatus < 2
+                and grn_date between %(year_start_date)s and %(year_end_date)s''', {
+                    "supplier_invoice_no": self.supplier_invoice_no,
+                    "name": self.name,
+                    "supplier" : self.supplier,
+                    "year_start_date": fiscal_year.year_start_date,
+                    "year_end_date": fiscal_year.year_end_date
+                })
+ 
+        if si:
+            si = si[0][0]
+            frappe.throw(_("Supplier Invoice No exists in Inward {0}".format(si)))

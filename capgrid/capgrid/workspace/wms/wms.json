@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"r1DRrVRjcw\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"-RSMucM5Ec\",\"type\":\"card\",\"data\":{\"card_name\":\"Inwards\",\"col\":6}},{\"id\":\"HxhNAnqJLu\",\"type\":\"card\",\"data\":{\"card_name\":\"Quality\",\"col\":6}},{\"id\":\"4UEGzbKqkX\",\"type\":\"card\",\"data\":{\"card_name\":\"Picking And Dispatch\",\"col\":6}},{\"id\":\"-90XeZq5jX\",\"type\":\"card\",\"data\":{\"card_name\":\"Putaway\",\"col\":6}}]",
+ "content": "[{\"id\":\"r1DRrVRjcw\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"iJCoi3_8Eq\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"GRN Inward\",\"col\":3}},{\"id\":\"heExoS2vPg\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quality Inspection Page\",\"col\":3}},{\"id\":\"3Jppk2eRCR\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Putaway\",\"col\":3}},{\"id\":\"0lisTOttIX\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"-RSMucM5Ec\",\"type\":\"card\",\"data\":{\"card_name\":\"Inwards\",\"col\":6}},{\"id\":\"HxhNAnqJLu\",\"type\":\"card\",\"data\":{\"card_name\":\"Quality\",\"col\":6}},{\"id\":\"4UEGzbKqkX\",\"type\":\"card\",\"data\":{\"card_name\":\"Picking And Dispatch\",\"col\":6}},{\"id\":\"-90XeZq5jX\",\"type\":\"card\",\"data\":{\"card_name\":\"Putaway\",\"col\":6}}]",
  "creation": "2023-03-19 22:09:13.093445",
  "docstatus": 0,
  "doctype": "Workspace",
@@ -117,34 +117,6 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Inwards",
-   "link_count": 2,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "GRN Inward",
-   "link_count": 0,
-   "link_to": "GRN Inward",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Lot Master",
-   "link_count": 0,
-   "link_to": "Lot Number",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
    "label": "Picking And Dispatch",
    "link_count": 2,
    "onboard": 0,
@@ -187,9 +159,47 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Inwards",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "GRN Inward",
+   "link_count": 0,
+   "link_to": "GRN Inward",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Lot Master",
+   "link_count": 0,
+   "link_to": "Lot Number",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Location",
+   "link_count": 0,
+   "link_to": "Warehouse Location",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2023-04-05 17:52:32.004843",
+ "modified": "2023-04-10 15:22:15.221530",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "WMS",
@@ -201,6 +211,28 @@
  "restrict_to_domain": "",
  "roles": [],
  "sequence_id": 1.0,
- "shortcuts": [],
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "New",
+   "label": "Putaway",
+   "link_to": "Putaway",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "New",
+   "label": "Quality Inspection Page",
+   "link_to": "Quality Inspection Page",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "New",
+   "label": "GRN Inward",
+   "link_to": "GRN Inward",
+   "type": "DocType"
+  }
+ ],
  "title": "WMS"
 }
