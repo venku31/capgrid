@@ -36,6 +36,13 @@
   "created_by",
   "section_break_znpxv",
   "attach_report",
+  "column_break_sj2e8",
+  "total_inward_qty",
+  "column_break_dle46",
+  "total_accepted_qty",
+  "column_break_wgdel",
+  "total_rejected_qty",
+  "section_break_cjyd9",
   "amended_from"
  ],
  "fields": [
@@ -206,12 +213,46 @@
    "fieldname": "create_new",
    "fieldtype": "Button",
    "label": "Create New"
+  },
+  {
+   "fieldname": "column_break_sj2e8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_inward_qty",
+   "fieldtype": "Float",
+   "label": "Total Inward Qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_dle46",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_accepted_qty",
+   "fieldtype": "Float",
+   "label": "Total Accepted Qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_wgdel",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_rejected_qty",
+   "fieldtype": "Float",
+   "label": "Total Rejected Qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_cjyd9",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-04-04 12:14:52.701911",
+ "modified": "2023-04-17 22:34:43.300877",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Quality Inspection Page",

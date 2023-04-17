@@ -49,7 +49,8 @@
    "fieldname": "qty",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Qty Inward"
+   "label": "Qty Inward",
+   "read_only": 1
   },
   {
    "columns": 2,
@@ -96,7 +97,8 @@
    "fieldname": "accepted_qty",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Qty Accepted "
+   "label": "Qty Accepted ",
+   "read_only": 1
   },
   {
    "columns": 1,
@@ -109,7 +111,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-16 22:07:53.579509",
+ "modified": "2023-04-17 22:14:36.139115",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Quality Inspection Page Table",

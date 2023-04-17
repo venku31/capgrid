@@ -4,7 +4,11 @@
 frappe.ui.form.on('Quality Inspection Page', {
 	scan_barcode: function(frm){
 		fetch_batch_entry(frm);	
-	}
+	},
+	validate: function(frm, cdt, cdn){
+		qi_total_qty(frm, cdt, cdn);
+		refresh_field("quality_inspection_page_table");	
+	},
 });
 function fetch_batch_entry(frm) {
 	console.log("1")
@@ -23,6 +27,7 @@ function fetch_batch_entry(frm) {
 		  frappe.model.set_value(child.doctype, child.name, "batch_no", stock.batch_no)
 		  frappe.model.set_value(child.doctype, child.name, "description", stock.item_name)
 		  frappe.model.set_value(child.doctype, child.name, "qty", stock.qty)
+		  frappe.model.set_value(child.doctype, child.name, "accepted_qty", stock.qty)
 		  frappe.model.set_value(child.doctype, child.name, "packet", stock.packet)
 		  frappe.model.set_value(child.doctype, child.name, "purchase_receipt", stock.purchase_receipt)
 		  frappe.model.set_value(child.doctype, child.name, "inward_grn", stock.grn)
@@ -72,5 +77,32 @@ frappe.ui.form.on('Quality Inspection Page Table', {
 				   return false;
 				}
 			});
+		},
+		rejected_qty: function(frm, cdt, cdn) {
+		var d = locals[cdt][cdn];
+		$.each(frm.doc.quality_inspection_page_table || [], function(i, d) {
+		if(d.rejected_qty > 0) {
+	 	d.accepted_qty=d.qty-d.rejected_qty;
 		}
-	});
+		else {
+		d.accepted_qty=d.qty;	
+		}
+		});
+		qi_total_qty(frm, cdt, cdn);
+		refresh_field("quality_inspection_page_table");
+		}
+		});
+
+function qi_total_qty(frm, cdt, cdn) {
+    // estimated_amount: function(frm, cdt, cdn) {
+    var d = locals[cdt][cdn];
+    var total_inward_qty = 0;
+    var total_accepted_qty = 0;
+	var total_rejected_qty = 0;
+    frm.doc.quality_inspection_page_table.forEach(function(d) { total_inward_qty += d.qty});
+    frm.doc.quality_inspection_page_table.forEach(function(d) { total_accepted_qty += d.accepted_qty});
+	frm.doc.quality_inspection_page_table.forEach(function(d) { total_rejected_qty += d.rejected_qty});
+    frm.set_value('total_inward_qty', total_inward_qty);
+    frm.set_value('total_accepted_qty', total_accepted_qty);
+	frm.set_value('total_rejected_qty', total_rejected_qty);
+      }	

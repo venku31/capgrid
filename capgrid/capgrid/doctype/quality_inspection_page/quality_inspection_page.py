@@ -39,12 +39,15 @@ def search_lot(batch):
         return stock
     
 def create_quality_inspection(doc, handler=""):
-    for item in doc.quality_inspection_page_table:
-        qi = frappe.new_doc("Quality Inspection")
-        qi.update({ "inspection_type": "Incoming" , "reference_type": "Purchase Receipt","reference_name": item.purchase_receipt,"status":item.status,"item_code":item.part_number,"lot_number":item.batch_no,"sample_size":item.qty,"inspected_by":doc.owner})
+    # for item in doc.quality_inspection_page_table:
+    qi = frappe.new_doc("Quality Inspection")
+    part_number=frappe.db.get_value("GRN Inward Item",{"parent":doc.grn},'part_number')
+    lot_no=frappe.db.get_value("GRN Inward Item",{"parent":doc.grn},'lot_no')
+    qi.update({ "inspection_type": "Incoming" , "reference_type": "Purchase Receipt","reference_name": doc.purchase_receipt,"status":"Accepted","item_code":part_number,"lot_number":lot_no,"sample_size":doc.total_inward_qty,"inspected_by":doc.owner})
         
-        qi.docstatus=1
-        qi.insert()
+    qi.docstatus=1
+    qi.insert()
+    update_main_lot(doc)
     update_lot(doc)
 
 def update_lot(doc):
@@ -59,4 +62,15 @@ def update_lot(doc):
             lot.created_by = doc.created_by
             lot.save(ignore_permissions=True)
             frappe.db.commit()
+def update_main_lot(doc):
+    lot_no=frappe.db.get_value("GRN Inward Item",{"parent":doc.grn},'lot_no')
+    if lot_no :
+        lot = frappe.get_doc('Lot Number',lot_no)
+        lot.quality_inspection_page = doc.name
+        lot.accepted_qty = doc.total_accepted_qty
+        lot.rejected_qty = doc.total_rejected_qty
+        lot.purchase_receipt = doc.purchase_receipt
+        lot.created_by = doc.created_by
+        lot.save(ignore_permissions=True)
+        frappe.db.commit()
  
