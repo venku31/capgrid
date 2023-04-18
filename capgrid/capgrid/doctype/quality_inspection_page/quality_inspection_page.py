@@ -49,6 +49,7 @@ def create_quality_inspection(doc, handler=""):
     qi.insert()
     update_main_lot(doc)
     update_lot(doc)
+    update_purchase_receipt(doc)
 
 def update_lot(doc):
     for row in doc.quality_inspection_page_table:
@@ -73,4 +74,15 @@ def update_main_lot(doc):
         lot.created_by = doc.created_by
         lot.save(ignore_permissions=True)
         frappe.db.commit()
- 
+
+def update_purchase_receipt(doc):
+    pr = frappe.get_doc('Purchase Receipt',doc.purchase_receipt)
+    if pr :
+        for item in pr.items:
+            pr.set_warehouse="Finish Goods-Faridabad - CAPGRID-GURGAON"
+            pr.rejected_warehouse="Stores - CAPGRID-GURGAON"
+            item.received_qty=doc.total_accepted_qty+doc.total_rejected_qty
+            item.qty=doc.total_accepted_qty
+            item.rejected_qty=doc.total_rejected_qty
+            pr.save(ignore_permissions=True)
+            frappe.db.commit()
