@@ -5,6 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 import json
+from frappe import _
 from frappe.utils import (
     add_days,
     ceil,
@@ -79,10 +80,29 @@ def update_purchase_receipt(doc):
     pr = frappe.get_doc('Purchase Receipt',doc.purchase_receipt)
     if pr :
         for item in pr.items:
-            pr.set_warehouse="Finish Goods-Faridabad - CAPGRID-GURGAON"
-            pr.rejected_warehouse="Stores - CAPGRID-GURGAON"
-            item.received_qty=doc.total_accepted_qty+doc.total_rejected_qty
-            item.qty=doc.total_accepted_qty
-            item.rejected_qty=doc.total_rejected_qty
+            # pr.set_warehouse="Finish Goods-Faridabad - CAPGRID-GURGAON"
+            pr.rejected_warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company}, "rejected_warehouse")
+            item.received_qty = doc.total_accepted_qty+doc.total_rejected_qty
+            item.qty = doc.total_accepted_qty
+            item.rejected_qty = doc.total_rejected_qty
+            item.rejected_warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company}, "rejected_warehouse")
+            pr.flags.ignore_mandatory = True
+            pr.docstatus=1
             pr.save(ignore_permissions=True)
             frappe.db.commit()
+
+def validate_lot_no(self,method=None):
+    # if self.grn:
+    # for row in self.quality_inspection_page_table:
+    lot = frappe.db.sql('''select parent,batch_no from `tabQuality Inspection Page Table`
+         where
+                batch_no = %(lot_no)s
+                and name != %(name)s
+                and docstatus < 2  ''',{
+                    "lot_no": self.scan_barcode,
+                    "name": self.name
+                } )
+ 
+    if lot:
+        lot = lot[0][0]
+        frappe.throw(_("Quality Inspection exists in  {0}".format(lot)))

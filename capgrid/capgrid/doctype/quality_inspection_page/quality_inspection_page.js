@@ -104,5 +104,5 @@ function qi_total_qty(frm, cdt, cdn) {
 	frm.doc.quality_inspection_page_table.forEach(function(d) { total_rejected_qty += d.rejected_qty});
     frm.set_value('total_inward_qty', total_inward_qty);
     frm.set_value('total_accepted_qty', total_accepted_qty);
-	frm.set_value('total_rejected_qty', total_rejected_qty);
+	frm.set_value('total_rejected_qty', total_inward_qty-total_accepted_qty);
       }	

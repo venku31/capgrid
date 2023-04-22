@@ -17,5 +17,24 @@
   "source_fieldname": "lot_number",
   "target_fieldname": "lot_number",
   "type_of_transaction": "Both"
+ },
+ {
+  "apply_to_all_doctypes": 1,
+  "condition": null,
+  "dimension_name": "Warehouse Location",
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Inventory Dimension",
+  "document_type": null,
+  "fetch_from_parent": "Warehouse Location",
+  "istable": 0,
+  "mandatory_depends_on": null,
+  "modified": "2023-04-22 22:02:21.388829",
+  "name": "Warehouse Location",
+  "reference_document": "Warehouse Location",
+  "reqd": 0,
+  "source_fieldname": "warehouse_location",
+  "target_fieldname": "warehouse_location",
+  "type_of_transaction": "Both"
  }
 ]

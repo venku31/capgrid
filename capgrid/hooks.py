@@ -107,6 +107,7 @@ doc_events = {
 #     },
 "Quality Inspection Page": {
 		"on_submit": "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_quality_inspection",
+		# "scan_barcode": "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.validate_lot_no",
 	},
 "GRN Inward": {
          "on_update": "capgrid.capgrid.doctype.grn_inward.grn_inward.before_validate",
@@ -141,10 +142,33 @@ fixtures = [
             {"doctype": "Inventory Dimension", "filters": [
             [   
             "name", "in", [
-                      "Lot Number"
+                      "Lot Number",
+					  "Warehouse Location",
     		       ]
                 ]
             ]},
+			{"doctype": "Custom Field",
+        	"filters": [
+            [
+                "name",
+                "in",
+                [
+                    "Item Default-warehouse_location",
+			]
+			]
+			]},
+			{
+        "doctype": "Property Setter",
+        "filters": [
+            [
+                "name",
+                "in",
+                [
+                    "Item Default-default_warehouse-fetch_from",
+                ],
+            ]
+        ],
+    },
             ]
 
 # Testing

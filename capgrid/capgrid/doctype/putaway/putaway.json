@@ -27,7 +27,8 @@
   {
    "fieldname": "scan_barcode",
    "fieldtype": "Data",
-   "label": "Scan Barcode"
+   "label": "Scan Barcode",
+   "options": "Barcode"
   },
   {
    "fieldname": "naming_series",
@@ -66,12 +67,14 @@
   {
    "fieldname": "part_number",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Part Number",
    "read_only": 1
   },
   {
    "fieldname": "lot_no",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Main Lot",
    "options": "Lot Number",
    "read_only": 1
@@ -79,6 +82,7 @@
   {
    "fieldname": "location",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Location",
    "options": "Warehouse Location",
    "read_only": 1
@@ -110,7 +114,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-04-19 12:25:08.991801",
+ "modified": "2023-04-23 00:03:39.952268",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Putaway",

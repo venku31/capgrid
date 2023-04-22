@@ -11,10 +11,12 @@
   "naming_series",
   "scan_barcode",
   "column_break_hmxhi",
-  "date",
+  "company",
   "column_break_whlkk",
-  "status",
+  "date",
   "column_break_qaisg",
+  "status",
+  "column_break_qcaqd",
   "create_new",
   "section_break_oobtq",
   "quality_inspection_page_table",
@@ -68,7 +70,8 @@
   {
    "fieldname": "scan_barcode",
    "fieldtype": "Data",
-   "label": "Scan Barcode"
+   "label": "Scan Barcode",
+   "options": "Barcode"
   },
   {
    "fieldname": "section_break_oobtq",
@@ -93,6 +96,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "Accepted",
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
@@ -247,12 +251,23 @@
   {
    "fieldname": "section_break_cjyd9",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_qcaqd",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-04-17 22:34:43.300877",
+ "modified": "2023-04-23 00:10:55.996914",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Quality Inspection Page",

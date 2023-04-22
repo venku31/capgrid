@@ -27,6 +27,7 @@ function fetch_batch_entry(frm) {
 		// //   frappe.model.set_value(child.doctype, child.name, "inward_grn", stock.grn)
 		//   frappe.model.set_value(child.doctype, child.name, "lot_no", stock.lot_no)
 		  cur_frm.set_value("part_number", stock.part_number)
+		  cur_frm.set_value("lot_no", stock.lot_no)
 		  cur_frm.set_value("batch_no", stock.batch_no)
 		  cur_frm.set_value("description", stock.description)
 		  cur_frm.set_value("location", stock.location)

@@ -7,6 +7,7 @@ from toolz import excepts, first, compose
 from frappe.model.db_query import DatabaseQuery
 from frappe.desk.reportview import get_match_cond, get_filters_cond
 from erpnext.accounts.utils import get_account_currency, get_fiscal_year
+from erpnext.stock.doctype.item.item import get_item_defaults
 
 class GRNInward(Document):
 	pass
@@ -20,6 +21,7 @@ def create_pr(company,supplier,product_description,bill_no,bill_date):
     pr.posting_date = today()
     pr.supplier_delivery_note = bill_no
     pr.supplier_invoice_date = bill_date
+    pr.supplier_address = "",
     product = json.loads(product_description)
     
     for i in product:
@@ -29,7 +31,9 @@ def create_pr(company,supplier,product_description,bill_no,bill_date):
             # print('ok')
             pr.append("items", {
             "item_code": i["part_number"],
-            "warehouse":frappe.db.get_value("Company", {"name":company}, "default_in_transit_warehouse"),
+            # "warehouse":frappe.db.get_value("Company", {"name":company}, "default_in_transit_warehouse"),
+            "warehouse": get_item_defaults(i["part_number"], company).get("default_warehouse"),
+            "warehouse_location": get_item_defaults(i["part_number"], company).get("warehouse_location"),
             "qty": i["qty"],
             "lot_number": i["lot_no"],
             })
