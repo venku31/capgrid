@@ -113,9 +113,9 @@ doc_events = {
          "on_update": "capgrid.capgrid.doctype.grn_inward.grn_inward.before_validate",
 		 "validate": "capgrid.capgrid.doctype.grn_inward.grn_inward.validate_supplier_invoice_no",
 	},
-# "Lot Number": {
-# 		"validate": "capgrid.capgrid.doctype.lot_number.lot_number.autoname",
-# 	},
+"Putaway": {
+		"on_submit": "capgrid.capgrid.doctype.putaway.putaway.create_stock_entry",
+	},
 }
 
 # Scheduled Tasks
@@ -154,6 +154,7 @@ fixtures = [
                 "in",
                 [
                     "Item Default-warehouse_location",
+					"Stock Entry-putaway",
 			]
 			]
 			]},

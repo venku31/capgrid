@@ -12,6 +12,7 @@ function fetch_batch_entry(frm) {
 	  "method": "capgrid.capgrid.doctype.putaway.putaway.search_lot",
 	  "args": {
 		"batch": frm.doc.scan_barcode,
+		"company":frm.doc.company,
 	   },
 	  callback: function (r) {
 		console.log(r)
@@ -46,35 +47,42 @@ function fetch_batch_entry(frm) {
 	})
 };
 frappe.ui.form.on('Putaway', {
-	actual_location: function(frm, cdt, cdn){
-		$.each(frm.doc.putaway_details || [], function(i, d) {
-			d.actual_location=cur_frm.doc.actual_location;
-			});
-			cur_frm.refresh_fields()
+	validate(frm) {
+		if ((frm.doc.scaned_location != frm.doc.location) &&(!cur_frm.doc.override)){
+			  frappe.msgprint(__("Wrong Part Number Location, Enable Override to move lot number to temporary location"));
+			  frappe.validated = false;
+		  }
+		
+		  cur_frm.doc.scaned_location = cur_frm.doc.scan_location
+		cur_frm.refresh_fields()
+	},
+	scan_location(frm) {
+		cur_frm.doc.scaned_location = cur_frm.doc.scan_location
+		cur_frm.refresh_fields()
 	}
 })
 
-frappe.ui.form.on('Putaway Details', {
-	batch_no: function(frm, cdt, cdn) {
-		var d = locals[cdt][cdn];
-		$.each(frm.doc.putaway_details, function(i, row) {
-			if (row.batch_no === d.batch_no && row.name != d.name) {
-			   frappe.msgprint('Lot No already exists on the table.');
-			   frappe.model.remove_from_locals(cdt, cdn);
-			   frm.refresh_field('putaway_details');
-			   return false;
-			}
-		});
-	},
-	actual_location: function(frm, cdt, cdn) {
-		var d = locals[cdt][cdn];
-		$.each(frm.doc.putaway_details, function(i, row) {
-			if (row.actual_location === d.location) {
-			   frappe.msgprint('Lot No already exists on the table.');
-			//    frappe.model.remove_from_locals(cdt, cdn);
-			   frm.refresh_field('putaway_details');
-			   return false;
-			}
-		});
-	}
-});
+// frappe.ui.form.on('Putaway Details', {
+// 	batch_no: function(frm, cdt, cdn) {
+// 		var d = locals[cdt][cdn];
+// 		$.each(frm.doc.putaway_details, function(i, row) {
+// 			if (row.batch_no === d.batch_no && row.name != d.name) {
+// 			   frappe.msgprint('Lot No already exists on the table.');
+// 			   frappe.model.remove_from_locals(cdt, cdn);
+// 			   frm.refresh_field('putaway_details');
+// 			   return false;
+// 			}
+// 		});
+// 	},
+// 	actual_location: function(frm, cdt, cdn) {
+// 		var d = locals[cdt][cdn];
+// 		$.each(frm.doc.putaway_details, function(i, row) {
+// 			if (row.actual_location === d.location) {
+// 			   frappe.msgprint('Lot No already exists on the table.');
+// 			//    frappe.model.remove_from_locals(cdt, cdn);
+// 			   frm.refresh_field('putaway_details');
+// 			   return false;
+// 			}
+// 		});
+// 	}
+// });

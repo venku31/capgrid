@@ -22,7 +22,7 @@ class Putaway(Document):
 	pass
 
 @frappe.whitelist()
-def search_lot(batch):
+def search_lot(batch,company):
     # main_lot = frappe.db.get_value("Quality Inspection Page Table", {"batch_no": batch}, "lot_no")
     # print("////////////",main_lot)
     # if main_lot :
@@ -30,8 +30,8 @@ def search_lot(batch):
 	#     from `tabQuality Inspection Page` iw LEFT JOIN `tabQuality Inspection Page Table` iwd ON (iw.name=iwd.parent) where iw.docstatus=1 and iwd.lot_no = '%(batch)s' """%{"batch": main_lot}, as_dict = 1)
     #     return stock
     # else :
-    stock = frappe.db.sql("""SELECT iw.name as grn,iwd.part_number,iwd.description,iwd.qty,iwd.batch_no,iwd.lot_no,iw.owner,(select location from `tabItem` where name=iwd.part_number) as location
-	from `tabQuality Inspection Page` iw LEFT JOIN `tabQuality Inspection Page Table` iwd ON (iw.name=iwd.parent) where iw.docstatus=1 and iwd.batch_no = '%(batch)s' """%{"batch": batch}, as_dict = 1)
+    stock = frappe.db.sql("""SELECT iw.name as grn,iwd.part_number,iwd.description,iwd.qty,iwd.batch_no,iwd.lot_no,iw.owner,(select warehouse_location from `tabItem Default` where parent=iwd.part_number and company='%(company)s') as location
+	from `tabQuality Inspection Page` iw LEFT JOIN `tabQuality Inspection Page Table` iwd ON (iw.name=iwd.parent) where iw.docstatus=1 and iwd.batch_no = '%(batch)s' """%{"batch": batch,"company":company}, as_dict = 1)
     return stock
 # def create_quality_inspection(doc, handler=""):
 #     for item in doc.quality_inspection_page_table:
@@ -40,3 +40,37 @@ def search_lot(batch):
         
 #         qi.docstatus=1
 #         qi.insert()
+
+def create_stock_entry(doc, handler=""):
+    if doc.scaned_location == doc.location :
+        se = frappe.new_doc("Stock Entry")
+        se.update({ "purpose": "Material Transfer" , "stock_entry_type": "Material Transfer","putaway":doc.name})
+        se.append("items", { 
+        "item_code":doc.part_number,
+        "qty": frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty"),
+        "transfer_qty":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty"),
+        "s_warehouse": frappe.db.get_value("WMS Settings details", {"company":doc.company}, "quality_inspection_warehouse"),
+        "t_warehouse": frappe.db.get_value("Warehouse Location", {"name":doc.location}, "warehouse"),
+        "expense_account": frappe.db.get_value("Company", {"name":doc.company}, "default_expense_account"),
+        "warehouse_location" : doc.location,
+        "lot_number":doc.batch_no,
+        "allow_zero_valuation_rate":1
+        })
+        se.docstatus=1
+        se.insert()
+    else :
+        se = frappe.new_doc("Stock Entry")
+        se.update({ "purpose": "Material Transfer" , "stock_entry_type": "Material Transfer","putaway":doc.name})
+        se.append("items", { 
+        "item_code":doc.part_number,
+        "qty": frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty"),
+        "transfer_qty":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty"),
+        "s_warehouse": frappe.db.get_value("WMS Settings details", {"company":doc.company}, "quality_inspection_warehouse"),
+        "t_warehouse": frappe.db.get_value("Warehouse Location", {"name":doc.location}, "warehouse"),
+        "expense_account": frappe.db.get_value("Company", {"name":doc.company}, "default_expense_account"),
+        "warehouse_location" : frappe.db.get_value("WMS Settings details", {"company":doc.company}, "temporary_location"),
+        "lot_number":doc.batch_no,
+        "allow_zero_valuation_rate":1
+        })
+        se.docstatus=1
+        se.insert()

@@ -82,10 +82,12 @@ def update_purchase_receipt(doc):
         for item in pr.items:
             # pr.set_warehouse="Finish Goods-Faridabad - CAPGRID-GURGAON"
             pr.rejected_warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company}, "rejected_warehouse")
+            pr.set_warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company}, "quality_inspection_warehouse")
             item.received_qty = doc.total_accepted_qty+doc.total_rejected_qty
             item.qty = doc.total_accepted_qty
             item.rejected_qty = doc.total_rejected_qty
             item.rejected_warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company}, "rejected_warehouse")
+            item.warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company}, "quality_inspection_warehouse")
             pr.flags.ignore_mandatory = True
             pr.docstatus=1
             pr.save(ignore_permissions=True)
