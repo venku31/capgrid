@@ -9,8 +9,9 @@
  "engine": "InnoDB",
  "field_order": [
   "scan_barcode",
-  "column_break_nhkvj",
   "naming_series",
+  "column_break_nhkvj",
+  "create_new",
   "scan_location",
   "section_break_zopjy",
   "part_number",
@@ -128,13 +129,19 @@
    "label": "Company",
    "options": "Company",
    "reqd": 1
+  },
+  {
+   "depends_on": "eval:!doc.__islocal",
+   "fieldname": "create_new",
+   "fieldtype": "Button",
+   "label": "Create New"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-04-23 23:13:43.490559",
+ "modified": "2023-04-25 16:35:25.734867",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Putaway",

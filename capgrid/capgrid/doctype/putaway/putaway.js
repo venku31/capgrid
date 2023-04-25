@@ -59,7 +59,13 @@ frappe.ui.form.on('Putaway', {
 	scan_location(frm) {
 		cur_frm.doc.scaned_location = cur_frm.doc.scan_location
 		cur_frm.refresh_fields()
-	}
+	},
+	onload_post_render: function(frm) {
+			frm.get_field("create_new").$input.addClass('btn-primary');
+			},
+			create_new: function(frm, cdt, cdn) {
+				frappe.set_route("Form", "Putaway", "new_putaway");
+			}
 })
 
 // frappe.ui.form.on('Putaway Details', {

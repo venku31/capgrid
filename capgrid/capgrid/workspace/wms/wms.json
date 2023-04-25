@@ -202,7 +202,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Master And Reports",
-   "link_count": 2,
+   "link_count": 3,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -225,9 +225,19 @@
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Stock Balance",
+   "link_count": 0,
+   "link_to": "Stock Balance",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2023-04-23 21:12:25.056191",
+ "modified": "2023-04-24 11:47:56.700341",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "WMS",

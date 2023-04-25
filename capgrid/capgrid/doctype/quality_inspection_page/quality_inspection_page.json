@@ -12,11 +12,11 @@
   "scan_barcode",
   "column_break_hmxhi",
   "company",
-  "column_break_whlkk",
+  "column_break_gxwk3",
   "date",
-  "column_break_qaisg",
+  "column_break_whlkk",
   "status",
-  "column_break_qcaqd",
+  "column_break_bjfap",
   "create_new",
   "section_break_oobtq",
   "quality_inspection_page_table",
@@ -209,10 +209,6 @@
    "label": "Attach Report"
   },
   {
-   "fieldname": "column_break_qaisg",
-   "fieldtype": "Column Break"
-  },
-  {
    "depends_on": "eval:!doc.__islocal",
    "fieldname": "create_new",
    "fieldtype": "Button",
@@ -260,14 +256,19 @@
    "reqd": 1
   },
   {
-   "fieldname": "column_break_qcaqd",
+   "fieldname": "column_break_gxwk3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_bjfap",
    "fieldtype": "Column Break"
   }
  ],
+ "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-04-23 00:10:55.996914",
+ "modified": "2023-04-25 16:31:43.981324",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Quality Inspection Page",
