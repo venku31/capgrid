@@ -5,6 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 import json
+from frappe import _
 from frappe.utils import (
     add_days,
     ceil,
@@ -31,7 +32,8 @@ def search_lot(batch,company):
     #     return stock
     # else :
     stock = frappe.db.sql("""SELECT iw.name as grn,iwd.part_number,iwd.description,iwd.qty,iwd.batch_no,iwd.lot_no,iw.owner,(select warehouse_location from `tabItem Default` where parent=iwd.part_number and company='%(company)s') as location
-	from `tabQuality Inspection Page` iw LEFT JOIN `tabQuality Inspection Page Table` iwd ON (iw.name=iwd.parent) where iw.docstatus=1 and iwd.batch_no = '%(batch)s' """%{"batch": batch,"company":company}, as_dict = 1)
+	from `tabQuality Inspection Page` iw LEFT JOIN `tabQuality Inspection Page Table` iwd ON (iw.name=iwd.parent) where iw.docstatus=1
+    and  iwd.batch_no NOT IN (select `tabPutaway`.batch_no from `tabPutaway` where `tabPutaway`.docstatus=1 and `tabPutaway`.batch_no='%(batch)s') and iwd.batch_no = '%(batch)s' """%{"batch": batch,"company":company}, as_dict = 1)
     return stock
 # def create_quality_inspection(doc, handler=""):
 #     for item in doc.quality_inspection_page_table:
@@ -74,3 +76,30 @@ def create_stock_entry(doc, handler=""):
         })
         se.docstatus=1
         se.insert()
+
+@frappe.whitelist()
+def update_part_number_location(item_code,company,update_location,location):
+    item = frappe.get_doc('Item', item_code)
+    if not location :
+        item.append(
+            "item_defaults",
+            {
+             "company": company,
+             "warehouse_location": update_location,
+             "default_warehouse": frappe.db.get_value("Warehouse Location", filters={"name": update_location}, fieldname="warehouse"),
+             
+             },
+         )
+        item.save(ignore_permissions=True)
+        frappe.db.commit()
+        frappe.msgprint(
+        _("Location successfully updated for Item: " + item.item_name), alert=True
+        )
+    if location :
+        frappe.db.sql("""UPDATE `tabItem Default` set warehouse_location=%(update_location)s
+        where parent=%(item_code)s and company=%(company)s""",{"update_location":update_location,"item_code":item_code,"company":company})
+        # item.update(ignore_permissions=True)
+        # frappe.db.commit()
+        frappe.msgprint(
+        _("Location successfully updated for Item: " + item.item_name), alert=True
+        )

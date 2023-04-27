@@ -163,44 +163,6 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Inwards",
-   "link_count": 3,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "GRN Inward",
-   "link_count": 0,
-   "link_to": "GRN Inward",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Lot Master",
-   "link_count": 0,
-   "link_to": "Lot Number",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Location",
-   "link_count": 0,
-   "link_to": "Warehouse Location",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
    "label": "Master And Reports",
    "link_count": 3,
    "onboard": 0,
@@ -235,9 +197,47 @@
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Inwards",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "GRN Inward",
+   "link_count": 0,
+   "link_to": "GRN Inward",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Lot Master",
+   "link_count": 0,
+   "link_to": "Lot Number",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Warehouse Location",
+   "link_count": 0,
+   "link_to": "Warehouse Location",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2023-04-24 11:47:56.700341",
+ "modified": "2023-04-27 11:15:09.780724",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "WMS",

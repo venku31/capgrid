@@ -4,7 +4,27 @@
 frappe.ui.form.on('Putaway', {
 	scan_barcode: function(frm){
 		fetch_batch_entry(frm);	
-	}
+	},
+	update: (frm) => {
+		if (frm.doc.update_location){
+			frappe.call({
+				method: 'capgrid.capgrid.doctype.putaway.putaway.update_part_number_location',
+				args: {
+				   'item_code' : frm.doc.part_number,
+				   'company' : frm.doc.company,
+				   'update_location':frm.doc.update_location,
+				   'location':frm.doc.location,
+				//    'warehouse': frappe.db.get_value("Warehouse Location", filters={"name": frm.doc.update_location}, fieldname="warehouse"),
+				},
+				callback(r) {
+				   if (r.message){
+					  console.log(r.message)
+				
+				   }
+				}
+			 })  
+			}
+		},
 });
 function fetch_batch_entry(frm) {
 	console.log("1")
@@ -56,6 +76,7 @@ frappe.ui.form.on('Putaway', {
 		  cur_frm.doc.scaned_location = cur_frm.doc.scan_location
 		cur_frm.refresh_fields()
 	},
+
 	scan_location(frm) {
 		cur_frm.doc.scaned_location = cur_frm.doc.scan_location
 		cur_frm.refresh_fields()
