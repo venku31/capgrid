@@ -99,8 +99,9 @@
    "default": "Accepted",
    "fieldname": "status",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Status",
-   "options": "\nAccepted\nRejected\nOn Hold"
+   "options": "Accepted\nRejected\nOn Hold"
   },
   {
    "fieldname": "section_break_lliou",
@@ -268,7 +269,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-04-25 16:31:43.981324",
+ "modified": "2023-04-29 07:27:44.717446",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Quality Inspection Page",

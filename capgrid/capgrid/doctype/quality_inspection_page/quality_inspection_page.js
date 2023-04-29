@@ -90,6 +90,25 @@ frappe.ui.form.on('Quality Inspection Page Table', {
 		});
 		qi_total_qty(frm, cdt, cdn);
 		refresh_field("quality_inspection_page_table");
+		},
+		status: function(frm, cdt, cdn) {
+		var d = locals[cdt][cdn];
+		$.each(frm.doc.quality_inspection_page_table || [], function(i, d) {
+		if(d.status=="Rejected") {
+	 	d.rejected_qty=d.qty;
+		d.accepted_qty=d.qty-d.rejected_qty;
+		}
+		else if(d.status=="Accepted") {
+	 	d.rejected_qty=0;
+		d.accepted_qty=d.qty-d.rejected_qty;
+		}
+		else {
+		d.accepted_qty=d.qty;
+		d.rejected_qty=0;
+		}
+		});
+		qi_total_qty(frm, cdt, cdn);
+		refresh_field("quality_inspection_page_table");
 		}
 		});
 

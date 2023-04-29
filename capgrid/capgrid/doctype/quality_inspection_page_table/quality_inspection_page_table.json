@@ -83,7 +83,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Status",
-   "options": "\nAccepted\nRejected\nOn Hold",
+   "options": "Accepted\nRejected\nOn Hold",
    "reqd": 1
   },
   {
@@ -106,13 +106,14 @@
    "fieldname": "rejected_qty",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Qty Rejected"
+   "label": "Qty Rejected",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-22 22:32:35.375340",
+ "modified": "2023-04-29 07:38:55.324176",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Quality Inspection Page Table",

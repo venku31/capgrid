@@ -81,7 +81,7 @@ frappe.ui.form.on("GRN Inward", {
 frappe.ui.form.on('GRN Inward Item', {
       packet:function(frm, cdt, cdn){ 
          frm.save();   
-          }
+          },
           });
 frappe.ui.form.on("GRN Inward", {
    update: function(frm, cdt, cdn){ 
