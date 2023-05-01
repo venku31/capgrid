@@ -82,9 +82,30 @@ frappe.ui.form.on('GRN Inward Item', {
       packet:function(frm, cdt, cdn){ 
          frm.save();   
           },
+      // on_update:function(frm, cdt, cdn){ 
+      //       var item = locals[cdt][cdn];
+      //       cur_frm.clear_table("grn_inward_item_details");
+      //       frm.doc.grn_inward_item.forEach(function(item){ 
+      //          var total_qty = 0;
+      //          total_qty +=  ((item.qty/item.packet));
+      //          for (let i = 0; i < item.packet; i++) {
+      //       var a = frappe.model.add_child(cur_frm.doc, "GRN Inward", "grn_inward_item_details");
+      //       a.part_number = item.part_number;
+      //       a.item_name = item.description;
+      //       // a.purchase_order = frm.doc.purchase_order || "";
+      //       a.type_of_po = frm.doc.po_type;
+      //       a.qty = item.qty/item.packet;
+      //       a.lot_no = item.lot_no;
+      //       a.packet = i+1; 
+      //     // }
+      //    }
+      //    //   refresh_field("grn_inward_item_details");
+      //        });
+      //       frm.save();   
+      //        },
           });
-frappe.ui.form.on("GRN Inward", {
-   update: function(frm, cdt, cdn){ 
+frappe.ui.form.on("GRN Inward Item", {
+   packet: function(frm, cdt, cdn){ 
       var item = locals[cdt][cdn];
       cur_frm.clear_table("grn_inward_item_details");
       frm.doc.grn_inward_item.forEach(function(item){ 
@@ -103,15 +124,36 @@ frappe.ui.form.on("GRN Inward", {
    }
    //   refresh_field("grn_inward_item_details");
        });
-       frm.save();
+      //  frm.save();
        }
        });
 
    
 
    frappe.ui.form.on('GRN Inward', {
+   //    refresh: function(frm, cdt, cdn) {
+   //    frm.add_custom_button(__("Update Lot"),function () {
+   //    var item = locals[cdt][cdn];
+   //    cur_frm.clear_table("grn_inward_item_details");
+   //    frm.doc.grn_inward_item.forEach(function(item){ 
+   //       var total_qty = 0;
+   //       total_qty +=  ((item.qty/item.packet));
+   //       for (let i = 0; i < item.packet; i++) {
+   //       var a = frappe.model.add_child(cur_frm.doc, "GRN Inward", "grn_inward_item_details");
+   //       a.part_number = item.part_number;
+   //       a.item_name = item.description;
+   //       // a.purchase_order = frm.doc.purchase_order || "";
+   //       a.type_of_po = frm.doc.po_type;
+   //       a.qty = item.qty/item.packet;
+   //       a.lot_no = item.lot_no;
+   //       a.packet = i+1; 
+   //     // }
+   //    }
+   //    //   refresh_field("grn_inward_item_details");
+   //        });
+   //   }).css({'color':'white','font-weight': 'bold', 'background-color': 'blue'});
+   //   },
       on_submit: function(frm, cdt, cdn) {
-      
       var me = this;
       var doc = frm.doc
       var print_format = "BarcodeLabesidebyside"; // print format name
@@ -128,7 +170,17 @@ frappe.ui.form.on("GRN Inward", {
          //    msgprint(__("Please enable pop-ups for printing.")); return;
          // }
       },
-      create_new: function(frm, cdt, cdn) {
+      validate: function(frm, cdt, cdn) {
+      grn_total_qty(frm, cdt, cdn);
+		   refresh_field("grn_inward_item_details");
+         if (frm.doc.total_inward_qty!=frm.doc.total_qty){
+            frappe.msgprint(__("Part Number Total Qty Not matching with Lot Qty"));
+            frappe.validated = false;
+         }
+         cur_frm.set_value("created_by", frappe.session.user)
+      },
+
+      on_submit: function(frm, cdt, cdn) {
          frappe.set_route("Form", "GRN Inward", "new_grn_inward");
       // var me = this;
       // var doc = frm.doc
@@ -206,7 +258,25 @@ frappe.ui.form.on("GRN Inward", {
             // ("grn_inward_item_details", 1)
            }
       })
+
+      frappe.ui.form.on("GRN Inward Item Details", {
+         qty: function(frm, cdt, cdn){ 
+            grn_total_qty(frm, cdt, cdn);
+		   refresh_field("grn_inward_item_details");
+		   }
+             
+             });
       
+      function grn_total_qty(frm, cdt, cdn) {
+         // estimated_amount: function(frm, cdt, cdn) {
+         var d = locals[cdt][cdn];
+         var total_qty = 0;
+         var total_inward_qty = 0;
+         frm.doc.grn_inward_item_details.forEach(function(d) { total_qty += d.qty});
+         frm.set_value('total_qty', total_qty);
+         frm.doc.grn_inward_item.forEach(function(d) { total_inward_qty += d.qty});
+         frm.set_value('total_inward_qty', total_inward_qty);
+             }	
       // frappe.ui.form.on("GRN Inward", {
       //    validate: function(frm) {
       //        if (frm.doc.__islocal) {

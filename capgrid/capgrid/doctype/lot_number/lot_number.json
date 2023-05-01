@@ -204,7 +204,6 @@
   {
    "fieldname": "packet",
    "fieldtype": "Data",
-   "hidden": 1,
    "label": "Packet",
    "read_only": 1
   },
@@ -258,7 +257,7 @@
  "image_field": "image",
  "links": [],
  "max_attachments": 5,
- "modified": "2023-04-17 23:19:40.985813",
+ "modified": "2023-05-01 13:24:38.174604",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Lot Number",

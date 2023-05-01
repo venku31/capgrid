@@ -56,10 +56,13 @@ def create_stock_entry(doc, handler=""):
         "expense_account": frappe.db.get_value("Company", {"name":doc.company}, "default_expense_account"),
         "warehouse_location" : doc.location,
         "lot_number":doc.batch_no,
-        "allow_zero_valuation_rate":1
+        "allow_zero_valuation_rate":1,
+        "conversion_factor":1
         })
+        se.flags.ignore_mandatory = True
+        se.set_missing_values()
         se.docstatus=1
-        se.insert()
+        se.insert(ignore_permissions=True)
     else :
         se = frappe.new_doc("Stock Entry")
         se.update({ "purpose": "Material Transfer" , "stock_entry_type": "Material Transfer","putaway":doc.name})
@@ -72,10 +75,13 @@ def create_stock_entry(doc, handler=""):
         "expense_account": frappe.db.get_value("Company", {"name":doc.company}, "default_expense_account"),
         "warehouse_location" : frappe.db.get_value("WMS Settings details", {"company":doc.company}, "temporary_location"),
         "lot_number":doc.batch_no,
-        "allow_zero_valuation_rate":1
+        "allow_zero_valuation_rate":1,
+        "conversion_factor":1
         })
+        se.flags.ignore_mandatory = True
+        se.set_missing_values()
         se.docstatus=1
-        se.insert()
+        se.insert(ignore_permissions=True)
 
 @frappe.whitelist()
 def update_part_number_location(item_code,company,update_location,location):

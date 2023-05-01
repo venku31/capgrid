@@ -111,6 +111,7 @@ doc_events = {
 	},
 "GRN Inward": {
          "on_update": "capgrid.capgrid.doctype.grn_inward.grn_inward.before_validate",
+		#  "after_insert": "capgrid.capgrid.doctype.grn_inward.grn_inward.after_validate",
 		 "validate": "capgrid.capgrid.doctype.grn_inward.grn_inward.validate_supplier_invoice_no",
 	},
 "Putaway": {
