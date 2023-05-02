@@ -32,8 +32,9 @@ def create_pr(company,supplier,product_description,bill_no,bill_date):
             pr.append("items", {
             "item_code": i["part_number"],
             # "warehouse":frappe.db.get_value("Company", {"name":company}, "default_in_transit_warehouse"),
-            "warehouse": get_item_defaults(i["part_number"], company).get("default_warehouse") or frappe.db.get_value("WMS Settings details", {"company":company}, "quality_inspection_warehouse"),
-            "warehouse_location": get_item_defaults(i["part_number"], company).get("warehouse_location") or frappe.db.get_value("WMS Settings details", {"company":company}, "temporary_location"),
+            "warehouse": frappe.db.get_value("WMS Settings details", {"company":company}, "quality_inspection_warehouse") or get_item_defaults(i["part_number"], company).get("default_warehouse"),
+            # "warehouse_location": get_item_defaults(i["part_number"], company).get("warehouse_location") or frappe.db.get_value("WMS Settings details", {"company":company}, "temporary_location"),
+            # "warehouse_location":""
             "qty": i["qty"],
             "lot_number": i["lot_no"],
             })
@@ -176,6 +177,7 @@ def set_or_create_batch(doc, method):
                     }
                     ).insert()
                     item.batch_no = batch.name
+                    item.lot_no = batch.parent_lot
                 doc.save(ignore_permissions = True)
     def update_lot(item):
         for item in doc.grn_inward_item_details:

@@ -28,16 +28,18 @@ def search_lot(batch):
     # item_data = search_serial_or_batch_or_barcode_number(batch)
     # if item_data != 0:
     # main_lot = frappe.db.sql("""SELECT parent_lot from `tabLot Number` where name='%(batch)s' """%{"batch": batch}, as_dict = 1)
+    qi_lot = frappe.db.get_value("Quality Inspection Page Table", {"batch_no": batch}, "lot_no")
     main_lot = frappe.db.get_value("GRN Inward Item Details", {"batch_no": batch}, "lot_no")
-    print("////////////",main_lot)
-    if main_lot :
-        stock = frappe.db.sql("""SELECT iw.name as grn,iw.purchase_order,iw.purchase_receipt,iwd.part_number,iwd.item_name,iwd.packet,iwd.qty,iwd.batch_no,iwd.lot_no,iw.supplier,iw.supplier_name,iw.supplier_invoice_no,iw.supplier_invoice_date,iw.owner
-	    from `tabGRN Inward` iw LEFT JOIN `tabGRN Inward Item Details` iwd ON (iw.name=iwd.parent) where iw.docstatus=1 and iwd.lot_no = '%(batch)s' """%{"batch": main_lot}, as_dict = 1)
-        return stock
-    else :
-        stock = frappe.db.sql("""SELECT iw.name as grn,iw.purchase_order,iw.purchase_receipt,iwd.part_number,iwd.item_name,iwd.packet,iwd.qty,iwd.batch_no,iwd.lot_no,iw.supplier,iw.supplier_name,iw.supplier_invoice_no,iw.supplier_invoice_date,iw.owner
-	    from `tabGRN Inward` iw LEFT JOIN `tabGRN Inward Item Details` iwd ON (iw.name=iwd.parent) where iw.docstatus=1 and iwd.lot_no = '%(batch)s' """%{"batch": batch}, as_dict = 1)
-        return stock
+    print("////////////",qi_lot)
+    if not qi_lot :
+        if main_lot :
+            stock = frappe.db.sql("""SELECT iw.name as grn,iw.purchase_order,iw.purchase_receipt,iwd.part_number,iwd.item_name,iwd.packet,iwd.qty,iwd.batch_no,iwd.lot_no,iw.supplier,iw.supplier_name,iw.supplier_invoice_no,iw.supplier_invoice_date,iw.owner
+	        from `tabGRN Inward` iw LEFT JOIN `tabGRN Inward Item Details` iwd ON (iw.name=iwd.parent) where iw.docstatus=1 and iwd.lot_no = '%(batch)s' """%{"batch": main_lot}, as_dict = 1)
+            return stock
+        else :
+            stock = frappe.db.sql("""SELECT iw.name as grn,iw.purchase_order,iw.purchase_receipt,iwd.part_number,iwd.item_name,iwd.packet,iwd.qty,iwd.batch_no,iwd.lot_no,iw.supplier,iw.supplier_name,iw.supplier_invoice_no,iw.supplier_invoice_date,iw.owner
+	        from `tabGRN Inward` iw LEFT JOIN `tabGRN Inward Item Details` iwd ON (iw.name=iwd.parent) where iw.docstatus=1 and iwd.lot_no = '%(batch)s' """%{"batch": batch}, as_dict = 1)
+            return stock
     
 def create_quality_inspection(doc, handler=""):
     # for item in doc.quality_inspection_page_table:
@@ -88,6 +90,7 @@ def update_purchase_receipt(doc):
             item.rejected_qty = doc.total_rejected_qty
             item.rejected_warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company}, "rejected_warehouse")
             item.warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company}, "quality_inspection_warehouse")
+            item.warehouse_location = ""
             pr.flags.ignore_mandatory = True
             pr.docstatus=1
             pr.save(ignore_permissions=True)

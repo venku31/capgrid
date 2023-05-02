@@ -1,6 +1,5 @@
 {
  "actions": [],
- "allow_rename": 1,
  "autoname": "naming_series:",
  "creation": "2023-03-26 14:13:16.683893",
  "default_view": "List",
@@ -14,10 +13,9 @@
   "company",
   "column_break_gxwk3",
   "date",
+  "create_new",
   "column_break_whlkk",
   "status",
-  "column_break_bjfap",
-  "create_new",
   "section_break_oobtq",
   "quality_inspection_page_table",
   "section_break_lliou",
@@ -37,9 +35,8 @@
   "column_break_6qvjx",
   "created_by",
   "section_break_znpxv",
-  "attach_report",
-  "column_break_sj2e8",
   "total_inward_qty",
+  "attach_report",
   "column_break_dle46",
   "total_accepted_qty",
   "column_break_wgdel",
@@ -96,12 +93,10 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "Accepted",
    "fieldname": "status",
    "fieldtype": "Select",
-   "hidden": 1,
    "label": "Status",
-   "options": "Accepted\nRejected\nOn Hold"
+   "options": "\nAccepted\nRejected\nOn Hold"
   },
   {
    "fieldname": "section_break_lliou",
@@ -207,17 +202,15 @@
    "allow_on_submit": 1,
    "fieldname": "attach_report",
    "fieldtype": "Attach",
+   "hidden": 1,
    "label": "Attach Report"
   },
   {
    "depends_on": "eval:!doc.__islocal",
    "fieldname": "create_new",
    "fieldtype": "Button",
+   "hidden": 1,
    "label": "Create New"
-  },
-  {
-   "fieldname": "column_break_sj2e8",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "total_inward_qty",
@@ -259,17 +252,13 @@
   {
    "fieldname": "column_break_gxwk3",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "column_break_bjfap",
-   "fieldtype": "Column Break"
   }
  ],
- "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-04-29 07:27:44.717446",
+ "make_attachments_public": 1,
+ "modified": "2023-05-02 12:42:48.325711",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Quality Inspection Page",

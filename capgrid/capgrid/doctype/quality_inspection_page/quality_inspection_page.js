@@ -61,7 +61,7 @@ frappe.ui.form.on('Quality Inspection Page', {
 		onload_post_render: function(frm) {
 			frm.get_field("create_new").$input.addClass('btn-primary');
 			},
-			create_new: function(frm, cdt, cdn) {
+			on_submit: function(frm, cdt, cdn) {
 				frappe.set_route("Form", "Quality Inspection Page", "new_quality_inspection_page");
 			}
 	});
