@@ -96,15 +96,23 @@ frappe.ui.form.on('Quality Inspection Page Table', {
 		$.each(frm.doc.quality_inspection_page_table || [], function(i, d) {
 		if(d.status=="Rejected") {
 	 	d.rejected_qty=d.qty;
-		d.accepted_qty=d.qty-d.rejected_qty;
+		d.hold_qty=0;
+		d.accepted_qty=d.qty-d.rejected_qty-d.hold_qty;
 		}
 		else if(d.status=="Accepted") {
 	 	d.rejected_qty=0;
-		d.accepted_qty=d.qty-d.rejected_qty;
+		d.hold_qty=0;
+		d.accepted_qty=d.qty-d.rejected_qty-d.hold_qty;
+		}
+		else if(d.status=="On Hold") {
+	 	d.rejected_qty=0;
+		d.hold_qty=d.qty;
+		d.accepted_qty=d.qty-d.rejected_qty-d.hold_qty;
 		}
 		else {
 		d.accepted_qty=d.qty;
 		d.rejected_qty=0;
+		d.hold_qty=0;
 		}
 		});
 		qi_total_qty(frm, cdt, cdn);
@@ -118,10 +126,13 @@ function qi_total_qty(frm, cdt, cdn) {
     var total_inward_qty = 0;
     var total_accepted_qty = 0;
 	var total_rejected_qty = 0;
+	var total_hold_qty = 0;
     frm.doc.quality_inspection_page_table.forEach(function(d) { total_inward_qty += d.qty});
     frm.doc.quality_inspection_page_table.forEach(function(d) { total_accepted_qty += d.accepted_qty});
 	frm.doc.quality_inspection_page_table.forEach(function(d) { total_rejected_qty += d.rejected_qty});
+	frm.doc.quality_inspection_page_table.forEach(function(d) { total_hold_qty += d.hold_qty});
     frm.set_value('total_inward_qty', total_inward_qty);
     frm.set_value('total_accepted_qty', total_accepted_qty);
-	frm.set_value('total_rejected_qty', total_inward_qty-total_accepted_qty);
+	frm.set_value('total_rejected_qty', total_rejected_qty);
+	frm.set_value('total_hold_qty', total_hold_qty);
       }	

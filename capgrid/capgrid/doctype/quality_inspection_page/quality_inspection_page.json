@@ -41,6 +41,8 @@
   "total_accepted_qty",
   "column_break_wgdel",
   "total_rejected_qty",
+  "column_break_doiva",
+  "total_hold_qty",
   "section_break_cjyd9",
   "amended_from"
  ],
@@ -252,13 +254,23 @@
   {
    "fieldname": "column_break_gxwk3",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_doiva",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_hold_qty",
+   "fieldtype": "Float",
+   "label": "Total Hold Qty",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-05-02 12:42:48.325711",
+ "modified": "2023-05-03 10:16:51.346871",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Quality Inspection Page",
