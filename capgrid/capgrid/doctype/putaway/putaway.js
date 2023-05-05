@@ -25,6 +25,14 @@ frappe.ui.form.on('Putaway', {
 			 })  
 			}
 		},
+		refresh: function(frm) {
+			cur_frm.fields_dict.scan_location.get_query = function(doc) {
+			 return {
+				filters: {
+				   company:frm.doc.company
+				}
+			 }
+			}}	
 });
 function fetch_batch_entry(frm) {
 	console.log("1")

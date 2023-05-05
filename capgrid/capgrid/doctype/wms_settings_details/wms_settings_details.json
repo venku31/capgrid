@@ -7,8 +7,11 @@
  "engine": "InnoDB",
  "field_order": [
   "company",
+  "main_warehouse",
+  "inward_warehouse",
   "rejected_warehouse",
   "quality_inspection_warehouse",
+  "hold_warehouse",
   "temporary_location"
  ],
  "fields": [
@@ -46,12 +49,35 @@
    "label": "Quality Inspection Warehouse",
    "options": "Warehouse",
    "reqd": 1
+  },
+  {
+   "fieldname": "inward_warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Inward Warehouse",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "main_warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Main Warehouse",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "hold_warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Hold Warehouse",
+   "options": "Warehouse"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-23 21:07:03.835138",
+ "modified": "2023-05-05 12:14:24.138339",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "WMS Settings details",

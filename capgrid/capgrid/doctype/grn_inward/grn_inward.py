@@ -12,7 +12,7 @@ from erpnext.stock.doctype.item.item import get_item_defaults
 class GRNInward(Document):
 	pass
 @frappe.whitelist()
-def create_pr(company,supplier,product_description,bill_no,bill_date):
+def create_pr(company,supplier,product_description,bill_no,bill_date,grn_inward,main_warehouse):
     # set_or_create_batch(doc, method)
     
     pr = frappe.new_doc("Purchase Receipt")
@@ -22,6 +22,7 @@ def create_pr(company,supplier,product_description,bill_no,bill_date):
     pr.supplier_delivery_note = bill_no
     pr.supplier_invoice_date = bill_date
     pr.supplier_address = "",
+    # pr.grn_inward = grn_inward
     product = json.loads(product_description)
     
     for i in product:
@@ -32,7 +33,7 @@ def create_pr(company,supplier,product_description,bill_no,bill_date):
             pr.append("items", {
             "item_code": i["part_number"],
             # "warehouse":frappe.db.get_value("Company", {"name":company}, "default_in_transit_warehouse"),
-            "warehouse": frappe.db.get_value("WMS Settings details", {"company":company}, "quality_inspection_warehouse") or get_item_defaults(i["part_number"], company).get("default_warehouse"),
+            "warehouse": frappe.db.get_value("WMS Settings details", {"company":company,"main_warehouse":main_warehouse}, "inward_warehouse") or get_item_defaults(i["part_number"], company).get("default_warehouse"),
             # "warehouse_location": get_item_defaults(i["part_number"], company).get("warehouse_location") or frappe.db.get_value("WMS Settings details", {"company":company}, "temporary_location"),
             # "warehouse_location":""
             "qty": i["qty"],
@@ -40,6 +41,7 @@ def create_pr(company,supplier,product_description,bill_no,bill_date):
             })
             pr.flags.ignore_mandatory = True
             pr.save(ignore_permissions = True)
+            pr.submit()
     return pr.name
 #Main Lot
 @frappe.whitelist()

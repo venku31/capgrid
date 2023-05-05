@@ -34,6 +34,8 @@ function fetch_batch_entry(frm) {
 		  frappe.model.set_value(child.doctype, child.name, "lot_no", stock.lot_no)
 		  cur_frm.set_value("supplier", stock.supplier)
 		  cur_frm.set_value("supplier_name", stock.supplier_name)
+		  cur_frm.set_value("company", stock.company)
+		  cur_frm.set_value("main_warehouse", stock.main_warehouse)
 		  cur_frm.set_value("supplier_invoice_no", stock.supplier_invoice_no)
 		  cur_frm.set_value("supplier_invoice_date", stock.supplier_invoice_date)
 		  cur_frm.set_value("grn", stock.grn)

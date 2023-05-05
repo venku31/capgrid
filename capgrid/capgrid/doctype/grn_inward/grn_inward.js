@@ -26,7 +26,8 @@ frappe.ui.form.on("GRN Inward", {
                'product_description' : frm.doc.grn_inward_item,
                'bill_no' : frm.doc.supplier_invoice_no,
                'bill_date' : frm.doc.supplier_invoice_date,
-               // 'purchase_receipt' : frm.doc.purchase_receipt
+               'grn_inward' : frm.doc.name,
+               'main_warehouse':frm.doc.main_warehouse,
             },
             callback(r) {
                if (r.message){
@@ -37,10 +38,11 @@ frappe.ui.form.on("GRN Inward", {
                frappe.db.set_value("GRN Inward",cur_frm.doc.name,"purchase_receipt", r.message);
             }
          })  
-         // refresh_field("grn_inward");
+         refresh_field("grn_inward");
          // frm.save()
    //   }).css({'color':'white','font-weight': 'bold', 'background-color': 'Green'});
    }
+   
    var me = this;
    var doc = frm.doc
    var print_format = "BarcodeLabesidebyside"; // print format name
@@ -52,11 +54,23 @@ frappe.ui.form.on("GRN Inward", {
       +"&format=" + print_format
       +"&no_letterhead=0"
       ));
-   
       // if(!w) {
       //    msgprint(__("Please enable pop-ups for printing.")); return;
       // }
-	}
+	},
+// after_submit: function(frm, cdt, cdn) {
+//   var me = this;
+//    var doc = frm.doc
+//    var print_format = "BarcodeLabesidebyside"; // print format name
+   
+//    var w = window.open(frappe.urllib.get_full_url("/printview?"
+//       +"doctype="+encodeURIComponent(cdt)
+//       +"&name="+encodeURIComponent(cdn)
+//       +"&trigger_print=1"
+//       +"&format=" + print_format
+//       +"&no_letterhead=0"
+//       ));
+//    } 
 });
 // frappe.ui.form.on("Inward GRN", {
 //    validate: function(frm){ 
@@ -254,9 +268,27 @@ frappe.ui.form.on("GRN Inward Item", {
 					frappe.msgprint(__("Please add supplier invoice details"));
 					frappe.validated = false;
 				};
+            if (!frm.doc.supplier_invoice_date){
+					frappe.msgprint(__("Please add supplier invoice details"));
+					frappe.validated = false;
+				};
+            if (!frm.doc.main_warehouse){
+					frappe.msgprint(__("Please select Main Warehouse"));
+					frappe.validated = false;
+				};
             // cur_frm.fields_dict.child_table_name.grid.toggle_reqd
             // ("grn_inward_item_details", 1)
-           }
+           },
+           refresh: function(frm) {
+           cur_frm.fields_dict.main_warehouse.get_query = function(doc) {
+            return {
+               filters: {
+                  company:frm.doc.company,
+                  is_group:1
+               }
+            }
+            }
+         }
       })
 
       frappe.ui.form.on("GRN Inward Item Details", {
@@ -305,3 +337,4 @@ frappe.ui.form.on("GRN Inward Item", {
       //    }
       //    }
       // }});
+  

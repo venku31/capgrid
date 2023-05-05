@@ -33,11 +33,11 @@ def search_lot(batch):
     print("////////////",qi_lot)
     if not qi_lot :
         if main_lot :
-            stock = frappe.db.sql("""SELECT iw.name as grn,iw.purchase_order,iw.purchase_receipt,iwd.part_number,iwd.item_name,iwd.packet,iwd.qty,iwd.batch_no,iwd.lot_no,iw.supplier,iw.supplier_name,iw.supplier_invoice_no,iw.supplier_invoice_date,iw.owner
+            stock = frappe.db.sql("""SELECT iw.name as grn,iw.purchase_order,iw.purchase_receipt,iwd.part_number,iwd.item_name,iwd.packet,iwd.qty,iwd.batch_no,iwd.lot_no,iw.supplier,iw.supplier_name,iw.supplier_invoice_no,iw.supplier_invoice_date,iw.owner,iw.main_warehouse,iw.company
 	        from `tabGRN Inward` iw LEFT JOIN `tabGRN Inward Item Details` iwd ON (iw.name=iwd.parent) where iw.docstatus=1 and iwd.lot_no = '%(batch)s' """%{"batch": main_lot}, as_dict = 1)
             return stock
         else :
-            stock = frappe.db.sql("""SELECT iw.name as grn,iw.purchase_order,iw.purchase_receipt,iwd.part_number,iwd.item_name,iwd.packet,iwd.qty,iwd.batch_no,iwd.lot_no,iw.supplier,iw.supplier_name,iw.supplier_invoice_no,iw.supplier_invoice_date,iw.owner
+            stock = frappe.db.sql("""SELECT iw.name as grn,iw.purchase_order,iw.purchase_receipt,iwd.part_number,iwd.item_name,iwd.packet,iwd.qty,iwd.batch_no,iwd.lot_no,iw.supplier,iw.supplier_name,iw.supplier_invoice_no,iw.supplier_invoice_date,iw.owner,iw.main_warehouse,iw.company
 	        from `tabGRN Inward` iw LEFT JOIN `tabGRN Inward Item Details` iwd ON (iw.name=iwd.parent) where iw.docstatus=1 and iwd.lot_no = '%(batch)s' """%{"batch": batch}, as_dict = 1)
             return stock
     
@@ -52,7 +52,8 @@ def create_quality_inspection(doc, handler=""):
     qi.insert()
     update_main_lot(doc)
     update_lot(doc)
-    update_purchase_receipt(doc)
+    # update_purchase_receipt(doc)
+    create_qi_stock_entry(doc)
 
 def update_lot(doc):
     for row in doc.quality_inspection_page_table:
@@ -111,3 +112,44 @@ def validate_lot_no(self,method=None):
     if lot:
         lot = lot[0][0]
         frappe.throw(_("Quality Inspection exists in  {0}".format(lot)))
+
+def create_qi_stock_entry(doc, handler=""):
+    # for se_item in doc.quality_inspection_page_table:
+        s_warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "inward_warehouse")
+        accepted_warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "quality_inspection_warehouse")
+        rejected_warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "rejected_warehouse")
+        hold_warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "hold_warehouse")
+        expense_account = frappe.db.get_value("Company", {"name":doc.company}, "stock_adjustment_account")
+        cost_center = frappe.db.get_value("Company", {"name":doc.company}, "cost_center")
+        try:
+            se = frappe.new_doc("Stock Entry")
+            se.update({ "purpose": "Material Transfer" , "stock_entry_type": "Material Transfer","inspection_required":0})
+            # if se_item.accepted_qty:
+            # items=[]
+            for se_item in doc.quality_inspection_page_table:
+                if se_item.accepted_qty:
+                    se.append("items", 
+                    { "item_code":se_item.part_number,
+                    "qty": se_item.accepted_qty,
+                    "s_warehouse": s_warehouse,
+                    "t_warehouse": accepted_warehouse,
+                    "transfer_qty" : se_item.accepted_qty,
+                    "conversion_factor": 1,
+                    "allow_zero_valuation_rate":1,
+                    "reference_purchase_receipt":doc.purchase_receipt,
+                    "lot_number":se_item.batch_no,
+                    "expense_account":expense_account
+                    })
+                if se_item.rejected_qty:
+                    se.append("items", { "item_code":se_item.part_number, "qty": se_item.rejected_qty,"s_warehouse": s_warehouse,"t_warehouse": rejected_warehouse,"transfer_qty" : se_item.rejected_qty,"conversion_factor": 1,"allow_zero_valuation_rate":1,"reference_purchase_receipt":doc.purchase_receipt,"lot_number":se_item.batch_no,"expense_account":expense_account})
+                if se_item.hold_qty :
+                    se.append("items", { "item_code":se_item.part_number, "qty": se_item.hold_qty,"s_warehouse": s_warehouse,"t_warehouse": hold_warehouse,"transfer_qty" : se_item.hold_qty,"conversion_factor": 1,"allow_zero_valuation_rate":1,"reference_purchase_receipt":doc.purchase_receipt,"lot_number":se_item.batch_no,"expense_account":expense_account})
+            
+            se.flags.ignore_mandatory = True
+            se.set_missing_values()
+            se.docstatus=1
+            se.insert(ignore_permissions=True)
+            doc.stock_entry =se.name
+            doc.save(ignore_permissions=True)
+        except Exception as e:
+            return {"error":e} 
