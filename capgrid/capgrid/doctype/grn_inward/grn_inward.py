@@ -38,6 +38,8 @@ def create_pr(company,supplier,product_description,bill_no,bill_date,grn_inward,
             # "warehouse_location":""
             "qty": i["qty"],
             "lot_number": i["lot_no"],
+            "expense_account": frappe.db.get_value("Company", {"name": company}, "default_expense_account"),
+            "cost_center": frappe.db.get_value("Company", {"name": company}, "cost_center"),
             })
             pr.flags.ignore_mandatory = True
             pr.save(ignore_permissions = True)
