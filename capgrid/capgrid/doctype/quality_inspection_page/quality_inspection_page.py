@@ -123,7 +123,7 @@ def create_qi_stock_entry(doc, handler=""):
         cost_center = frappe.db.get_value("Company", {"name":doc.company}, "cost_center")
         try:
             se = frappe.new_doc("Stock Entry")
-            se.update({ "purpose": "Material Transfer" , "stock_entry_type": "Material Transfer","inspection_required":0})
+            se.update({ "purpose": "Material Transfer" , "stock_entry_type": "Material Transfer","company":doc.company})
             # if se_item.accepted_qty:
             # items=[]
             for se_item in doc.quality_inspection_page_table:
