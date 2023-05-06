@@ -163,44 +163,6 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Master And Reports",
-   "link_count": 3,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "WMS Settings",
-   "link_count": 0,
-   "link_to": "WMS Settings",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "GRN Inwards Report",
-   "link_count": 0,
-   "link_to": "GRN Inwards Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Stock Balance",
-   "link_count": 0,
-   "link_to": "Stock Balance",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
    "label": "Inwards",
    "link_count": 3,
    "onboard": 0,
@@ -235,9 +197,57 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Master And Reports",
+   "link_count": 4,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "WMS Settings",
+   "link_count": 0,
+   "link_to": "WMS Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Warehouse Location Label Print",
+   "link_count": 0,
+   "link_to": "Warehouse Location Label Print",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "GRN Inwards Report",
+   "link_count": 0,
+   "link_to": "GRN Inwards Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Stock Balance",
+   "link_count": 0,
+   "link_to": "Stock Balance",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2023-04-27 11:15:09.780724",
+ "modified": "2023-05-06 22:38:46.483202",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "WMS",
@@ -269,6 +279,12 @@
    "doc_view": "New",
    "label": "GRN Inward",
    "link_to": "GRN Inward",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "",
+   "label": "Warehouse Location Label Print",
+   "link_to": "Warehouse Location Label Print",
    "type": "DocType"
   }
  ],

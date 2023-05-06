@@ -46,7 +46,7 @@
    "fieldname": "quality_inspection_warehouse",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Quality Inspection Warehouse",
+   "label": "Accepted Warehouse",
    "options": "Warehouse",
    "reqd": 1
   },
@@ -71,13 +71,14 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Hold Warehouse",
-   "options": "Warehouse"
+   "options": "Warehouse",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-05-05 12:14:24.138339",
+ "modified": "2023-05-06 12:50:47.088391",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "WMS Settings details",

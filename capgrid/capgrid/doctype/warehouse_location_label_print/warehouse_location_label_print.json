@@ -1,0 +1,82 @@
+{
+ "actions": [],
+ "autoname": "WL.#####",
+ "creation": "2023-05-06 21:49:35.519412",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "company",
+  "column_break_ggasb",
+  "warehouse",
+  "column_break_ynmrf",
+  "get_data",
+  "section_break_ipmqx",
+  "warehouse_location_label_details"
+ ],
+ "fields": [
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_ggasb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_ipmqx",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "warehouse_location_label_details",
+   "fieldtype": "Table",
+   "options": "Warehouse Location Label Details"
+  },
+  {
+   "fieldname": "column_break_ynmrf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "get_data",
+   "fieldtype": "Button",
+   "label": "Get Data"
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Warehouse",
+   "options": "Warehouse",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2023-05-06 22:26:43.828396",
+ "modified_by": "Administrator",
+ "module": "Capgrid",
+ "name": "Warehouse Location Label Print",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

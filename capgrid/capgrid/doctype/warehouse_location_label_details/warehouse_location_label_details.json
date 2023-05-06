@@ -1,0 +1,52 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-05-06 21:46:21.142526",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "location",
+  "warehouse",
+  "main_warehouse"
+ ],
+ "fields": [
+  {
+   "fieldname": "location",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Location",
+   "options": "Warehouse Location",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "location.warehouse",
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "fetch_from": "location.main_warehouse",
+   "fieldname": "main_warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Main Warehouse",
+   "options": "Warehouse"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-05-06 22:42:54.810810",
+ "modified_by": "Administrator",
+ "module": "Capgrid",
+ "name": "Warehouse Location Label Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

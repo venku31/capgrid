@@ -10,16 +10,16 @@
  "idx": 0,
  "is_standard": "Yes",
  "letter_head": "other",
- "modified": "2023-04-05 18:31:08.276114",
+ "modified": "2023-05-06 18:05:07.569050",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "GRN Inwards Report",
  "owner": "Administrator",
  "prepared_report": 0,
- "query": "Select grn.name,grn.grn_date,grn.grn_time,grn.supplier,grn.supplier_name,grn.purchase_receipt,det.part_number,det.item_name,det.lot_no as MainLot,det.batch_no as ChildLot,det.qty,grn.purchase_order,grn.supplier_invoice_no,grn.supplier_invoice_date \nfrom `tabGRN Inward` grn join `tabGRN Inward Item Details` det ON(grn.name=det.parent and grn.docstatus=1)",
+ "query": "Select grn.name as GRN,\ngrn.grn_date,\ngrn.grn_time,\ngrn.supplier,\ngrn.supplier_name,\ngrn.supplier_invoice_no,\ngrn.supplier_invoice_date,\ngrn.purchase_receipt,\ndet.part_number,\ndet.item_name,\ndet.lot_no as ParentLot,\ndet.batch_no as LotNo,\ndet.qty,grn.purchase_order \nfrom `tabGRN Inward` grn join `tabGRN Inward Item Details` det ON(grn.name=det.parent and grn.docstatus=1)",
  "ref_doctype": "GRN Inward",
  "report_name": "GRN Inwards Report",
- "report_type": "Query Report",
+ "report_type": "Script Report",
  "roles": [
   {
    "role": "System Manager"
