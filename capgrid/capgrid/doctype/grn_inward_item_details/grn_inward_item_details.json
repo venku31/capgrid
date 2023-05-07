@@ -66,7 +66,7 @@
    "fieldname": "type_of_po",
    "fieldtype": "Select",
    "label": "Type Of PO",
-   "options": "Regular"
+   "options": "Sample\nRegular\nOpen\nTooling\nService"
   },
   {
    "columns": 2,
@@ -88,7 +88,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-04-01 12:09:29.168778",
+ "modified": "2023-05-07 21:55:31.758780",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "GRN Inward Item Details",

@@ -12,7 +12,7 @@ from erpnext.stock.doctype.item.item import get_item_defaults
 class GRNInward(Document):
 	pass
 @frappe.whitelist()
-def create_pr(company,supplier,product_description,bill_no,bill_date,grn_inward,main_warehouse):
+def create_pr(company,supplier,product_description,bill_no,bill_date,grn_inward,main_warehouse,purchase_order=None):
     # set_or_create_batch(doc, method)
     
     pr = frappe.new_doc("Purchase Receipt")
@@ -37,6 +37,7 @@ def create_pr(company,supplier,product_description,bill_no,bill_date,grn_inward,
             # "warehouse_location": get_item_defaults(i["part_number"], company).get("warehouse_location") or frappe.db.get_value("WMS Settings details", {"company":company}, "temporary_location"),
             # "warehouse_location":""
             "qty": i["qty"],
+            "purchase_order":purchase_order or "",
             "lot_number": i["lot_no"],
             "expense_account": frappe.db.get_value("Company", {"name": company}, "default_expense_account"),
             "cost_center": frappe.db.get_value("Company", {"name": company}, "cost_center"),
@@ -262,3 +263,56 @@ def validate_supplier_invoice_no(self,method=None):
         if si:
             si = si[0][0]
             frappe.throw(_("Supplier Invoice No exists in Inward {0}".format(si)))
+
+
+def create_lot_split_entry(doc, handler=""):
+    # if doc.scaned_location == doc.location :
+    s_warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "inward_warehouse")
+    t_warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "inward_warehouse")
+    accepted_warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "quality_inspection_warehouse")
+    expense_account = frappe.db.get_value("Company", {"name":doc.company}, "stock_adjustment_account")
+    cost_center = frappe.db.get_value("Company", {"name":doc.company}, "cost_center")
+    try:
+        se = frappe.new_doc("Stock Entry")
+        se.update({ "purpose": "Repack" , "stock_entry_type": "Repack","company":doc.company})
+            # if se_item.accepted_qty:
+            # items=[]
+        for item in doc.grn_inward_item:
+            if item.lot_no:
+                se.append("items", 
+                { "item_code":item.part_number,
+                "qty": item.qty,
+                "s_warehouse": s_warehouse,
+                "t_warehouse": "",
+                "transfer_qty" : item.qty,
+                "conversion_factor": 1,
+                "allow_zero_valuation_rate":1,
+                "reference_purchase_receipt":doc.purchase_receipt,
+                "lot_number":item.lot_no,
+                "expense_account":expense_account,
+                "cost_center":cost_center
+                })
+        for se_item in doc.grn_inward_item_details:
+            if se_item.batch_no:
+                se.append("items", 
+                { "item_code":se_item.part_number,
+                "qty": se_item.qty,
+                "s_warehouse": "",
+                "t_warehouse": t_warehouse,
+                "transfer_qty" : se_item.qty,
+                "conversion_factor": 1,
+                "allow_zero_valuation_rate":1,
+                "reference_purchase_receipt":doc.purchase_receipt,
+                "lot_number":se_item.batch_no,
+                "expense_account":expense_account,
+                "cost_center":cost_center
+                })
+            
+        se.flags.ignore_mandatory = True
+        se.set_missing_values()
+        se.docstatus=1
+        se.insert(ignore_permissions=True)
+        # doc.stock_entry =se.name
+        doc.save(ignore_permissions=True)
+    except Exception as e:
+        return {"error":e} 

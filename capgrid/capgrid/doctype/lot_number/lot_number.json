@@ -257,7 +257,7 @@
  "image_field": "image",
  "links": [],
  "max_attachments": 5,
- "modified": "2023-05-01 13:24:38.174604",
+ "modified": "2023-05-07 15:16:04.970010",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Lot Number",
@@ -266,7 +266,6 @@
  "permissions": [
   {
    "create": 1,
-   "delete": 1,
    "email": 1,
    "export": 1,
    "import": 1,
@@ -275,6 +274,17 @@
    "report": 1,
    "role": "Item Manager",
    "set_user_permissions": 1,
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Stock User",
    "share": 1,
    "write": 1
   }

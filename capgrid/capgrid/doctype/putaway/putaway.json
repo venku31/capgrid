@@ -26,6 +26,7 @@
   "batch_no",
   "scaned_location",
   "override",
+  "main_warehouse",
   "section_break_vcnw9",
   "amended_from",
   "column_break_lks38",
@@ -90,8 +91,7 @@
    "in_list_view": 1,
    "label": "Part Number Location",
    "options": "Warehouse Location",
-   "read_only": 1,
-   "reqd": 1
+   "read_only": 1
   },
   {
    "fieldname": "column_break_ztuto",
@@ -149,6 +149,7 @@
    "depends_on": "eval:(!doc.location && doc.part_number)",
    "fieldname": "update_location",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Update Part Number Location",
    "options": "Warehouse Location"
   },
@@ -156,6 +157,7 @@
    "depends_on": "eval:(!doc.location && doc.part_number)",
    "fieldname": "update",
    "fieldtype": "Button",
+   "hidden": 1,
    "label": "Update Part Number Location"
   },
   {
@@ -168,13 +170,20 @@
    "label": "Stock Entry",
    "options": "Stock Entry",
    "read_only": 1
+  },
+  {
+   "fieldname": "main_warehouse",
+   "fieldtype": "Link",
+   "label": "Main Warehouse",
+   "options": "Warehouse",
+   "reqd": 1
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-05-02 17:01:01.069480",
+ "modified": "2023-05-07 17:52:23.236012",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Putaway",

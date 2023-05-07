@@ -111,10 +111,11 @@ doc_events = {
 	},
 "GRN Inward": {
          "on_update": "capgrid.capgrid.doctype.grn_inward.grn_inward.before_validate",
-		#  "after_insert": "capgrid.capgrid.doctype.grn_inward.grn_inward.after_validate",
+		 "on_submit": "capgrid.capgrid.doctype.grn_inward.grn_inward.create_lot_split_entry",
 		 "validate": "capgrid.capgrid.doctype.grn_inward.grn_inward.validate_supplier_invoice_no",
 	},
 "Putaway": {
+		"before_save": "capgrid.capgrid.doctype.putaway.putaway.update_item_location",
 		"on_submit": "capgrid.capgrid.doctype.putaway.putaway.create_stock_entry",
 	},
 }

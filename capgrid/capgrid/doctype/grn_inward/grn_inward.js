@@ -28,6 +28,7 @@ frappe.ui.form.on("GRN Inward", {
                'bill_date' : frm.doc.supplier_invoice_date,
                'grn_inward' : frm.doc.name,
                'main_warehouse':frm.doc.main_warehouse,
+               'purchase_order':frm.doc.purchase_order
             },
             callback(r) {
                if (r.message){

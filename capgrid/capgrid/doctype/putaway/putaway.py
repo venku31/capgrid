@@ -31,8 +31,8 @@ def search_lot(batch,company):
 	#     from `tabQuality Inspection Page` iw LEFT JOIN `tabQuality Inspection Page Table` iwd ON (iw.name=iwd.parent) where iw.docstatus=1 and iwd.lot_no = '%(batch)s' """%{"batch": main_lot}, as_dict = 1)
     #     return stock
     # else :
-    stock = frappe.db.sql("""SELECT iw.name as grn,iwd.part_number,iwd.description,iwd.qty,iwd.batch_no,iwd.lot_no,iw.owner,(select warehouse_location from `tabItem Default` where parent=iwd.part_number and company='%(company)s') as location
-	from `tabQuality Inspection Page` iw LEFT JOIN `tabQuality Inspection Page Table` iwd ON (iw.name=iwd.parent) where iw.docstatus=1
+    stock = frappe.db.sql("""SELECT iw.name as grn,iwd.part_number,iwd.description,iwd.accepted_qty,iwd.batch_no,iwd.lot_no,iw.owner,(select warehouse_location from `tabItem Default` where parent=iwd.part_number and company='%(company)s') as location
+	from `tabQuality Inspection Page` iw LEFT JOIN `tabQuality Inspection Page Table` iwd ON (iw.name=iwd.parent) where iw.docstatus=1 and iwd.accepted_qty>0
     and  iwd.batch_no NOT IN (select `tabPutaway`.batch_no from `tabPutaway` where `tabPutaway`.docstatus=1 and `tabPutaway`.batch_no='%(batch)s') and iwd.batch_no = '%(batch)s' """%{"batch": batch,"company":company}, as_dict = 1)
     return stock
 # def create_quality_inspection(doc, handler=""):
@@ -44,48 +44,48 @@ def search_lot(batch,company):
 #         qi.insert()
 
 def create_stock_entry(doc, handler=""):
-    if doc.scaned_location == doc.location :
-        se = frappe.new_doc("Stock Entry")
-        se.update({ "purpose": "Material Transfer" , "stock_entry_type": "Material Transfer","putaway":doc.name})
-        se.append("items", { 
-        "item_code":doc.part_number,
-        "qty": frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty"),
-        "transfer_qty":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty"),
-        "s_warehouse": frappe.db.get_value("WMS Settings details", {"company":doc.company}, "quality_inspection_warehouse"),
-        "t_warehouse": frappe.db.get_value("Warehouse Location", {"name":doc.location}, "warehouse"),
-        "expense_account": frappe.db.get_value("Company", {"name":doc.company}, "default_expense_account"),
-        "reference_purchase_receipt":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_receipt"),
-        "warehouse_location" : doc.location,
-        "lot_number":doc.batch_no,
-        "allow_zero_valuation_rate":1,
-        "conversion_factor":1
-        })
-        se.flags.ignore_mandatory = True
-        se.set_missing_values()
-        se.docstatus=1
-        se.insert(ignore_permissions=True)
-        doc.stock_entry =se.name
-    else :
-        se = frappe.new_doc("Stock Entry")
-        se.update({ "purpose": "Material Transfer" , "stock_entry_type": "Material Transfer","putaway":doc.name})
-        se.append("items", { 
-        "item_code":doc.part_number,
-        "qty": frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty"),
-        "transfer_qty":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty"),
-        "s_warehouse": frappe.db.get_value("WMS Settings details", {"company":doc.company}, "quality_inspection_warehouse"),
-        "t_warehouse": frappe.db.get_value("Warehouse Location", {"name":doc.location}, "warehouse"),
-        "expense_account": frappe.db.get_value("Company", {"name":doc.company}, "default_expense_account"),
-        "warehouse_location" : frappe.db.get_value("WMS Settings details", {"company":doc.company}, "temporary_location"),
-        "reference_purchase_receipt":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_receipt"),
-        "lot_number":doc.batch_no,
-        "allow_zero_valuation_rate":1,
-        "conversion_factor":1
-        })
-        se.flags.ignore_mandatory = True
-        se.set_missing_values()
-        se.docstatus=1
-        se.insert(ignore_permissions=True)
-        doc.stock_entry =se.name
+    # if doc.scaned_location == doc.location :
+    se = frappe.new_doc("Stock Entry")
+    se.update({ "purpose": "Material Transfer" , "stock_entry_type": "Material Transfer","putaway":doc.name})
+    se.append("items", { 
+    "item_code":doc.part_number,
+    "qty": frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty"),
+    "transfer_qty":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty"),
+    "s_warehouse": frappe.db.get_value("WMS Settings details", {"company":doc.company}, "quality_inspection_warehouse"),
+    "t_warehouse": frappe.db.get_value("Warehouse Location", {"name":doc.location}, "warehouse"),
+    "expense_account": frappe.db.get_value("Company", {"name":doc.company}, "default_expense_account"),
+    "reference_purchase_receipt":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_receipt"),
+    "warehouse_location" : doc.scaned_location,
+    "lot_number":doc.batch_no,
+    "allow_zero_valuation_rate":1,
+    "conversion_factor":1
+    })
+    se.flags.ignore_mandatory = True
+    se.set_missing_values()
+    se.docstatus=1
+    se.insert(ignore_permissions=True)
+    doc.stock_entry =se.name
+    # else :
+    #     se = frappe.new_doc("Stock Entry")
+    #     se.update({ "purpose": "Material Transfer" , "stock_entry_type": "Material Transfer","putaway":doc.name})
+    #     se.append("items", { 
+    #     "item_code":doc.part_number,
+    #     "qty": frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty"),
+    #     "transfer_qty":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty"),
+    #     "s_warehouse": frappe.db.get_value("WMS Settings details", {"company":doc.company}, "quality_inspection_warehouse"),
+    #     "t_warehouse": frappe.db.get_value("Warehouse Location", {"name":doc.location}, "warehouse"),
+    #     "expense_account": frappe.db.get_value("Company", {"name":doc.company}, "default_expense_account"),
+    #     "warehouse_location" : frappe.db.get_value("WMS Settings details", {"company":doc.company}, "temporary_location"),
+    #     "reference_purchase_receipt":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_receipt"),
+    #     "lot_number":doc.batch_no,
+    #     "allow_zero_valuation_rate":1,
+    #     "conversion_factor":1
+    #     })
+    #     se.flags.ignore_mandatory = True
+    #     se.set_missing_values()
+    #     se.docstatus=1
+    #     se.insert(ignore_permissions=True)
+    #     doc.stock_entry =se.name
 
 @frappe.whitelist()
 def update_part_number_location(item_code,company,update_location,location):
@@ -113,3 +113,35 @@ def update_part_number_location(item_code,company,update_location,location):
         frappe.msgprint(
         _("Location successfully updated for Item: " + item.item_name), alert=True
         )
+
+@frappe.whitelist()        
+def update_item_location(doc, handler=""):
+    if not doc.location:
+        # item_default = frappe.get_doc('Item Default',{"parent":doc.part_number,"company":doc.company})
+        item_default= frappe.db.sql(
+        """
+        SELECT name 
+        FROM `tabItem Default`
+        WHERE company = %(company)s
+        AND parent =%(part_number)s """, values={"company": doc.company, "part_number":doc.part_number},as_dict=1,)
+        print("///////",item_default)
+        company=doc.company
+        scaned_location=doc.scaned_location
+        itemcode=doc.part_number
+        if item_default:
+            frappe.db.sql("""UPDATE `tabItem Default` set warehouse_location=%(scaned_location)s
+            where parent=%(itemcode)s and company=%(company)s""",{"scaned_location":scaned_location,"itemcode":doc.part_number,"company":company})
+            doc.location=doc.scaned_location
+        else :
+            item = frappe.get_doc('Item', doc.part_number)
+            item.append(
+            "item_defaults",
+            {
+             "company": doc.company,
+             "warehouse_location": doc.scaned_location,
+             "default_warehouse": frappe.db.get_value("Warehouse Location", filters={"name": doc.scaned_location}, fieldname="warehouse"),
+            },
+            )
+            item.flags.ignore_mandatory = True
+            item.save(ignore_permissions=True)
+            doc.location=doc.scaned_location

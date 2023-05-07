@@ -5,31 +5,40 @@ frappe.ui.form.on('Putaway', {
 	scan_barcode: function(frm){
 		fetch_batch_entry(frm);	
 	},
-	update: (frm) => {
-		if (frm.doc.update_location){
-			frappe.call({
-				method: 'capgrid.capgrid.doctype.putaway.putaway.update_part_number_location',
-				args: {
-				   'item_code' : frm.doc.part_number,
-				   'company' : frm.doc.company,
-				   'update_location':frm.doc.update_location,
-				   'location':frm.doc.location,
-				//    'warehouse': frappe.db.get_value("Warehouse Location", filters={"name": frm.doc.update_location}, fieldname="warehouse"),
-				},
-				callback(r) {
-				   if (r.message){
-					  console.log(r.message)
+	// update: (frm) => {
+	// 	if (frm.doc.update_location){
+	// 		frappe.call({
+	// 			method: 'capgrid.capgrid.doctype.putaway.putaway.update_part_number_location',
+	// 			args: {
+	// 			   'item_code' : frm.doc.part_number,
+	// 			   'company' : frm.doc.company,
+	// 			   'update_location':frm.doc.update_location,
+	// 			   'location':frm.doc.location,
+	// 			//    'warehouse': frappe.db.get_value("Warehouse Location", filters={"name": frm.doc.update_location}, fieldname="warehouse"),
+	// 			},
+	// 			callback(r) {
+	// 			   if (r.message){
+	// 				  console.log(r.message)
 				
+	// 			   }
+	// 			}
+	// 		 })  
+	// 		}
+	// 	},
+		refresh: function(frm) {
+			cur_frm.fields_dict.main_warehouse.get_query = function(doc) {
+				return {
+				   filters: {
+					  company:frm.doc.company,
+					  is_group:1
 				   }
 				}
-			 })  
-			}
-		},
-		refresh: function(frm) {
+				},
 			cur_frm.fields_dict.scan_location.get_query = function(doc) {
 			 return {
 				filters: {
-				   company:frm.doc.company
+				   company:frm.doc.company,
+				   main_warehouse:frm.doc.main_warehouse
 				}
 			 }
 			}}	
@@ -76,13 +85,15 @@ function fetch_batch_entry(frm) {
 };
 frappe.ui.form.on('Putaway', {
 	validate(frm) {
-		if ((frm.doc.scaned_location != frm.doc.location) &&(!cur_frm.doc.override)){
+		if (frm.doc.location){
+			if ((frm.doc.scaned_location != frm.doc.location) &&(!cur_frm.doc.override)){
 			  frappe.msgprint(__("Wrong Part Number Location, Enable Override to move lot number to temporary location"));
 			  frappe.validated = false;
-		  }
-		
-		  cur_frm.doc.scaned_location = cur_frm.doc.scan_location
-		cur_frm.refresh_fields()
+		  	}
+			  	
+		}
+		cur_frm.doc.scaned_location = cur_frm.doc.scan_location
+			cur_frm.refresh_fields()
 	},
 
 	scan_location(frm) {
