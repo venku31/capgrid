@@ -10,11 +10,10 @@ from erpnext.accounts.utils import get_account_currency, get_fiscal_year
 from erpnext.stock.doctype.item.item import get_item_defaults
 
 class GRNInward(Document):
-	pass
+    pass
 @frappe.whitelist()
 def create_pr(company,supplier,product_description,bill_no,bill_date,grn_inward,main_warehouse,purchase_order=None):
     # set_or_create_batch(doc, method)
-    
     pr = frappe.new_doc("Purchase Receipt")
     pr.company = company
     pr.supplier = supplier
@@ -46,6 +45,46 @@ def create_pr(company,supplier,product_description,bill_no,bill_date,grn_inward,
             pr.save(ignore_permissions = True)
             pr.submit()
     return pr.name
+
+def create_purchase_receipt(doc,handler=""):
+    warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "inward_warehouse")
+    expense_account = frappe.db.get_value("Company", {"name":doc.company}, "default_expense_account")
+    cost_center = frappe.db.get_value("Company", {"name":doc.company}, "cost_center")
+    try:
+        pr = frappe.new_doc("Purchase Receipt")
+        # pr.update({ "company": doc.company , "supplier": doc.supplier,"posting_date":today(),"supplier_delivery_note":doc.bill_no,"supplier_invoice_date":doc.bill_date,"supplier_address":""})
+        pr.supplier = doc.supplier
+        pr.posting_date = today()
+        pr.supplier_delivery_note = doc.supplier_invoice_no
+        pr.supplier_invoice_date = doc.supplier_invoice_date
+        pr.company = doc.company
+        pr.supplier_address:""
+            
+        for item in doc.grn_inward_item:
+            # if item.lot_no:
+            pr.append("items", 
+            { "item_code":item.part_number,
+            "qty": item.qty,
+            "warehouse": frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "inward_warehouse"),
+            "accepted_qty" : item.qty,
+            "conversion_factor": 1,
+            "allow_zero_valuation_rate":1,
+            "purchase_order":doc.purchase_order or '',
+            "lot_number":item.lot_no,
+            "expense_account": frappe.db.get_value("Company", {"name": company}, "default_expense_account"),
+            "cost_center": frappe.db.get_value("Company", {"name": company}, "cost_center"),
+            })
+                    
+        pr.flags.ignore_mandatory = True
+        pr.set_missing_values()
+        pr.save(ignore_permissions = True)
+        pr.submit()
+        doc.purchase_receipt =pr.name
+        doc.save(ignore_permissions=True)
+    except Exception as e:
+        return {"error":e} 
+    create_lot_split_entry(doc)
+
 #Main Lot
 @frappe.whitelist()
 def set_or_create_main_lot(doc, method=None):
@@ -267,6 +306,7 @@ def validate_supplier_invoice_no(self,method=None):
 
 def create_lot_split_entry(doc, handler=""):
     # if doc.scaned_location == doc.location :
+    create_purchase_receipt(doc)
     s_warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "inward_warehouse")
     t_warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "inward_warehouse")
     accepted_warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "quality_inspection_warehouse")

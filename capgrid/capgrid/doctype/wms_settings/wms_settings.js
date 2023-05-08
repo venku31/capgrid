@@ -48,6 +48,26 @@ frappe.ui.form.on('WMS Settings', {
 				]
 			}
 		}
+		cur_frm.fields_dict['wms_settings_details'].grid.get_field('default_hold_location').get_query = function(doc, cdt, cdn) {
+			var d = locals[cdt][cdn]
+			return {
+				filters: [
+					['Warehouse Location', 'main_warehouse', '=', d.main_warehouse],
+					['Warehouse Location', 'warehouse', '=', d.hold_warehouse],
+					['Warehouse Location', 'company', '=', d.company]
+				]
+			}
+		}
+		cur_frm.fields_dict['wms_settings_details'].grid.get_field('default_rejection_location').get_query = function(doc, cdt, cdn) {
+			var d = locals[cdt][cdn]
+			return {
+				filters: [
+					['Warehouse Location', 'main_warehouse', '=', d.main_warehouse],
+					['Warehouse Location', 'warehouse', '=', d.rejected_warehouse],
+					['Warehouse Location', 'company', '=', d.company]
+				]
+			}
+		}
 		cur_frm.fields_dict['wms_settings_details'].grid.get_field('temporary_location').get_query = function(doc, cdt, cdn) {
 			var d = locals[cdt][cdn]
 			return {

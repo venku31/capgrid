@@ -119,11 +119,14 @@ def create_qi_stock_entry(doc, handler=""):
         accepted_warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "quality_inspection_warehouse")
         rejected_warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "rejected_warehouse")
         hold_warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "hold_warehouse")
+        hold_location = frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "default_hold_location")
+        rejection_location = frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "default_rejection_location")
         expense_account = frappe.db.get_value("Company", {"name":doc.company}, "stock_adjustment_account")
         cost_center = frappe.db.get_value("Company", {"name":doc.company}, "cost_center")
         try:
             se = frappe.new_doc("Stock Entry")
-            se.update({ "purpose": "Material Transfer" , "stock_entry_type": "Material Transfer","company":doc.company})
+            # se.update({ "purpose": "Material Transfer" , "stock_entry_type": "Material Transfer","company":doc.company})
+            se.update({ "purpose": "Repack" , "stock_entry_type": "Repack","company":doc.company})
             # if se_item.accepted_qty:
             # items=[]
             for se_item in doc.quality_inspection_page_table:
@@ -132,18 +135,51 @@ def create_qi_stock_entry(doc, handler=""):
                     { "item_code":se_item.part_number,
                     "qty": se_item.accepted_qty,
                     "s_warehouse": s_warehouse,
+                    # "t_warehouse": accepted_warehouse,
+                    "transfer_qty" : se_item.accepted_qty,
+                    "conversion_factor": 1,
+                    "allow_zero_valuation_rate":1,
+                    "reference_purchase_receipt":doc.purchase_receipt,
+                    "lot_number":se_item.batch_no,
+                    "expense_account":expense_account,
+                    "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")
+                    })
+                    se.append("items", 
+                    { "item_code":se_item.part_number,
+                    "qty": se_item.accepted_qty,
+                    # "s_warehouse": s_warehouse,
                     "t_warehouse": accepted_warehouse,
                     "transfer_qty" : se_item.accepted_qty,
                     "conversion_factor": 1,
                     "allow_zero_valuation_rate":1,
                     "reference_purchase_receipt":doc.purchase_receipt,
                     "lot_number":se_item.batch_no,
-                    "expense_account":expense_account
+                    "expense_account":expense_account,
+                    "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")
                     })
                 if se_item.rejected_qty:
-                    se.append("items", { "item_code":se_item.part_number, "qty": se_item.rejected_qty,"s_warehouse": s_warehouse,"t_warehouse": rejected_warehouse,"transfer_qty" : se_item.rejected_qty,"conversion_factor": 1,"allow_zero_valuation_rate":1,"reference_purchase_receipt":doc.purchase_receipt,"lot_number":se_item.batch_no,"expense_account":expense_account})
+                    se.append("items", { "item_code":se_item.part_number, "qty": se_item.rejected_qty,"s_warehouse": s_warehouse,
+                    # "t_warehouse": rejected_warehouse,
+                    "transfer_qty" : se_item.rejected_qty,"conversion_factor": 1,"allow_zero_valuation_rate":1,"reference_purchase_receipt":doc.purchase_receipt,
+                    "lot_number":se_item.batch_no,"expense_account":expense_account,
+                    "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")})
+                    se.append("items", { "item_code":se_item.part_number, "qty": se_item.rejected_qty,
+                    # "s_warehouse": s_warehouse,
+                    "t_warehouse": rejected_warehouse,
+                    "transfer_qty" : se_item.rejected_qty,"conversion_factor": 1,"allow_zero_valuation_rate":1,"reference_purchase_receipt":doc.purchase_receipt,
+                    "lot_number":se_item.batch_no,"warehouse_location":rejection_location,"expense_account":expense_account,
+                    "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")})
                 if se_item.hold_qty :
-                    se.append("items", { "item_code":se_item.part_number, "qty": se_item.hold_qty,"s_warehouse": s_warehouse,"t_warehouse": hold_warehouse,"transfer_qty" : se_item.hold_qty,"conversion_factor": 1,"allow_zero_valuation_rate":1,"reference_purchase_receipt":doc.purchase_receipt,"lot_number":se_item.batch_no,"expense_account":expense_account})
+                    se.append("items", { "item_code":se_item.part_number, "qty": se_item.hold_qty,"s_warehouse": s_warehouse,
+                    # "t_warehouse": hold_warehouse,
+                    "transfer_qty" : se_item.hold_qty,"conversion_factor": 1,"allow_zero_valuation_rate":1,
+                    "reference_purchase_receipt":doc.purchase_receipt,"lot_number":se_item.batch_no,
+                    "expense_account":expense_account,"cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")})
+                    se.append("items", { "item_code":se_item.part_number, "qty": se_item.hold_qty,
+                    # "s_warehouse": s_warehouse,
+                    "t_warehouse": hold_warehouse,"transfer_qty" : se_item.hold_qty,"conversion_factor": 1,"allow_zero_valuation_rate":1,
+                    "reference_purchase_receipt":doc.purchase_receipt,"lot_number":se_item.batch_no,"warehouse_location":hold_location,
+                    "expense_account":expense_account,"cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")})
             
             se.flags.ignore_mandatory = True
             se.set_missing_values()

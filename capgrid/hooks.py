@@ -107,7 +107,7 @@ doc_events = {
 #     },
 "Quality Inspection Page": {
 		"on_submit": "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_quality_inspection",
-		# "scan_barcode": "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.validate_lot_no",
+		# "save": "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_update_status",
 	},
 "GRN Inward": {
          "on_update": "capgrid.capgrid.doctype.grn_inward.grn_inward.before_validate",
