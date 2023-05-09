@@ -7,7 +7,7 @@
 // 	// }
 // });
 frappe.ui.form.on("GRN Inward", {
-	on_submit: function(frm, cdt, cdn) {
+	before_submit: function(frm, cdt, cdn) {
       // frm.disable_save();
       // cur_frm.page.clear_actions_menu()
 		
@@ -33,14 +33,15 @@ frappe.ui.form.on("GRN Inward", {
             callback(r) {
                if (r.message){
                   console.log(r.message)
-                  // cur_frm.set_value("purchase_receipt", r.message);
+                  cur_frm.set_value("purchase_receipt", r.message);
             
                }
-               frappe.db.set_value("GRN Inward",cur_frm.doc.name,"purchase_receipt", r.message);
+               // frappe.db.set_value("GRN Inward",cur_frm.doc.name,"purchase_receipt", r.message);
             }
          })  
+         // frm.reload_doc();
          refresh_field("grn_inward");
-         // frm.save()
+         // frm.save('Submit');
    //   }).css({'color':'white','font-weight': 'bold', 'background-color': 'Green'});
    }
    

@@ -83,7 +83,7 @@ def create_purchase_receipt(doc,handler=""):
         doc.save(ignore_permissions=True)
     except Exception as e:
         return {"error":e} 
-    create_lot_split_entry(doc)
+    # create_lot_split_entry(doc)
 
 #Main Lot
 @frappe.whitelist()
@@ -306,7 +306,7 @@ def validate_supplier_invoice_no(self,method=None):
 
 def create_lot_split_entry(doc, handler=""):
     # if doc.scaned_location == doc.location :
-    create_purchase_receipt(doc)
+    # create_purchase_receipt(doc)
     s_warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "inward_warehouse")
     t_warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "inward_warehouse")
     accepted_warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "quality_inspection_warehouse")

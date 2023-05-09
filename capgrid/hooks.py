@@ -109,6 +109,9 @@ doc_events = {
 		"on_submit": "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_quality_inspection",
 		# "save": "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_update_status",
 	},
+# "Purchase Receipt": {
+# 		 "on_submit": "capgrid.capgrid.doctype.grn_inward.grn_inward.create_lot_split_entry",
+# 	},
 "GRN Inward": {
          "on_update": "capgrid.capgrid.doctype.grn_inward.grn_inward.before_validate",
 		 "on_submit": "capgrid.capgrid.doctype.grn_inward.grn_inward.create_lot_split_entry",
