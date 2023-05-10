@@ -24,11 +24,11 @@ class QualityInspectionPage(Document):
 	pass
 
 @frappe.whitelist()
-def search_lot(batch):
+def search_lot(batch,):
     # item_data = search_serial_or_batch_or_barcode_number(batch)
     # if item_data != 0:
     # main_lot = frappe.db.sql("""SELECT parent_lot from `tabLot Number` where name='%(batch)s' """%{"batch": batch}, as_dict = 1)
-    qi_lot = frappe.db.get_value("Quality Inspection Page Table", {"batch_no": batch}, "lot_no")
+    qi_lot = frappe.db.get_value("Quality Inspection Page Table", {"batch_no": batch,"docstatus":1}, "lot_no")
     main_lot = frappe.db.get_value("GRN Inward Item Details", {"batch_no": batch}, "lot_no")
     print("////////////",qi_lot)
     if not qi_lot :
@@ -53,7 +53,7 @@ def create_quality_inspection(doc, handler=""):
     update_main_lot(doc)
     update_lot(doc)
     # update_purchase_receipt(doc)
-    create_qi_stock_entry(doc)
+    # create_qi_stock_entry(doc)
 
 def update_lot(doc):
     for row in doc.quality_inspection_page_table:
@@ -123,69 +123,71 @@ def create_qi_stock_entry(doc, handler=""):
         rejection_location = frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "default_rejection_location")
         expense_account = frappe.db.get_value("Company", {"name":doc.company}, "stock_adjustment_account")
         cost_center = frappe.db.get_value("Company", {"name":doc.company}, "cost_center")
-        try:
-            se = frappe.new_doc("Stock Entry")
-            # se.update({ "purpose": "Material Transfer" , "stock_entry_type": "Material Transfer","company":doc.company})
-            se.update({ "purpose": "Repack" , "stock_entry_type": "Repack","company":doc.company})
+        # try:
+        se = frappe.new_doc("Stock Entry")
+        # se.update({ "purpose": "Material Transfer" , "stock_entry_type": "Material Transfer","company":doc.company})
+        se.update({ "purpose": "Repack" , "stock_entry_type": "Repack","company":doc.company})
             # if se_item.accepted_qty:
             # items=[]
-            for se_item in doc.quality_inspection_page_table:
-                if se_item.accepted_qty:
-                    se.append("items", 
-                    { "item_code":se_item.part_number,
-                    "qty": se_item.accepted_qty,
-                    "s_warehouse": s_warehouse,
-                    # "t_warehouse": accepted_warehouse,
-                    "transfer_qty" : se_item.accepted_qty,
-                    "conversion_factor": 1,
-                    "allow_zero_valuation_rate":1,
-                    "reference_purchase_receipt":doc.purchase_receipt,
-                    "lot_number":se_item.batch_no,
-                    "expense_account":expense_account,
-                    "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")
-                    })
-                    se.append("items", 
-                    { "item_code":se_item.part_number,
-                    "qty": se_item.accepted_qty,
-                    # "s_warehouse": s_warehouse,
-                    "t_warehouse": accepted_warehouse,
-                    "transfer_qty" : se_item.accepted_qty,
-                    "conversion_factor": 1,
-                    "allow_zero_valuation_rate":1,
-                    "reference_purchase_receipt":doc.purchase_receipt,
-                    "lot_number":se_item.batch_no,
-                    "expense_account":expense_account,
-                    "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")
-                    })
-                if se_item.rejected_qty:
-                    se.append("items", { "item_code":se_item.part_number, "qty": se_item.rejected_qty,"s_warehouse": s_warehouse,
-                    # "t_warehouse": rejected_warehouse,
-                    "transfer_qty" : se_item.rejected_qty,"conversion_factor": 1,"allow_zero_valuation_rate":1,"reference_purchase_receipt":doc.purchase_receipt,
-                    "lot_number":se_item.batch_no,"expense_account":expense_account,
-                    "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")})
-                    se.append("items", { "item_code":se_item.part_number, "qty": se_item.rejected_qty,
-                    # "s_warehouse": s_warehouse,
-                    "t_warehouse": rejected_warehouse,
-                    "transfer_qty" : se_item.rejected_qty,"conversion_factor": 1,"allow_zero_valuation_rate":1,"reference_purchase_receipt":doc.purchase_receipt,
-                    "lot_number":se_item.batch_no,"warehouse_location":rejection_location,"expense_account":expense_account,
-                    "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")})
-                if se_item.hold_qty :
-                    se.append("items", { "item_code":se_item.part_number, "qty": se_item.hold_qty,"s_warehouse": s_warehouse,
-                    # "t_warehouse": hold_warehouse,
-                    "transfer_qty" : se_item.hold_qty,"conversion_factor": 1,"allow_zero_valuation_rate":1,
-                    "reference_purchase_receipt":doc.purchase_receipt,"lot_number":se_item.batch_no,
-                    "expense_account":expense_account,"cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")})
-                    se.append("items", { "item_code":se_item.part_number, "qty": se_item.hold_qty,
-                    # "s_warehouse": s_warehouse,
-                    "t_warehouse": hold_warehouse,"transfer_qty" : se_item.hold_qty,"conversion_factor": 1,"allow_zero_valuation_rate":1,
-                    "reference_purchase_receipt":doc.purchase_receipt,"lot_number":se_item.batch_no,"warehouse_location":hold_location,
-                    "expense_account":expense_account,"cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")})
+        for se_item in doc.quality_inspection_page_table:
+            if se_item.accepted_qty:
+                se.append("items", 
+                { "item_code":se_item.part_number,
+                "qty": se_item.accepted_qty,
+                "s_warehouse": s_warehouse,
+                "t_warehouse": "",
+                "transfer_qty" : se_item.accepted_qty,
+                "conversion_factor": 1,
+                "allow_zero_valuation_rate":1,
+                "reference_purchase_receipt":doc.purchase_receipt,
+                "lot_number":se_item.batch_no,
+                "expense_account":expense_account,
+                "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")
+                })
+                se.append("items", 
+                { "item_code":se_item.part_number,
+                "qty": se_item.accepted_qty,
+                
+                 "s_warehouse": "",
+                "t_warehouse": accepted_warehouse,
+                "transfer_qty" : se_item.accepted_qty,
+                "conversion_factor": 1,
+                "is_finished_item":1,
+                "allow_zero_valuation_rate":1,
+                "reference_purchase_receipt":doc.purchase_receipt,
+                "lot_number":se_item.batch_no,
+                "expense_account":expense_account,
+                "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")
+                })
+            if se_item.rejected_qty:
+                se.append("items", { "item_code":se_item.part_number, "qty": se_item.rejected_qty,"s_warehouse": s_warehouse,
+                "t_warehouse": "",
+                "transfer_qty" : se_item.rejected_qty,"conversion_factor": 1,"allow_zero_valuation_rate":1,"reference_purchase_receipt":doc.purchase_receipt,
+                "lot_number":se_item.batch_no,"expense_account":expense_account,
+                "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")})
+                se.append("items", { "item_code":se_item.part_number, "qty": se_item.rejected_qty,
+                "s_warehouse": "",
+                "t_warehouse": rejected_warehouse,
+                "transfer_qty" : se_item.rejected_qty,"conversion_factor": 1,"is_finished_item":1,"allow_zero_valuation_rate":1,"reference_purchase_receipt":doc.purchase_receipt,
+                "lot_number":se_item.batch_no,"warehouse_location":rejection_location,"expense_account":expense_account,
+                "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")})
+            if se_item.hold_qty :
+                se.append("items", { "item_code":se_item.part_number, "qty": se_item.hold_qty,"s_warehouse": s_warehouse,
+                "t_warehouse": "",
+                "transfer_qty" : se_item.hold_qty,"conversion_factor": 1,"allow_zero_valuation_rate":1,
+                "reference_purchase_receipt":doc.purchase_receipt,"lot_number":se_item.batch_no,
+                "expense_account":expense_account,"cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")})
+                se.append("items", { "item_code":se_item.part_number, "qty": se_item.hold_qty,
+                "s_warehouse": "",
+                "t_warehouse": hold_warehouse,"transfer_qty" : se_item.hold_qty,"conversion_factor": 1,"is_finished_item":1,"allow_zero_valuation_rate":1,
+                "reference_purchase_receipt":doc.purchase_receipt,"lot_number":se_item.batch_no,"warehouse_location":hold_location,
+                "expense_account":expense_account,"cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")})
             
-            se.flags.ignore_mandatory = True
-            se.set_missing_values()
-            se.docstatus=1
-            se.insert(ignore_permissions=True)
-            doc.stock_entry =se.name
-            doc.save(ignore_permissions=True)
-        except Exception as e:
-            return {"error":e} 
+        se.flags.ignore_mandatory = True
+        se.set_missing_values()
+        se.docstatus=1
+        se.insert(ignore_permissions=True)
+        doc.stock_entry =se.name
+        doc.save(ignore_permissions=True)
+        # except Exception as e:
+        #     return {"error":e} 

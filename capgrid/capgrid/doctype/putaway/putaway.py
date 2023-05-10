@@ -53,7 +53,7 @@ def create_stock_entry(doc, handler=""):
     "qty": frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty"),
     "transfer_qty":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty"),
     "s_warehouse": frappe.db.get_value("WMS Settings details", {"company":doc.company}, "quality_inspection_warehouse"),
-    # "t_warehouse": frappe.db.get_value("Warehouse Location", {"name":doc.location}, "warehouse"),
+    "t_warehouse": "",
     "expense_account": frappe.db.get_value("Company", {"name":doc.company}, "default_expense_account"),
     "reference_purchase_receipt":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_receipt"),
     # "warehouse_location" : doc.scaned_location,
@@ -65,8 +65,9 @@ def create_stock_entry(doc, handler=""):
     "item_code":doc.part_number,
     "qty": frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty"),
     "transfer_qty":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty"),
-    # "s_warehouse": frappe.db.get_value("WMS Settings details", {"company":doc.company}, "quality_inspection_warehouse"),
+    "s_warehouse": "",
     "t_warehouse": frappe.db.get_value("Warehouse Location", {"name":doc.location}, "warehouse"),
+    "is_finished_item":1,
     "expense_account": frappe.db.get_value("Company", {"name":doc.company}, "default_expense_account"),
     "reference_purchase_receipt":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_receipt"),
     "warehouse_location" : doc.scaned_location,
@@ -79,6 +80,7 @@ def create_stock_entry(doc, handler=""):
     se.docstatus=1
     se.insert(ignore_permissions=True)
     doc.stock_entry =se.name
+    doc.save(ignore_permissions=True)
     # else :
     #     se = frappe.new_doc("Stock Entry")
     #     se.update({ "purpose": "Material Transfer" , "stock_entry_type": "Material Transfer","putaway":doc.name})

@@ -50,39 +50,42 @@ def create_purchase_receipt(doc,handler=""):
     warehouse = frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "inward_warehouse")
     expense_account = frappe.db.get_value("Company", {"name":doc.company}, "default_expense_account")
     cost_center = frappe.db.get_value("Company", {"name":doc.company}, "cost_center")
-    try:
-        pr = frappe.new_doc("Purchase Receipt")
-        # pr.update({ "company": doc.company , "supplier": doc.supplier,"posting_date":today(),"supplier_delivery_note":doc.bill_no,"supplier_invoice_date":doc.bill_date,"supplier_address":""})
-        pr.supplier = doc.supplier
-        pr.posting_date = today()
-        pr.supplier_delivery_note = doc.supplier_invoice_no
-        pr.supplier_invoice_date = doc.supplier_invoice_date
-        pr.company = doc.company
-        pr.supplier_address:""
+    # try:
+    pr = frappe.new_doc("Purchase Receipt")
+    # pr.update({ "company": doc.company , "supplier": doc.supplier,"posting_date":today(),"supplier_delivery_note":doc.bill_no,"supplier_invoice_date":doc.bill_date,"supplier_address":""})
+    pr.supplier = doc.supplier
+    pr.posting_date = frappe.utils.today()
+    pr.supplier_delivery_note = doc.supplier_invoice_no
+    pr.supplier_invoice_date = doc.supplier_invoice_date
+    pr.company = doc.company
+        # pr.supplier_address:""
             
-        for item in doc.grn_inward_item:
+    for item in doc.grn_inward_item:
             # if item.lot_no:
-            pr.append("items", 
+        pr.append("items", 
             { "item_code":item.part_number,
             "qty": item.qty,
+            "received_qty":item.qty,
             "warehouse": frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "inward_warehouse"),
             "accepted_qty" : item.qty,
             "conversion_factor": 1,
             "allow_zero_valuation_rate":1,
             "purchase_order":doc.purchase_order or '',
             "lot_number":item.lot_no,
-            "expense_account": frappe.db.get_value("Company", {"name": company}, "default_expense_account"),
-            "cost_center": frappe.db.get_value("Company", {"name": company}, "cost_center"),
-            })
+            "expense_account": frappe.db.get_value("Company", {"name": doc.company}, "default_expense_account"),
+            "cost_center": frappe.db.get_value("Company", {"name": doc.company}, "cost_center"),
+        })
                     
-        pr.flags.ignore_mandatory = True
-        pr.set_missing_values()
-        pr.save(ignore_permissions = True)
-        pr.submit()
-        doc.purchase_receipt =pr.name
-        doc.save(ignore_permissions=True)
-    except Exception as e:
-        return {"error":e} 
+    pr.flags.ignore_mandatory = True
+    pr.set_missing_values()
+    pr.docstatus=1
+    pr.insert(ignore_permissions=True)
+        # pr.save(ignore_permissions = True)
+        # pr.submit()
+    doc.purchase_receipt =pr.name
+    doc.save(ignore_permissions=True)
+    # except Exception as e:
+    #     return {"error":e} 
     # create_lot_split_entry(doc)
 
 #Main Lot

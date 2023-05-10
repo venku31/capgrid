@@ -72,10 +72,10 @@
   },
   {
    "fieldname": "inward_grn",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
+   "ignore_user_permissions": 1,
    "label": "Inward GRN",
-   "options": "GRN Inward",
-   "read_only": 1
+   "options": "GRN Inward"
   },
   {
    "columns": 1,
@@ -121,7 +121,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-05-03 10:33:14.165541",
+ "modified": "2023-05-10 16:28:31.362477",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Quality Inspection Page Table",

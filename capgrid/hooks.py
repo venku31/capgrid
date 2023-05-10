@@ -106,7 +106,10 @@ doc_events = {
 # 		#  "after_validate": "capgrid.capgrid.doctype.inward_grn.inward_grn.before_validate",
 #     },
 "Quality Inspection Page": {
-		"on_submit": "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_quality_inspection",
+		"before_submit":  "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_quality_inspection",
+		"on_submit": ["capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_qi_stock_entry",
+	 				  
+		],
 		# "save": "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_update_status",
 	},
 # "Purchase Receipt": {
@@ -114,7 +117,9 @@ doc_events = {
 # 	},
 "GRN Inward": {
          "on_update": "capgrid.capgrid.doctype.grn_inward.grn_inward.before_validate",
-		 "on_submit": "capgrid.capgrid.doctype.grn_inward.grn_inward.create_lot_split_entry",
+		 "on_submit": ["capgrid.capgrid.doctype.grn_inward.grn_inward.create_purchase_receipt",
+		 				"capgrid.capgrid.doctype.grn_inward.grn_inward.create_lot_split_entry",
+		 ],
 		 "validate": "capgrid.capgrid.doctype.grn_inward.grn_inward.validate_supplier_invoice_no",
 	},
 "Putaway": {

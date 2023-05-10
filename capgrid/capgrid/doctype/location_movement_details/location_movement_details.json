@@ -1,0 +1,96 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-05-10 11:40:38.149712",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "from_location",
+  "to_location",
+  "lot_no",
+  "part_number",
+  "qty",
+  "from_warehouse",
+  "uom",
+  "to_warehouse"
+ ],
+ "fields": [
+  {
+   "fieldname": "lot_no",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Lot No",
+   "options": "Lot Number",
+   "reqd": 1
+  },
+  {
+   "fieldname": "from_location",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "From Location",
+   "options": "Warehouse Location",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "from_location.warehouse",
+   "fieldname": "from_warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "From Warehouse",
+   "options": "Warehouse",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "part_number",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Part Number",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Qty"
+  },
+  {
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "label": "UOM",
+   "options": "UOM"
+  },
+  {
+   "fieldname": "to_location",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "To Location",
+   "options": "Warehouse Location"
+  },
+  {
+   "fetch_from": "to_location.warehouse",
+   "fieldname": "to_warehouse",
+   "fieldtype": "Link",
+   "label": "To Warehouse",
+   "options": "Warehouse",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-05-10 22:08:10.872740",
+ "modified_by": "Administrator",
+ "module": "Capgrid",
+ "name": "Location Movement Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

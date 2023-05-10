@@ -7,43 +7,43 @@
 // 	// }
 // });
 frappe.ui.form.on("GRN Inward", {
-	before_submit: function(frm, cdt, cdn) {
+	on_submit: function(frm, cdt, cdn) {
       // frm.disable_save();
       // cur_frm.page.clear_actions_menu()
 		
    //    frm.add_custom_button(__("Update"),function () {
    //       frm.save();
    //   }).css({'color':'white','font-weight': 'bold', 'background-color': 'blue'});
-   if (!frm.doc.purchase_receipt){
-      // cur_frm.page.clear_actions_menu()
-		// frm.disable_save();
-      // frm.add_custom_button(__("Generate GRN"),function () {
-         frappe.call({
-            method: 'capgrid.capgrid.doctype.grn_inward.grn_inward.create_pr',
-            args: {
-               'company':frm.doc.company,
-               'supplier': frm.doc.supplier,
-               'product_description' : frm.doc.grn_inward_item,
-               'bill_no' : frm.doc.supplier_invoice_no,
-               'bill_date' : frm.doc.supplier_invoice_date,
-               'grn_inward' : frm.doc.name,
-               'main_warehouse':frm.doc.main_warehouse,
-               'purchase_order':frm.doc.purchase_order
-            },
-            callback(r) {
-               if (r.message){
-                  console.log(r.message)
-                  cur_frm.set_value("purchase_receipt", r.message);
+   // if (!frm.doc.purchase_receipt){
+   //    // cur_frm.page.clear_actions_menu()
+	// 	// frm.disable_save();
+   //    // frm.add_custom_button(__("Generate GRN"),function () {
+   //       frappe.call({
+   //          method: 'capgrid.capgrid.doctype.grn_inward.grn_inward.create_pr',
+   //          args: {
+   //             'company':frm.doc.company,
+   //             'supplier': frm.doc.supplier,
+   //             'product_description' : frm.doc.grn_inward_item,
+   //             'bill_no' : frm.doc.supplier_invoice_no,
+   //             'bill_date' : frm.doc.supplier_invoice_date,
+   //             'grn_inward' : frm.doc.name,
+   //             'main_warehouse':frm.doc.main_warehouse,
+   //             'purchase_order':frm.doc.purchase_order
+   //          },
+   //          callback(r) {
+   //             if (r.message){
+   //                console.log(r.message)
+   //                cur_frm.set_value("purchase_receipt", r.message);
             
-               }
-               // frappe.db.set_value("GRN Inward",cur_frm.doc.name,"purchase_receipt", r.message);
-            }
-         })  
-         // frm.reload_doc();
-         refresh_field("grn_inward");
-         // frm.save('Submit');
-   //   }).css({'color':'white','font-weight': 'bold', 'background-color': 'Green'});
-   }
+   //             }
+   //             // frappe.db.set_value("GRN Inward",cur_frm.doc.name,"purchase_receipt", r.message);
+   //          }
+   //       })  
+   //       // frm.reload_doc();
+   //       refresh_field("grn_inward");
+   //       // frm.save('Submit');
+   // //   }).css({'color':'white','font-weight': 'bold', 'background-color': 'Green'});
+   // }
    
    var me = this;
    var doc = frm.doc
