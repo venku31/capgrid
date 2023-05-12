@@ -130,6 +130,8 @@ def create_qi_stock_entry(doc, handler=""):
             # if se_item.accepted_qty:
             # items=[]
         for se_item in doc.quality_inspection_page_table:
+            po_rate = frappe.db.get_value('Purchase Order Item', {'item_code':se_item.part_number,'parent':doc.purchase_order}, 'rate')
+            item_price_rate = frappe.db.get_value('Item Price', {'item_code':se_item.part_number,'price_list':"Standard Buying"}, 'price_list_rate')
             if se_item.accepted_qty:
                 se.append("items", 
                 { "item_code":se_item.part_number,
@@ -137,6 +139,8 @@ def create_qi_stock_entry(doc, handler=""):
                 "s_warehouse": s_warehouse,
                 "t_warehouse": "",
                 "transfer_qty" : se_item.accepted_qty,
+                "set_basic_rate_manually":1,
+                "basic_rate" : po_rate or item_price_rate or 0,
                 "conversion_factor": 1,
                 "allow_zero_valuation_rate":1,
                 "reference_purchase_receipt":doc.purchase_receipt,
@@ -151,6 +155,8 @@ def create_qi_stock_entry(doc, handler=""):
                  "s_warehouse": "",
                 "t_warehouse": accepted_warehouse,
                 "transfer_qty" : se_item.accepted_qty,
+                "set_basic_rate_manually":1,
+                "basic_rate" : po_rate or item_price_rate or 0,
                 "conversion_factor": 1,
                 "is_finished_item":1,
                 "allow_zero_valuation_rate":1,
@@ -163,23 +169,34 @@ def create_qi_stock_entry(doc, handler=""):
                 se.append("items", { "item_code":se_item.part_number, "qty": se_item.rejected_qty,"s_warehouse": s_warehouse,
                 "t_warehouse": "",
                 "transfer_qty" : se_item.rejected_qty,"conversion_factor": 1,"allow_zero_valuation_rate":1,"reference_purchase_receipt":doc.purchase_receipt,
+                "set_basic_rate_manually":1,
+                "basic_rate" : po_rate or item_price_rate or 0,
                 "lot_number":se_item.batch_no,"expense_account":expense_account,
                 "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")})
                 se.append("items", { "item_code":se_item.part_number, "qty": se_item.rejected_qty,
                 "s_warehouse": "",
                 "t_warehouse": rejected_warehouse,
-                "transfer_qty" : se_item.rejected_qty,"conversion_factor": 1,"is_finished_item":1,"allow_zero_valuation_rate":1,"reference_purchase_receipt":doc.purchase_receipt,
+                "transfer_qty" : se_item.rejected_qty,
+                "set_basic_rate_manually":1,
+                "basic_rate" : po_rate or item_price_rate or 0,
+                "conversion_factor": 1,"is_finished_item":1,"allow_zero_valuation_rate":1,"reference_purchase_receipt":doc.purchase_receipt,
                 "lot_number":se_item.batch_no,"warehouse_location":rejection_location,"expense_account":expense_account,
                 "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")})
             if se_item.hold_qty :
                 se.append("items", { "item_code":se_item.part_number, "qty": se_item.hold_qty,"s_warehouse": s_warehouse,
                 "t_warehouse": "",
-                "transfer_qty" : se_item.hold_qty,"conversion_factor": 1,"allow_zero_valuation_rate":1,
+                "transfer_qty" : se_item.hold_qty,
+                "set_basic_rate_manually":1,
+                "basic_rate" : po_rate or item_price_rate or 0,
+                "conversion_factor": 1,"allow_zero_valuation_rate":1,
                 "reference_purchase_receipt":doc.purchase_receipt,"lot_number":se_item.batch_no,
                 "expense_account":expense_account,"cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")})
                 se.append("items", { "item_code":se_item.part_number, "qty": se_item.hold_qty,
                 "s_warehouse": "",
-                "t_warehouse": hold_warehouse,"transfer_qty" : se_item.hold_qty,"conversion_factor": 1,"is_finished_item":1,"allow_zero_valuation_rate":1,
+                "t_warehouse": hold_warehouse,"transfer_qty" : se_item.hold_qty,
+                "set_basic_rate_manually":1,
+                "basic_rate" : po_rate or item_price_rate or 0,
+                "conversion_factor": 1,"is_finished_item":1,"allow_zero_valuation_rate":1,
                 "reference_purchase_receipt":doc.purchase_receipt,"lot_number":se_item.batch_no,"warehouse_location":hold_location,
                 "expense_account":expense_account,"cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")})
             

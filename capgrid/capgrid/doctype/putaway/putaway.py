@@ -46,20 +46,24 @@ def search_lot(batch,company):
 def create_stock_entry(doc, handler=""):
     # if doc.scaned_location == doc.location :
     se = frappe.new_doc("Stock Entry")
-    se.update({ "purpose": "Repack" , "stock_entry_type": "Repack","putaway":doc.name})
+    se.update({ "purpose": "Repack" , "stock_entry_type": "Repack"})
     item_code = doc.part_number
+    item_price_rate = frappe.db.get_value('Item Price', {'item_code':doc.part_number,'price_list':"Standard Buying"}, 'price_list_rate')
     se.append("items", { 
     "item_code":doc.part_number,
     "qty": frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty"),
     "transfer_qty":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty"),
     "s_warehouse": frappe.db.get_value("WMS Settings details", {"company":doc.company}, "quality_inspection_warehouse"),
     "t_warehouse": "",
+    "set_basic_rate_manually":1,
+    "basic_rate" : item_price_rate or 0,
     "expense_account": frappe.db.get_value("Company", {"name":doc.company}, "default_expense_account"),
     "reference_purchase_receipt":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_receipt"),
     # "warehouse_location" : doc.scaned_location,
     "lot_number":doc.batch_no,
     "allow_zero_valuation_rate":1,
-    "conversion_factor":1
+    "conversion_factor":1,
+    "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")
     })
     se.append("items", { 
     "item_code":doc.part_number,
@@ -68,12 +72,15 @@ def create_stock_entry(doc, handler=""):
     "s_warehouse": "",
     "t_warehouse": frappe.db.get_value("Warehouse Location", {"name":doc.location}, "warehouse"),
     "is_finished_item":1,
+    "set_basic_rate_manually":1,
+    "basic_rate" : item_price_rate or 0,
     "expense_account": frappe.db.get_value("Company", {"name":doc.company}, "default_expense_account"),
     "reference_purchase_receipt":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_receipt"),
     "warehouse_location" : doc.scaned_location,
     "lot_number":doc.batch_no,
     "allow_zero_valuation_rate":1,
-    "conversion_factor":1
+    "conversion_factor":1,
+    "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")
     })
     se.flags.ignore_mandatory = True
     se.set_missing_values()

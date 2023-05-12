@@ -290,7 +290,12 @@ frappe.ui.form.on("GRN Inward Item", {
                }
             }
             }
-         }
+         },
+         before_cancel: function(frm) {
+				frappe.msgprint(__("Please Cancel Purchase Receipt"));
+				frappe.validated = false;
+				
+         },
       })
 
       frappe.ui.form.on("GRN Inward Item Details", {

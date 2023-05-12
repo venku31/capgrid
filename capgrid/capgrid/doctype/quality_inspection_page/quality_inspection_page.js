@@ -65,7 +65,12 @@ frappe.ui.form.on('Quality Inspection Page', {
 			},
 			on_submit: function(frm, cdt, cdn) {
 				frappe.set_route("Form", "Quality Inspection Page", "new_quality_inspection_page");
-			}
+			},
+			before_cancel: function(frm) {
+				frappe.msgprint(__("Please Cance Stock Entry"));
+				frappe.validated = false;
+				
+         },
 	});
 	
 frappe.ui.form.on('Quality Inspection Page Table', {

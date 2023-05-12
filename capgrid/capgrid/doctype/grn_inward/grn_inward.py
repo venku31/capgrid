@@ -61,14 +61,18 @@ def create_purchase_receipt(doc,handler=""):
         # pr.supplier_address:""
             
     for item in doc.grn_inward_item:
-            # if item.lot_no:
+            # if doc.purchase_order:
+        po_rate = frappe.db.get_value('Purchase Order Item', {'item_code':item.part_number,'uom':item.uom,'parent':doc.purchase_order}, 'rate')
+        item_price_rate = frappe.db.get_value('Item Price', {'item_code':item.part_number,'uom':item.uom,'price_list':"Standard Buying"}, 'price_list_rate')
         pr.append("items", 
             { "item_code":item.part_number,
             "qty": item.qty,
             "received_qty":item.qty,
+            "uom":item.uom,
             "warehouse": frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "inward_warehouse"),
             "accepted_qty" : item.qty,
             "conversion_factor": 1,
+            "rate": po_rate or item_price_rate or 0,
             "allow_zero_valuation_rate":1,
             "purchase_order":doc.purchase_order or '',
             "lot_number":item.lot_no,
@@ -321,6 +325,8 @@ def create_lot_split_entry(doc, handler=""):
             # if se_item.accepted_qty:
             # items=[]
         for item in doc.grn_inward_item:
+            po_rate = frappe.db.get_value('Purchase Order Item', {'item_code':item.part_number,'uom':item.uom,'parent':doc.purchase_order}, 'rate')
+            item_price_rate = frappe.db.get_value('Item Price', {'item_code':item.part_number,'uom':item.uom,'price_list':"Standard Buying"}, 'price_list_rate')
             if item.lot_no:
                 se.append("items", 
                 { "item_code":item.part_number,
@@ -328,6 +334,9 @@ def create_lot_split_entry(doc, handler=""):
                 "s_warehouse": s_warehouse,
                 "t_warehouse": "",
                 "transfer_qty" : item.qty,
+                "uom" : item.uom,
+                "set_basic_rate_manually":1,
+                "basic_rate" : po_rate or item_price_rate or 0,
                 "conversion_factor": 1,
                 "allow_zero_valuation_rate":1,
                 "reference_purchase_receipt":doc.purchase_receipt,
@@ -336,6 +345,8 @@ def create_lot_split_entry(doc, handler=""):
                 "cost_center":cost_center
                 })
         for se_item in doc.grn_inward_item_details:
+            po_rate = frappe.db.get_value('Purchase Order Item', {'item_code':item.part_number,'uom':item.uom,'parent':doc.purchase_order}, 'rate')
+            item_price_rate = frappe.db.get_value('Item Price', {'item_code':item.part_number,'uom':item.uom,'price_list':"Standard Buying"}, 'price_list_rate')
             if se_item.batch_no:
                 se.append("items", 
                 { "item_code":se_item.part_number,
@@ -343,6 +354,9 @@ def create_lot_split_entry(doc, handler=""):
                 "s_warehouse": "",
                 "t_warehouse": t_warehouse,
                 "transfer_qty" : se_item.qty,
+                "uom" : item.uom,
+                "set_basic_rate_manually":1,
+                "basic_rate" : po_rate or item_price_rate or 0,
                 "conversion_factor": 1,
                 "allow_zero_valuation_rate":1,
                 "reference_purchase_receipt":doc.purchase_receipt,
