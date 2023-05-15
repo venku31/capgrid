@@ -126,6 +126,9 @@ doc_events = {
 		"before_save": "capgrid.capgrid.doctype.putaway.putaway.update_item_location",
 		"on_submit": "capgrid.capgrid.doctype.putaway.putaway.create_stock_entry",
 	},
+"Location Movement": {
+		"on_submit": "capgrid.capgrid.doctype.location_movement.location_movement.create_lm_stock_entry",
+	},
 }
 
 # Scheduled Tasks

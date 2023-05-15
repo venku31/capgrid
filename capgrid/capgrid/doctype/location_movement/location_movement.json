@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "LM-.#####",
  "creation": "2023-05-10 11:46:14.383985",
  "default_view": "List",
  "doctype": "DocType",
@@ -8,13 +9,22 @@
  "engine": "InnoDB",
  "field_order": [
   "scan_barcode",
-  "company",
+  "part_number",
+  "part_number_location",
+  "from_warehouse",
+  "actual_qty",
   "column_break_b71ie",
+  "scan_location",
+  "scaned_location",
+  "batch_no",
+  "to_warehouse",
+  "section_break_4qw2j",
+  "company",
   "date",
+  "amended_from",
+  "column_break_lncfp",
   "main_warehouse",
-  "section_break_57t7t",
-  "location_details",
-  "amended_from"
+  "stock_entry"
  ],
  "fields": [
   {
@@ -39,13 +49,16 @@
    "default": "Today",
    "fieldname": "date",
    "fieldtype": "Date",
-   "label": "Date"
+   "label": "Date",
+   "read_only": 1
   },
   {
+   "fetch_from": "scan_location.main_warehouse",
    "fieldname": "main_warehouse",
    "fieldtype": "Link",
    "label": "Main Warehouse",
-   "options": "Warehouse"
+   "options": "Warehouse",
+   "reqd": 1
   },
   {
    "fieldname": "amended_from",
@@ -57,24 +70,86 @@
    "read_only": 1
   },
   {
-   "fieldname": "section_break_57t7t",
+   "fieldname": "section_break_4qw2j",
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "location_details",
-   "fieldtype": "Table",
-   "label": "Details",
-   "options": "Location Movement Details",
+   "fieldname": "column_break_lncfp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "part_number_location.warehouse",
+   "fieldname": "from_warehouse",
+   "fieldtype": "Link",
+   "label": "From Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "fetch_from": "scan_location.warehouse",
+   "fetch_if_empty": 1,
+   "fieldname": "to_warehouse",
+   "fieldtype": "Link",
+   "label": "To Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "scan_location",
+   "fieldtype": "Link",
+   "label": "Scan Location",
+   "options": "Warehouse Location"
+  },
+  {
+   "fieldname": "part_number",
+   "fieldtype": "Link",
+   "label": "Part Number",
+   "options": "Item",
+   "read_only": 1,
    "reqd": 1
+  },
+  {
+   "fieldname": "part_number_location",
+   "fieldtype": "Link",
+   "label": "Part Number Location",
+   "options": "Warehouse Location"
+  },
+  {
+   "fieldname": "batch_no",
+   "fieldtype": "Link",
+   "label": "Lot No",
+   "options": "Lot Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "scaned_location",
+   "fieldtype": "Link",
+   "label": "Scaned Location",
+   "options": "Warehouse Location",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "stock_entry",
+   "fieldtype": "Link",
+   "label": "Stock Entry",
+   "options": "Stock Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "actual_qty",
+   "fieldtype": "Float",
+   "label": "Actual_qty",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-05-10 11:49:46.210624",
+ "modified": "2023-05-15 16:36:46.824708",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Location Movement",
+ "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [
   {
@@ -86,6 +161,39 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Stock User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Warehouse Assistant Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Quality Assistant Manager",
    "share": 1,
    "write": 1
   }

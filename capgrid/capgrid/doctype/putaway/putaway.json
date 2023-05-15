@@ -21,16 +21,17 @@
   "location",
   "update_location",
   "update",
-  "company",
   "column_break_ztuto",
   "batch_no",
   "scaned_location",
   "override",
+  "company",
   "main_warehouse",
   "section_break_vcnw9",
   "amended_from",
   "column_break_lks38",
-  "stock_entry"
+  "stock_entry",
+  "date"
  ],
  "fields": [
   {
@@ -173,18 +174,27 @@
    "read_only": 1
   },
   {
+   "fetch_from": "scan_location.main_warehouse",
+   "fetch_if_empty": 1,
    "fieldname": "main_warehouse",
    "fieldtype": "Link",
    "label": "Main Warehouse",
    "options": "Warehouse",
    "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "read_only": 1
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-05-10 13:46:39.524351",
+ "modified": "2023-05-15 13:25:43.559620",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Putaway",

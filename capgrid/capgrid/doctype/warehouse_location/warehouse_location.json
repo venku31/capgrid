@@ -22,6 +22,7 @@
    "fieldname": "company",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Company",
    "options": "Company",
    "reqd": 1
@@ -30,6 +31,7 @@
    "fieldname": "warehouse",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Warehouse",
    "options": "Warehouse",
    "reqd": 1
@@ -50,6 +52,7 @@
   {
    "fieldname": "main_warehouse",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Main Warehouse",
    "options": "Warehouse",
    "reqd": 1
@@ -62,7 +65,7 @@
  "index_web_pages_for_search": 1,
  "links": [],
  "make_attachments_public": 1,
- "modified": "2023-05-05 22:57:42.233492",
+ "modified": "2023-05-15 17:36:53.064854",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Warehouse Location",
