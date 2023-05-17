@@ -63,6 +63,7 @@ def update_lot(doc):
             lot.quality_inspection_page = doc.name
             lot.accepted_qty = row.accepted_qty
             lot.rejected_qty = row.rejected_qty
+            lot.hold_qty = row.hold_qty
             lot.purchase_receipt = doc.purchase_receipt
             lot.created_by = doc.created_by
             lot.save(ignore_permissions=True)

@@ -22,6 +22,7 @@
   "lot_qty",
   "accepted_qty",
   "rejected_qty",
+  "hold_qty",
   "source",
   "supplier",
   "quality_inspection_page",
@@ -251,13 +252,19 @@
    "fieldtype": "Data",
    "label": "Created By",
    "read_only": 1
+  },
+  {
+   "fieldname": "hold_qty",
+   "fieldtype": "Float",
+   "label": "Hold Qty",
+   "read_only": 1
   }
  ],
  "icon": "fa fa-archive",
  "image_field": "image",
  "links": [],
  "max_attachments": 5,
- "modified": "2023-05-07 15:16:04.970010",
+ "modified": "2023-05-17 23:04:42.771262",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Lot Number",

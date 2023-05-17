@@ -38,7 +38,8 @@ frappe.ui.form.on('Putaway', {
 			 return {
 				filters: {
 				   company:frm.doc.company,
-				   main_warehouse:frm.doc.main_warehouse
+				   main_warehouse:frm.doc.main_warehouse,
+				   warehouse:frm.doc.warehouse
 				}
 			 }
 			}}	
@@ -50,6 +51,7 @@ function fetch_batch_entry(frm) {
 	  "args": {
 		"batch": frm.doc.scan_barcode,
 		"company":frm.doc.company,
+		// "main_warehouse":frm.doc.main_warehouse,
 	   },
 	  callback: function (r) {
 		console.log(r)
@@ -69,6 +71,8 @@ function fetch_batch_entry(frm) {
 		  cur_frm.set_value("batch_no", stock.batch_no)
 		  cur_frm.set_value("description", stock.description)
 		  cur_frm.set_value("location", stock.location)
+		  cur_frm.set_value("lot_status", stock.status)
+		  cur_frm.set_value("main_warehouse", stock.main_warehouse)
 		//   cur_frm.set_value("grn", stock.grn)
 		//   cur_frm.set_value("purchase_order", stock.purchase_order)
 		//   cur_frm.set_value("purchase_receipt", stock.purchase_receipt)

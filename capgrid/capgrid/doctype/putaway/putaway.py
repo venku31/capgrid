@@ -31,8 +31,17 @@ def search_lot(batch,company):
 	#     from `tabQuality Inspection Page` iw LEFT JOIN `tabQuality Inspection Page Table` iwd ON (iw.name=iwd.parent) where iw.docstatus=1 and iwd.lot_no = '%(batch)s' """%{"batch": main_lot}, as_dict = 1)
     #     return stock
     # else :
-    stock = frappe.db.sql("""SELECT iw.name as grn,iwd.part_number,iwd.description,iwd.accepted_qty,iwd.batch_no,iwd.lot_no,iw.owner,(select warehouse_location from `tabItem Default` where parent=iwd.part_number and company='%(company)s') as location
-	from `tabQuality Inspection Page` iw LEFT JOIN `tabQuality Inspection Page Table` iwd ON (iw.name=iwd.parent) where iw.docstatus=1 and iwd.accepted_qty>0
+    # hold_location = frappe.db.get_value("WMS Settings details", {"company":company,"main_warehouse":main_warehouse}, "default_hold_location")
+    # rejection_location = frappe.db.get_value("WMS Settings details", {"company":company,"main_warehouse":main_warehouse}, "default_rejection_location")
+    stock = frappe.db.sql("""SELECT iw.name as grn,iwd.part_number,iwd.description,iwd.accepted_qty,iwd.batch_no,iwd.lot_no,iw.owner,iwd.status,iw.main_warehouse,
+    Case when iwd.status="Accepted" 
+    then
+    (select warehouse_location from `tabItem Default` where parent=iwd.part_number and company='%(company)s')
+    when iwd.status="Rejected" 
+    then (select default_rejection_location from `tabWMS Settings details` where company='%(company)s' and main_warehouse=iw.main_warehouse)
+    when iwd.status="On Hold" then (select default_hold_location from `tabWMS Settings details` where company='%(company)s' and main_warehouse=iw.main_warehouse) 
+    end as location
+	from `tabQuality Inspection Page` iw LEFT JOIN `tabQuality Inspection Page Table` iwd ON (iw.name=iwd.parent) where iw.docstatus=1 
     and  iwd.batch_no NOT IN (select `tabPutaway`.batch_no from `tabPutaway` where `tabPutaway`.docstatus=1 and `tabPutaway`.batch_no='%(batch)s') and iwd.batch_no = '%(batch)s' """%{"batch": batch,"company":company}, as_dict = 1)
     return stock
 # def create_quality_inspection(doc, handler=""):
@@ -46,20 +55,24 @@ def search_lot(batch,company):
 def create_stock_entry(doc, handler=""):
     # if doc.scaned_location == doc.location :
     se = frappe.new_doc("Stock Entry")
-    se.update({ "purpose": "Repack" , "stock_entry_type": "Repack"})
+    se.update({ "purpose": "Repack" , "stock_entry_type": "Repack","putaway":doc.name})
     item_code = doc.part_number
     item_price_rate = frappe.db.get_value('Item Price', {'item_code':doc.part_number,'price_list':"Standard Buying"}, 'price_list_rate')
+    if doc.lot_status=="Accepted" :
+        location = ""
+    else :
+        location = doc.location
     se.append("items", { 
     "item_code":doc.part_number,
-    "qty": frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty"),
-    "transfer_qty":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty"),
-    "s_warehouse": frappe.db.get_value("WMS Settings details", {"company":doc.company,"main_warehouse":doc.main_warehouse}, "quality_inspection_warehouse"),
+    "qty": frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty"),
+    "transfer_qty":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty"),
+    "s_warehouse": frappe.db.get_value("Warehouse Location", {"company":doc.company,"main_warehouse":doc.main_warehouse,"location":doc.location}, "warehouse"),
     "t_warehouse": "",
     "set_basic_rate_manually":1,
     "basic_rate" : item_price_rate or 0,
     "expense_account": frappe.db.get_value("Company", {"name":doc.company}, "default_expense_account"),
     "reference_purchase_receipt":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_receipt"),
-    # "warehouse_location" : doc.scaned_location,
+    "warehouse_location" : location,
     "lot_number":doc.batch_no,
     "allow_zero_valuation_rate":1,
     "conversion_factor":1,
@@ -67,13 +80,13 @@ def create_stock_entry(doc, handler=""):
     })
     se.append("items", { 
     "item_code":doc.part_number,
-    "qty": frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty"),
-    "transfer_qty":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty"),
+    "qty": frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty"),
+    "transfer_qty":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty"),
     "s_warehouse": "",
-    "t_warehouse": frappe.db.get_value("Warehouse Location", {"name":doc.location}, "warehouse"),
+    "t_warehouse": frappe.db.get_value("Warehouse Location", {"company":doc.company,"main_warehouse":doc.main_warehouse,"name":doc.scaned_location}, "warehouse"),
     "is_finished_item":1,
     "set_basic_rate_manually":1,
-    "basic_rate" : item_price_rate or 0,
+    "basic_rate" : frappe.db.get_value('Item Price', {'item_code':doc.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
     "expense_account": frappe.db.get_value("Company", {"name":doc.company}, "default_expense_account"),
     "reference_purchase_receipt":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_receipt"),
     "warehouse_location" : doc.scaned_location,

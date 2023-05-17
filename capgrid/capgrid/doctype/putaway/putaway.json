@@ -19,6 +19,8 @@
   "description",
   "lot_no",
   "location",
+  "lot_status",
+  "warehouse",
   "update_location",
   "update",
   "column_break_ztuto",
@@ -188,13 +190,26 @@
    "fieldtype": "Date",
    "label": "Date",
    "read_only": 1
+  },
+  {
+   "fieldname": "lot_status",
+   "fieldtype": "Data",
+   "label": "Lot Status",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "location.warehouse",
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "label": "Warehouse",
+   "options": "Warehouse"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-05-15 13:25:43.559620",
+ "modified": "2023-05-17 22:32:04.645618",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Putaway",
