@@ -1,0 +1,101 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-05-23 11:21:25.832063",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "part_number",
+  "item_name",
+  "packet",
+  "qty",
+  "purchase_order",
+  "type_of_po",
+  "batch_no",
+  "lot_no"
+ ],
+ "fields": [
+  {
+   "columns": 2,
+   "fieldname": "part_number",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Part Number",
+   "options": "Item",
+   "reqd": 1,
+   "width": "20px"
+  },
+  {
+   "columns": 2,
+   "fetch_from": "part_number.item_name",
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Name"
+  },
+  {
+   "columns": 1,
+   "fieldname": "packet",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "Packet",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Qty",
+   "reqd": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "purchase_order",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "PO",
+   "options": "Purchase Order"
+  },
+  {
+   "columns": 1,
+   "fieldname": "type_of_po",
+   "fieldtype": "Select",
+   "label": "Type Of PO",
+   "options": "Sample\nRegular\nOpen\nTooling\nService"
+  },
+  {
+   "columns": 2,
+   "fieldname": "batch_no",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Lot No",
+   "options": "Lot Number",
+   "read_only": 1
+  },
+  {
+   "fieldname": "lot_no",
+   "fieldtype": "Link",
+   "label": "Main Lot",
+   "options": "Lot Number",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-05-23 11:21:25.832063",
+ "modified_by": "Administrator",
+ "module": "Capgrid",
+ "name": "Lot Number Generation Item Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

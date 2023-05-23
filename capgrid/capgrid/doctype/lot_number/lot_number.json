@@ -191,7 +191,7 @@
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "Series",
-   "options": "LOT\nparent_lot.-.##",
+   "options": "LOT\nparent_lot.-.##\nELOT",
    "read_only": 1
   },
   {
@@ -264,7 +264,7 @@
  "image_field": "image",
  "links": [],
  "max_attachments": 5,
- "modified": "2023-05-17 23:04:42.771262",
+ "modified": "2023-05-23 11:40:16.636874",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Lot Number",

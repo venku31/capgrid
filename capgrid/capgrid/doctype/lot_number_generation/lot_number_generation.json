@@ -1,0 +1,318 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2023-05-23 10:56:00.420753",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "supplier",
+  "supplier_name",
+  "column_break_uysgk",
+  "ltn_date",
+  "ltn_time",
+  "column_break_clbbw",
+  "company",
+  "supplier_invoice_no",
+  "purchase_order",
+  "column_break_66glb",
+  "main_warehouse",
+  "supplier_invoice_date",
+  "create_new",
+  "po_type",
+  "section_break_ogny5",
+  "update",
+  "section_break_skv0b",
+  "lot_no_generate_item",
+  "lot_no_generate_item_details",
+  "section_break_demso",
+  "generate_barcode",
+  "column_break_ksmrx",
+  "print_barcode",
+  "column_break_j5vo6",
+  "created_by",
+  "column_break_lvy0o",
+  "total_inward_qty",
+  "column_break_q2qg5",
+  "total_qty",
+  "column_break_9cmmy",
+  "stock_entry",
+  "dashboard_tab",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Series",
+   "options": "LTN-"
+  },
+  {
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Supplier",
+   "options": "Supplier"
+  },
+  {
+   "fetch_from": "supplier.supplier_name",
+   "fieldname": "supplier_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Supplier Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_uysgk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "ltn_date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "default": "now",
+   "fieldname": "ltn_time",
+   "fieldtype": "Time",
+   "label": "Time",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_clbbw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "supplier_invoice_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Supplier Invoice No"
+  },
+  {
+   "fieldname": "purchase_order",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Purchase Order",
+   "options": "Purchase Order"
+  },
+  {
+   "fieldname": "column_break_66glb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "main_warehouse",
+   "fieldtype": "Link",
+   "label": "Main Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "supplier_invoice_date",
+   "fieldtype": "Date",
+   "label": "Supplier Invoice Date"
+  },
+  {
+   "depends_on": "eval:!doc.__islocal",
+   "fieldname": "create_new",
+   "fieldtype": "Button",
+   "hidden": 1,
+   "label": "Create New"
+  },
+  {
+   "allow_on_submit": 1,
+   "fetch_from": "purchase_order.po_type",
+   "fetch_if_empty": 1,
+   "fieldname": "po_type",
+   "fieldtype": "Select",
+   "label": "PO Type",
+   "options": "\nSample\nRegular\nOpen\nTooling\nService"
+  },
+  {
+   "fieldname": "section_break_ogny5",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "update",
+   "fieldtype": "Button",
+   "hidden": 1,
+   "label": "Update Lot"
+  },
+  {
+   "fieldname": "section_break_skv0b",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_demso",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "generate_barcode",
+   "fieldtype": "Button",
+   "hidden": 1,
+   "label": "Print Packet Barcode"
+  },
+  {
+   "fieldname": "column_break_ksmrx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "print_barcode",
+   "fieldtype": "Button",
+   "hidden": 1,
+   "label": "Print Barcode"
+  },
+  {
+   "fieldname": "column_break_j5vo6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "created_by",
+   "fieldtype": "Data",
+   "label": "Created By",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_lvy0o",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_inward_qty",
+   "fieldtype": "Float",
+   "hidden": 1,
+   "label": "Total Inward Qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_q2qg5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_qty",
+   "fieldtype": "Float",
+   "label": "Total Qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_9cmmy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "stock_entry",
+   "fieldtype": "Link",
+   "label": "Stock Entry",
+   "options": "Stock Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "dashboard_tab",
+   "fieldtype": "Tab Break",
+   "label": "Dashboard"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Lot Number Generation",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "lot_no_generate_item",
+   "fieldtype": "Table",
+   "options": "Lot Number Generation Item"
+  },
+  {
+   "fieldname": "lot_no_generate_item_details",
+   "fieldtype": "Table",
+   "options": "Lot Number Generation Item Details"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "make_attachments_public": 1,
+ "modified": "2023-05-23 11:21:59.375995",
+ "modified_by": "Administrator",
+ "module": "Capgrid",
+ "name": "Lot Number Generation",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Purchase User",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Purchase Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Stock User",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

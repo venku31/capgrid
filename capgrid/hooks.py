@@ -122,6 +122,11 @@ doc_events = {
 		 ],
 		 "validate": "capgrid.capgrid.doctype.grn_inward.grn_inward.validate_supplier_invoice_no",
 	},
+"Lot Number Generation": {
+         "on_update": "capgrid.capgrid.doctype.lot_number_generation.lot_number_generation.before_validate",
+		 "on_submit": "capgrid.capgrid.doctype.lot_number_generation.lot_number_generation.create_lot_stock_entry",
+		 
+	},
 "Putaway": {
 		"before_save": "capgrid.capgrid.doctype.putaway.putaway.update_item_location",
 		"on_submit": "capgrid.capgrid.doctype.putaway.putaway.create_stock_entry",
