@@ -42,7 +42,12 @@ def search_lot(batch,company):
     when iwd.status="On Hold" then (select default_hold_location from `tabWMS Settings details` where company='%(company)s' and main_warehouse=iw.main_warehouse) 
     end as location
 	from `tabQuality Inspection Page` iw LEFT JOIN `tabQuality Inspection Page Table` iwd ON (iw.name=iwd.parent) where iw.docstatus=1 
-    and  iwd.batch_no NOT IN (select `tabPutaway`.batch_no from `tabPutaway` where `tabPutaway`.docstatus=1 and `tabPutaway`.batch_no='%(batch)s') and iwd.batch_no = '%(batch)s' """%{"batch": batch,"company":company}, as_dict = 1)
+    and  iwd.batch_no NOT IN (select `tabPutaway`.batch_no from `tabPutaway` where `tabPutaway`.docstatus=1 and `tabPutaway`.batch_no='%(batch)s') and iwd.batch_no = '%(batch)s' 
+    UNION
+    SELECT iw.name as grn,iwd.part_number,iwd.item_name as description,iwd.qty as accepted_qty,iwd.batch_no,iwd.lot_no,iw.owner,"Accepted" as status,iw.main_warehouse,
+    (select warehouse_location from `tabItem Default` where parent=iwd.part_number and company='%(company)s') as location
+    from `tabLot Number Generation` iw LEFT JOIN `tabLot Number Generation Item Details` iwd ON(iw.name=iwd.parent) where iw.docstatus=1 and iwd.batch_no = '%(batch)s' 
+    """%{"batch": batch,"company":company}, as_dict = 1)
     return stock
 # def create_quality_inspection(doc, handler=""):
 #     for item in doc.quality_inspection_page_table:
@@ -64,7 +69,7 @@ def create_stock_entry(doc, handler=""):
         location = doc.location
     se.append("items", { 
     "item_code":doc.part_number,
-    "qty": frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty"),
+    "qty": frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "lot_qty"),
     "transfer_qty":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty"),
     "s_warehouse": frappe.db.get_value("Warehouse Location", {"company":doc.company,"main_warehouse":doc.main_warehouse,"location":doc.location}, "warehouse"),
     "t_warehouse": "",
@@ -80,7 +85,7 @@ def create_stock_entry(doc, handler=""):
     })
     se.append("items", { 
     "item_code":doc.part_number,
-    "qty": frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty"),
+    "qty": frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "lot_qty"),
     "transfer_qty":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty"),
     "s_warehouse": "",
     "t_warehouse": frappe.db.get_value("Warehouse Location", {"company":doc.company,"main_warehouse":doc.main_warehouse,"name":doc.scaned_location}, "warehouse"),

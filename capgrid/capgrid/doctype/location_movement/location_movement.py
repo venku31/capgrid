@@ -70,7 +70,7 @@ def create_lm_stock_entry(doc, handler=""):
     se.insert(ignore_permissions=True)
     doc.stock_entry =se.name
     doc.save(ignore_permissions=True)
-    update_quaity_status(doc)
+    # update_quaity_status(doc)
 
 def update_quaity_status(doc, handler=""):
     quality_lot= frappe.db.sql(

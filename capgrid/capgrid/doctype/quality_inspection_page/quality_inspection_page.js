@@ -124,7 +124,24 @@ frappe.ui.form.on('Quality Inspection Page Table', {
 		});
 		qi_total_qty(frm, cdt, cdn);
 		refresh_field("quality_inspection_page_table");
-		}
+		},
+		update: function(frm, cdt, cdn)  {
+			if (d.current_status){
+				frappe.call({
+					method: 'capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_status_stock_entry',
+					args: {
+					   'doc' : frm.doc,
+					  
+					},
+					callback(r) {
+					   if (r.message){
+						  console.log(r.message)
+					
+					   }
+					}
+				 })  
+				}
+			},
 		});
 
 function qi_total_qty(frm, cdt, cdn) {
