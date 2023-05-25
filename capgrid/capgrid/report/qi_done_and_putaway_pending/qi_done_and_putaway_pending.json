@@ -1,0 +1,37 @@
+{
+ "add_total_row": 1,
+ "columns": [],
+ "creation": "2023-05-25 22:00:19.660170",
+ "disable_prepared_report": 1,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "other",
+ "modified": "2023-05-25 22:00:19.660170",
+ "modified_by": "Administrator",
+ "module": "Capgrid",
+ "name": "QI Done And Putaway Pending",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "Select grn.name as GRN,\ngrn.grn_date,\ngrn.grn_time,\ngrn.supplier,\ngrn.supplier_name,\ngrn.supplier_invoice_no,\ngrn.supplier_invoice_date,\ngrn.purchase_receipt,\ndet.part_number,\ndet.item_name,\ndet.lot_no as ParentLot,\ndet.batch_no as LotNo,\ndet.qty,grn.purchase_order \nfrom `tabGRN Inward` grn join `tabGRN Inward Item Details` det ON(grn.name=det.parent and grn.docstatus=1)",
+ "ref_doctype": "GRN Inward",
+ "report_name": "QI Done And Putaway Pending",
+ "report_type": "Script Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Purchase User"
+  },
+  {
+   "role": "Purchase Manager"
+  },
+  {
+   "role": "Stock User"
+  }
+ ]
+}

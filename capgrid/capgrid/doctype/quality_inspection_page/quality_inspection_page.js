@@ -9,6 +9,25 @@ frappe.ui.form.on('Quality Inspection Page', {
 		qi_total_qty(frm, cdt, cdn);
 		refresh_field("quality_inspection_page_table");	
 	},
+	save: function(frm, cdt, cdn){
+	frappe.call({
+		method: 'capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_status_stock_entry',
+		args: {
+		   'company' : frm.doc.company,
+		   'main_warehouse' : frm.doc.main_warehouse,
+		   'purchase_order' : frm.doc.purchase_order,
+		   'purchase_receipt' : frm.doc.purchase_receipt,
+		   'product_description' : frm.doc.quality_inspection_page_table,
+		},
+		callback(r) {
+		   if (r.message){
+			  console.log(r.message)
+		
+		   }
+		}
+	 }) 
+	}
+
 });
 function fetch_batch_entry(frm) {
 	console.log("1")
@@ -125,23 +144,27 @@ frappe.ui.form.on('Quality Inspection Page Table', {
 		qi_total_qty(frm, cdt, cdn);
 		refresh_field("quality_inspection_page_table");
 		},
-		update: function(frm, cdt, cdn)  {
-			if (d.current_status){
-				frappe.call({
-					method: 'capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_status_stock_entry',
-					args: {
-					   'doc' : frm.doc,
-					  
-					},
-					callback(r) {
-					   if (r.message){
-						  console.log(r.message)
+		// update: function(frm, cdt, cdn)  {
+		// 	var d = locals[cdt][cdn];
+		// 	if (d.current_status){
+		// 		frappe.call({
+		// 			method: 'capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_status_stock_entry',
+		// 			args: {
+		// 			   'company' : frm.doc.company,
+		// 			   'main_warehouse' : frm.doc.main_warehouse,
+		// 			   'purchase_order' : frm.doc.purchase_order,
+		// 			   'purchase_receipt' : frm.doc.purchase_receipt,
+		// 			   'product_description' : frm.doc.quality_inspection_page_table,
+		// 			},
+		// 			callback(r) {
+		// 			   if (r.message){
+		// 				  console.log(r.message)
 					
-					   }
-					}
-				 })  
-				}
-			},
+		// 			   }
+		// 			}
+		// 		 })  
+		// 		}
+		// 	},
 		});
 
 function qi_total_qty(frm, cdt, cdn) {

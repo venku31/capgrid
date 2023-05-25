@@ -1,13 +1,14 @@
 // Copyright (c) 2023, Capgrid Solutions and contributors
 // For license information, please see license.txt
+/* eslint-disable */
 
-frappe.query_reports["GRN Inwards Report"] = {
+frappe.query_reports["QI Done And Putaway Pending"] = {
 	"filters": [
 		{
 			"fieldname":"from_date",
 			"label": __("From Date"),
 			"fieldtype": "Date",
-			"default": frappe.datetime.add_months(frappe.datetime.get_today(), -0),
+			"default": frappe.datetime.add_months(frappe.datetime.get_today(), -1),
 			"width": "80"
 		},
 		{

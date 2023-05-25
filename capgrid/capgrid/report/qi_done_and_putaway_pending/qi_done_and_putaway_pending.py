@@ -1,5 +1,7 @@
-# // Copyright (c) 2023, Capgrid Solutions and contributors
-# // For license information, please see license.txt
+# Copyright (c) 2023, Capgrid Solutions and contributors
+# For license information, please see license.txt
+
+# import frappe
 
 import frappe
 from frappe import _
@@ -13,14 +15,13 @@ def execute(filters=None):
 def get_columns():
 	columns = [
 		{
-			"label": _("GRN"),
+			"label": _("QI"),
 			"fieldname": "name",
 			"fieldtype": "Link",
-			"options": "GRN Inward",
+			"options": "Quality Inspection Page",
 			"width": 100,
 		},
-		{"label": _("GRN Date"), "fieldname": "grn_date", "fieldtype": "Date", "width": 100},
-		{"fieldname": "grn_time", "label": _("Time"), "fieldtype": "Time", "width": 80},
+		{"label": _("QI Date"), "fieldname": "date", "fieldtype": "Date", "width": 100},
 		{
 			"fieldname": "supplier",
 			"label": _("Supplier"),
@@ -64,26 +65,27 @@ def get_columns():
 def get_data(filters):
 	return frappe.db.sql(
 		"""
-		Select grn.name,
-        grn.grn_date,
-        grn.grn_time,
-        grn.supplier,
-        grn.supplier_name,
-        grn.supplier_invoice_no,
-        grn.supplier_invoice_date,
-        grn.purchase_receipt,
+		Select qi.name,
+        qi.date,
+        qi.supplier,
+        qi.supplier_name,
+        qi.supplier_invoice_no,
+        qi.supplier_invoice_date,
+        qi.purchase_receipt,
         det.part_number,
-        det.item_name,
+        det.description as item_name,
         det.lot_no ,
         det.batch_no,
-        det.qty,grn.purchase_order ,grn.main_warehouse
-        from `tabGRN Inward` grn join `tabGRN Inward Item Details` det ON(grn.name=det.parent and grn.docstatus=1)
+        det.qty,qi.purchase_order,qi.main_warehouse 
+        from `tabQuality Inspection Page` qi join `tabQuality Inspection Page Table` det ON(qi.name=det.parent and qi.docstatus=1)
 		WHERE
 			company = %(company)s
-			AND DATE(grn.grn_date) BETWEEN %(from_date)s AND %(to_date)s
+			AND DATE(qi.date) BETWEEN %(from_date)s AND %(to_date)s
+			AND det.batch_no NOT IN (select `tabPutaway`.batch_no from `tabPutaway` 
+			where `tabPutaway`.docstatus=1 and `tabPutaway`.batch_no=det.batch_no)
 			{conditions}
 		ORDER BY
-			grn.grn_date,det.batch_no asc """.format(
+			qi.date,det.batch_no asc """.format(
 			conditions=get_conditions(filters)
 		),
 		filters,
@@ -95,12 +97,12 @@ def get_conditions(filters):
 	conditions = []
 
 	if filters.get("supplier"):
-		conditions.append(" and grn.supplier=%(supplier)s")
+		conditions.append(" and qi.supplier=%(supplier)s")
 
 	if filters.get("main_warehouse"):
-		conditions.append(" and grn.main_warehouse =%(main_warehouse)s")
+		conditions.append(" and qi.main_warehouse =%(main_warehouse)s")
 
 	if filters.get("purchase_order"):
-		conditions.append(" and grn.purchase_order =%(purchase_order)s")
+		conditions.append(" and qi.purchase_order =%(purchase_order)s")
 
 	return " ".join(conditions) if conditions else ""

@@ -1,5 +1,8 @@
-# // Copyright (c) 2023, Capgrid Solutions and contributors
-# // For license information, please see license.txt
+# Copyright (c) 2023, Capgrid Solutions and contributors
+# For license information, please see license.txt
+
+# import frappe
+
 
 import frappe
 from frappe import _
@@ -76,11 +79,13 @@ def get_data(filters):
         det.item_name,
         det.lot_no ,
         det.batch_no,
-        det.qty,grn.purchase_order ,grn.main_warehouse
+        det.qty,grn.purchase_order,grn.main_warehouse 
         from `tabGRN Inward` grn join `tabGRN Inward Item Details` det ON(grn.name=det.parent and grn.docstatus=1)
 		WHERE
 			company = %(company)s
 			AND DATE(grn.grn_date) BETWEEN %(from_date)s AND %(to_date)s
+			AND det.batch_no NOT IN (select `tabQuality Inspection Page Table`.batch_no from `tabQuality Inspection Page Table` 
+			where `tabQuality Inspection Page Table`.docstatus=1 and `tabQuality Inspection Page Table`.batch_no=det.batch_no)
 			{conditions}
 		ORDER BY
 			grn.grn_date,det.batch_no asc """.format(
