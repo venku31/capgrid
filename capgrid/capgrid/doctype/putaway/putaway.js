@@ -38,8 +38,8 @@ frappe.ui.form.on('Putaway', {
 			 return {
 				filters: {
 				   company:frm.doc.company,
-				   main_warehouse:frm.doc.main_warehouse,
-				   warehouse:frm.doc.warehouse
+				   main_warehouse:frm.doc.main_warehouse
+				//    warehouse:frm.doc.warehouse
 				}
 			 }
 			}}	
