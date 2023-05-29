@@ -9,14 +9,17 @@
  "field_order": [
   "part_number",
   "description",
+  "rate",
   "uom",
   "qty",
   "packet",
   "update",
-  "lot_no"
+  "lot_no",
+  "po_qty"
  ],
  "fields": [
   {
+   "columns": 2,
    "fieldname": "part_number",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -68,17 +71,32 @@
   {
    "columns": 1,
    "fetch_from": "part_number.stock_uom",
+   "fetch_if_empty": 1,
    "fieldname": "uom",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "UOM",
    "options": "UOM"
+  },
+  {
+   "columns": 1,
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Rate",
+   "read_only": 1
+  },
+  {
+   "fieldname": "po_qty",
+   "fieldtype": "Float",
+   "label": "PO Qty",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-05-10 21:15:37.252433",
+ "modified": "2023-05-29 21:54:44.116588",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "GRN Inward Item",

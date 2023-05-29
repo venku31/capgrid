@@ -103,16 +103,17 @@ def set_or_create_main_lot(doc, method=None):
         #     if has_batch_no:
             lot_no = frappe.db.exists(
                     "Lot Number",
-                    {"item": item.part_number,"supplier": doc.supplier,"reference_doctype": doc.doctype,"reference_name": doc.name,"type":"Parent","packet":item.packet},
+                    {"idx_no": item.idx,"supplier": doc.supplier,"reference_doctype": doc.doctype,"reference_name": doc.name,"type":"Parent"},
                 )
             item.lot_no = lot_no
+            item.save()
 
     get_main_lot_in_previous_items = compose(
         lambda x: x.get("lot_no"),
         excepts(StopIteration, first, lambda _: {}),
         lambda x: filter(
             lambda item: item.idx < x.idx
-            and item.part_number == x.part_number,
+            and item.idx == x.idx,
             doc.grn_inward_item,
         ),
     )
@@ -120,38 +121,54 @@ def set_or_create_main_lot(doc, method=None):
     def create_new_main_lot(item):
         # warehouse = "t_warehouse" if doc.doctype == "Stock Entry" else "warehouse"
         for item in doc.grn_inward_item:
-            # if not item.batch_no:
+            if not item.lot_no:
             #     has_batch_no, create_new_batch = frappe.db.get_value(
             #     "Item",
             #     item.part_number,
             #     ["has_batch_no", "create_new_batch"],
             #     )
             #     if has_batch_no:
-            lot_in_items = get_main_lot_in_previous_items(item)
-            if lot_in_items:
-                item.lot_no = lot_in_items
-                return
-            for item in doc.grn_inward_item:
-                lot = frappe.get_doc(
-                    {
-                    "doctype": "Lot Number",
-                    "item": item.part_number,
-                    "supplier": doc.supplier,
-                    "lot_qty": item.qty,
-                    "reference_doctype": doc.doctype,
-                    "reference_name": doc.name or "",
-                    # "purchase_order":doc.purchase_order or " ",
-                    "packet":item.packet,
-                    "type":"Parent"
-                    }
-                ).insert()
-                item.lot_no = lot.name
-        doc.save(ignore_permissions = True)
+                lot_in_items = get_main_lot_in_previous_items(item)
+                if lot_in_items:
+                    item.lot_no = lot_in_items
+                    return
+                for item in doc.grn_inward_item:
+                    if not item.lot_no:
+                        lot = frappe.get_doc(
+                        {
+                        "doctype": "Lot Number",
+                        "item": item.part_number,
+                        "supplier": doc.supplier,
+                        "lot_qty": item.qty,
+                        "reference_doctype": doc.doctype,
+                        "reference_name": doc.name or "",
+                        # "purchase_order":doc.purchase_order or " ",
+                        "packet":item.packet,
+                        "type":"Parent",
+                        "idx_no":item.idx
+                        }
+                        ).insert()
+                        item.lot_no = lot.name
+                        frappe.db.sql("""UPDATE `tabGRN Inward Item` set lot_no=%(lot_no)s
+                where parent=%(name)s and part_number=%(part_number)s""",{"lot_no":lot.name,"name":doc.name,"part_number":item.part_number})
+                doc.save(ignore_permissions = True)
+    def update_main_lot(item):
+        for item in doc.grn_inward_item:
+            if item.lot_no :
+                lot = frappe.get_doc('Lot Number', item.lot_no)
+                if lot.lot_qty != item.qty :
+                    lot.lot_qty = item.qty
+                    # lot.reference_doctype = doc.doctype
+                    # lot.reference_name = doc.name
+                    lot.save(ignore_permissions=True)
+                    frappe.db.commit()
 
     if doc._action == "save":
         for item in doc.grn_inward_item:
             if not item.lot_no :
                 set_existing_main_lot(item)
+            else :
+                update_main_lot(item)
 
         # TODO: when `before_validate` gets merged into master create_new_batch should
         # run when doc._action == 'submit'.
@@ -160,11 +177,12 @@ def set_or_create_main_lot(doc, method=None):
         for item in doc.grn_inward_item:
             if not item.lot_no :
                 create_new_main_lot(item)
+
     
 @frappe.whitelist()
 def before_validate(doc, method):
     set_or_create_main_lot(doc, method)
-    set_or_create_batch(doc, method)
+    # set_or_create_batch(doc, method)
 
 ##Batch
 @frappe.whitelist()
@@ -182,7 +200,7 @@ def set_or_create_batch(doc, method):
             # if has_batch_no:
             batch_no = frappe.db.exists(
                     "Lot Number",
-                    {"item": item.part_number,"supplier": doc.supplier,"reference_doctype": doc.doctype,"reference_name": doc.name,"type":"Child","packet":item.idx},
+                    {"idx_no": item.idx,"supplier": doc.supplier,"reference_doctype": doc.doctype,"reference_name": doc.name,"type":"Child"},
                 )
             item.batch_no = batch_no
             item.save()
@@ -192,7 +210,7 @@ def set_or_create_batch(doc, method):
         excepts(StopIteration, first, lambda _: {}),
         lambda x: filter(
             lambda item: item.idx < x.idx
-            and item.part_number == x.part_number ,
+            and item.idx == x.idx,
             doc.grn_inward_item_details,
         ),
     )
@@ -211,24 +229,25 @@ def set_or_create_batch(doc, method):
                 # if batch_in_items:
                 #     item.batch_no = batch_in_items
                 #     return
-                for item in doc.grn_inward_item_details:
-                    batch = frappe.get_doc(
-                    {
-                    "doctype": "Lot Number",
-                    "naming_series":"parent_lot.-.##",
-                    "parent_lot":frappe.db.get_value("GRN Inward Item", {"parent": doc.name, "part_number": item.part_number}, "lot_no"),
-                    "item": item.part_number,
-                    "supplier": doc.supplier,
-                    "lot_qty": item.qty,
-                    "reference_doctype": doc.doctype,
-                    "reference_name": doc.name or "",
-                    # "purchase_order":doc.purchase_order or " ",
-                    "packet":item.packet,
-                    "type":"Child"
-                    }
-                    ).insert()
-                    item.batch_no = batch.name
-                    item.lot_no = batch.parent_lot
+                # for item in doc.grn_inward_item_details:
+                batch = frappe.get_doc(
+                {
+                "doctype": "Lot Number",
+                "naming_series":"parent_lot.-.##",
+                "parent_lot":frappe.db.get_value("GRN Inward Item", {"parent": doc.name, "part_number": item.part_number,"idx":item.parent_idx}, "lot_no"),
+                "item": item.part_number,
+                "supplier": doc.supplier,
+                "lot_qty": item.qty,
+                "reference_doctype": doc.doctype,
+                "reference_name": doc.name or "",
+                # "purchase_order":doc.purchase_order or " ",
+                "packet":item.packet,
+                "idx_no":item.idx,
+                "type":"Child"
+                }
+                ).insert()
+                item.batch_no = batch.name
+                item.lot_no = batch.parent_lot
                 doc.save(ignore_permissions = True)
     def update_lot(item):
         for item in doc.grn_inward_item_details:
@@ -244,8 +263,8 @@ def set_or_create_batch(doc, method):
         for item in doc.grn_inward_item_details:
             if not item.batch_no :
                 set_existing_batch(item)
-            else :
-                update_lot(item)
+            # else :
+            #     update_lot(item)
 
         # TODO: when `before_validate` gets merged into master create_new_batch should
         # run when doc._action == 'submit'.
@@ -254,6 +273,8 @@ def set_or_create_batch(doc, method):
         for item in doc.grn_inward_item_details:
             if not item.batch_no :
                 create_new_batch(item)
+
+
                 
 @frappe.whitelist()
 def after_validate(doc, method):
@@ -353,6 +374,7 @@ def create_lot_split_entry(doc, handler=""):
                 "qty": se_item.qty,
                 "s_warehouse": "",
                 "t_warehouse": t_warehouse,
+                "is_finished_item":1,
                 "transfer_qty" : se_item.qty,
                 "uom" : item.uom,
                 "set_basic_rate_manually":1,
@@ -373,3 +395,33 @@ def create_lot_split_entry(doc, handler=""):
         doc.save(ignore_permissions=True)
     except Exception as e:
         return {"error":e} 
+
+@frappe.whitelist()
+def create_new_batches(grn,product_description,supplier):
+        # warehouse = "t_warehouse" if doc.doctype == "Stock Entry" else "warehouse"
+        product = json.loads(product_description)
+        for item in product:
+                batch = frappe.get_doc(
+                {
+                "doctype": "Lot Number",
+                "parent_lot":frappe.db.get_value("GRN Inward Item", {"parent": grn, "part_number": item["part_number"]}, "lot_no"),
+                "naming_series":"parent_lot.-.##",
+                "item": item["part_number"],
+                "supplier": supplier,
+                "lot_qty": item["qty"],
+                "reference_doctype": "GRN Inward",
+                "reference_name": grn,
+                # "purchase_order":doc.purchase_order or " ",
+                "packet":item["packet"],
+                "type":"Child"
+                }
+                ).insert()
+                # item.batch_no = batch.name
+                # item.lot_no = batch.parent_lot
+        return batch.name
+
+@frappe.whitelist()
+def get_po_details(po,part_number):
+    return frappe.get_all(
+        "Purchase Order Item", filters={"docstatus": 1,"parent":po,"item_code":part_number}, fields=["item_code", "qty","uom","rate"]
+    )

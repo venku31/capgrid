@@ -127,24 +127,6 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Putaway",
-   "link_count": 1,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Putaway",
-   "link_count": 0,
-   "link_to": "Putaway Rule",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
    "label": "Inwards",
    "link_count": 3,
    "onboard": 0,
@@ -303,9 +285,37 @@
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Putaway",
+   "link_count": 2,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Putaway",
+   "link_count": 0,
+   "link_to": "Putaway Rule",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Location Movement",
+   "link_count": 0,
+   "link_to": "Location Movement",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2023-05-25 22:30:11.110807",
+ "modified": "2023-05-29 21:14:43.804644",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "WMS",

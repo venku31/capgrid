@@ -116,7 +116,10 @@ doc_events = {
 # 		 "on_submit": "capgrid.capgrid.doctype.grn_inward.grn_inward.create_lot_split_entry",
 # 	},
 "GRN Inward": {
-         "on_update": "capgrid.capgrid.doctype.grn_inward.grn_inward.before_validate",
+         "on_update": ["capgrid.capgrid.doctype.grn_inward.grn_inward.before_validate",
+		 				"capgrid.capgrid.doctype.grn_inward.grn_inward.after_validate",
+		 ],
+		#  "after_validate": "capgrid.capgrid.doctype.grn_inward.grn_inward.after_validate",
 		 "on_submit": ["capgrid.capgrid.doctype.grn_inward.grn_inward.create_purchase_receipt",
 		 				"capgrid.capgrid.doctype.grn_inward.grn_inward.create_lot_split_entry",
 		 ],

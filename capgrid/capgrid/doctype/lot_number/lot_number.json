@@ -35,6 +35,7 @@
   "created_by",
   "type",
   "packet",
+  "idx_no",
   "section_break_7",
   "description",
   "manufacturing_section",
@@ -258,13 +259,19 @@
    "fieldtype": "Float",
    "label": "Hold Qty",
    "read_only": 1
+  },
+  {
+   "fieldname": "idx_no",
+   "fieldtype": "Data",
+   "label": "idx no",
+   "read_only": 1
   }
  ],
  "icon": "fa fa-archive",
  "image_field": "image",
  "links": [],
  "max_attachments": 5,
- "modified": "2023-05-23 11:40:16.636874",
+ "modified": "2023-05-27 23:26:55.319662",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Lot Number",
