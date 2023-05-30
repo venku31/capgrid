@@ -137,6 +137,9 @@ doc_events = {
 "Location Movement": {
 		"on_submit": "capgrid.capgrid.doctype.location_movement.location_movement.create_lm_stock_entry",
 	},
+"Salary Slip": {
+		"validate": "capgrid.api.salary_slip.compute_benifit_claim_year_to_date",
+	},
 }
 
 # Scheduled Tasks
