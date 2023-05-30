@@ -179,6 +179,10 @@ fixtures = [
                 [
                     "Item Default-warehouse_location",
 					"Stock Entry-putaway",
+					"Salary Slip-claimed_benefits",
+					"Salary Slip-total_fy_benefits_claimed",
+					"Salary Slip-gross_pay_without_claim_benifit",
+					"Salary Slip-gross_pay_year_without_claim_benifit",
 			]
 			]
 			]},
