@@ -70,6 +70,7 @@ def compute_benifit_claim_year_to_date(doc,method=None):
 
     year_to_date = flt(benefit_claim_sum[0].claimed_amount) if benefit_claim_sum else 0.0
     doc.total_fy_benefits_claimed = year_to_date
+    doc.gross_pay_year_without_claim_benifit=doc.gross_year_to_date-year_to_date
     compute_month_to_date(doc)
 
 @frappe.whitelist()
@@ -92,3 +93,4 @@ def compute_month_to_date(doc,method=None):
 
     # month_to_date += doc.claimed_amount
     doc.claimed_benefits = month_to_date
+    doc.gross_pay_without_claim_benifit=doc.gross_pay-month_to_date
