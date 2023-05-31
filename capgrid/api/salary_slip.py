@@ -62,7 +62,7 @@ def compute_benifit_claim_year_to_date(doc,method=None):
             filters={
                 "employee": doc.employee,
                 "claim_date": [">=", period_start_date],
-                "claim_date": ["<", period_end_date],
+                "claim_date": ["<", doc.end_date],
                 # "name": ["!=", self.name],
                 "docstatus": 1,
             },
