@@ -125,6 +125,15 @@ frappe.ui.form.on("GRN Inward Item", {
    //    frm.save();
    //    },
       packet: function(frm, cdt, cdn){ 
+         var d = frappe.model.get_doc(cdt, cdn);
+      if(frm.doc.purchase_order && (d.qty>d.po_qty)){
+         frappe.msgprint(__("Qty is greater than PO Qty , Please check"));  
+         d.diff = 1;
+      }
+      if(frm.doc.purchase_order && (d.qty<=d.po_qty)){
+         d.diff = 0;
+      }
+      if(frm.doc.purchase_order && (d.qty<=d.po_qty)){
          var item = locals[cdt][cdn];
          cur_frm.clear_table("grn_inward_item_details");
          frm.doc.grn_inward_item.forEach(function(item){ 
@@ -145,6 +154,7 @@ frappe.ui.form.on("GRN Inward Item", {
       //   refresh_field("grn_inward_item_details");
           });
           frm.save();
+         }
           }, 
       part_number(frm,cdt,cdn){
          var d = frappe.model.get_doc(cdt, cdn);
@@ -170,6 +180,10 @@ frappe.ui.form.on("GRN Inward Item", {
       var d = frappe.model.get_doc(cdt, cdn);
       if(frm.doc.purchase_order && (d.qty>d.po_qty)){
          frappe.msgprint(__("Qty is greater than PO Qty , Please check"));  
+         d.diff = 1;
+      }
+      if(frm.doc.purchase_order && (d.qty<=d.po_qty)){
+         d.diff = 0;
       }
        },  
        });
@@ -234,6 +248,10 @@ frappe.ui.form.on("GRN Inward Item", {
       before_submit: function(frm, cdt, cdn) {
          if (frm.doc.total_inward_qty!=frm.doc.total_qty){
                frappe.msgprint(__("Part Number Total Qty Not matching with Lot Qty"));
+               frappe.validated = false;
+            }
+            if (frm.doc.total_po_qty>0){
+               frappe.msgprint(__("Total Inward Qty Greater than PO Qty"));
                frappe.validated = false;
             }
             cur_frm.set_value("created_by", frappe.session.user)
@@ -359,10 +377,13 @@ frappe.ui.form.on("GRN Inward Item", {
          var d = locals[cdt][cdn];
          var total_qty = 0;
          var total_inward_qty = 0;
+         var total_po_qty = 0;
          frm.doc.grn_inward_item_details.forEach(function(d) { total_qty += d.qty});
          frm.set_value('total_qty', total_qty);
          frm.doc.grn_inward_item.forEach(function(d) { total_inward_qty += d.qty});
          frm.set_value('total_inward_qty', total_inward_qty);
+         frm.doc.grn_inward_item.forEach(function(d) { total_po_qty += d.diff});
+         frm.set_value('total_po_qty', total_po_qty);
          // frm.doc.grn_inward_item_details.forEach(function(d) {
          //    if(!d.batch_no){
          //       frappe.msgprint(__("Please Generate Lot"));
