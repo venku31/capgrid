@@ -78,17 +78,19 @@ def compute_month_to_date(doc,method=None):
     month_to_date = 0
     first_day_of_the_month = get_first_day(doc.start_date)
     end_date = doc.end_date
-    claimed_benefit = frappe.get_list(
-            "Employee Benefit Claim",
-            fields=["sum(claimed_amount) as claimed_amount"],
-            filters={
-                "employee": doc.employee,
-                "claim_date": [">=", first_day_of_the_month],
-                "claim_date": ["<=", doc.end_date],
-                "docstatus": 1,
-            },
-        )
-
+    # claimed_benefit = frappe.get_list(
+    #         "Employee Benefit Claim",
+    #         fields=["sum(claimed_amount) as claimed_amount"],
+    #         filters={
+    #             "employee": doc.employee,
+    #             "claim_date": ['>=', doc.start_date],
+    #             "claim_date": ['<=', doc.end_date],
+    #             "docstatus": 1,
+    #         },
+    #     )
+    claimed_benefit = frappe.db.sql(""" select sum(claimed_amount) as claimed_amount from `tabEmployee Benefit Claim`
+     where employee='%(employee)s' and docstatus=1 and claim_date>='%(from_date)s' and claim_date<='%(to_date)s' """ %{"employee":doc.employee,"from_date":doc.start_date,"to_date":doc.end_date},as_dict = 1)
+    print("////////////",claimed_benefit)
     month_to_date = flt(claimed_benefit[0].claimed_amount) if claimed_benefit else 0.0
 
     # month_to_date += doc.claimed_amount

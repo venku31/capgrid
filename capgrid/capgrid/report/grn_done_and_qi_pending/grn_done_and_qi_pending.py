@@ -83,7 +83,7 @@ def get_data(filters):
         from `tabGRN Inward` grn join `tabGRN Inward Item Details` det ON(grn.name=det.parent and grn.docstatus=1)
 		WHERE
 			company = %(company)s
-			AND DATE(grn.grn_date) BETWEEN %(from_date)s AND %(to_date)s
+			AND DATE(grn.grn_date) BETWEEN %(from_date)s AND %(to_date)s and grn.grn_date>="2023-06-01"
 			AND det.batch_no NOT IN (select `tabQuality Inspection Page Table`.batch_no from `tabQuality Inspection Page Table` 
 			where `tabQuality Inspection Page Table`.docstatus=1 and `tabQuality Inspection Page Table`.batch_no=det.batch_no)
 			{conditions}
