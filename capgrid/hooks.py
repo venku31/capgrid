@@ -110,6 +110,7 @@ doc_events = {
 		"on_submit": ["capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_qi_stock_entry",
 	 				  
 		],
+		# "on_update_after_submit": "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_qi_status_change_entry",
 		# "save": "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_update_status",
 	},
 # "Purchase Receipt": {

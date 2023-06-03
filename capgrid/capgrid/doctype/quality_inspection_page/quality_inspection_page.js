@@ -76,6 +76,26 @@ frappe.ui.form.on('Quality Inspection Page', {
 		status: function(frm, cdt, cdn){
 			$.each(frm.doc.quality_inspection_page_table || [], function(i, d) {
 				d.status=cur_frm.doc.status;
+				if(cur_frm.doc.status=="Rejected") {
+					d.rejected_qty=d.qty;
+				   d.hold_qty=0;
+				   d.accepted_qty=d.qty-d.rejected_qty-d.hold_qty;
+				   }
+				   else if(cur_frm.doc.status=="Accepted") {
+					d.rejected_qty=0;
+				   d.hold_qty=0;
+				   d.accepted_qty=d.qty-d.rejected_qty-d.hold_qty;
+				   }
+				   else if(cur_frm.doc.status=="On Hold") {
+					d.rejected_qty=0;
+				   d.hold_qty=d.qty;
+				   d.accepted_qty=d.qty-d.rejected_qty-d.hold_qty;
+				   }
+				   else {
+				   d.accepted_qty=d.qty;
+				   d.rejected_qty=0;
+				   d.hold_qty=0;
+				   }
 				});
 				cur_frm.refresh_fields()
 		},

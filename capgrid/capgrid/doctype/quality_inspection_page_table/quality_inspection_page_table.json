@@ -124,6 +124,7 @@
    "columns": 1,
    "fieldname": "current_status",
    "fieldtype": "Select",
+   "hidden": 1,
    "in_list_view": 1,
    "label": "Change Status",
    "options": "\nAccepted\nRejected\nOn Hold"
@@ -135,13 +136,14 @@
   {
    "fieldname": "update",
    "fieldtype": "Button",
+   "hidden": 1,
    "label": "Update Status"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-05-23 22:22:17.098118",
+ "modified": "2023-06-03 23:21:09.525500",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Quality Inspection Page Table",
