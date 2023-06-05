@@ -103,6 +103,11 @@ frappe.ui.form.on('Putaway', {
 	scan_location(frm) {
 		cur_frm.doc.scaned_location = cur_frm.doc.scan_location
 		cur_frm.refresh_fields()
+		cur_frm.save()
+	},
+	override(frm) {
+		cur_frm.refresh_fields()
+		cur_frm.save()
 	},
 	onload_post_render: function(frm) {
 			frm.get_field("create_new").$input.addClass('btn-primary');
