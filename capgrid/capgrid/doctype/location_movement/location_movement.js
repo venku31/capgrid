@@ -62,6 +62,7 @@ refresh: function(frm) {
 	scan_location(frm) {
 		cur_frm.doc.scaned_location = cur_frm.doc.scan_location
 		cur_frm.refresh_fields()
+		cur_frm.save()
 	},
 	validate(frm) {
 		cur_frm.doc.scaned_location = cur_frm.doc.scan_location
