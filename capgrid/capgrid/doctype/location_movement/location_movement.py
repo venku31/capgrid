@@ -32,6 +32,7 @@ def create_lm_stock_entry(doc, handler=""):
     item_code = doc.part_number
     po = frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_order") 
     po_rate = frappe.db.get_value('Purchase Order Item', {'item_code':doc.part_number,'parent':po}, 'rate')
+    last_rate = frappe.db.get_value('Item', {'item_code':doc.part_number}, 'last_purchase_rate')
     item_price_rate = frappe.db.get_value('Item Price', {'item_code':doc.part_number,'price_list':"Standard Buying"}, 'price_list_rate')
     se.append("items", { 
     "item_code":doc.part_number,
@@ -40,7 +41,7 @@ def create_lm_stock_entry(doc, handler=""):
     "s_warehouse": doc.from_warehouse,
     "t_warehouse": "",
     "set_basic_rate_manually":1,
-    "basic_rate" : po_rate or item_price_rate or 0,
+    "basic_rate" : po_rate or last_rate or item_price_rate or 0,
     "expense_account": frappe.db.get_value("Company", {"name":doc.company}, "default_expense_account"),
     "reference_purchase_receipt":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_receipt"),
     "warehouse_location" : doc.part_number_location,
@@ -57,7 +58,7 @@ def create_lm_stock_entry(doc, handler=""):
     "t_warehouse": frappe.db.get_value("Warehouse Location", {"name":doc.scaned_location}, "warehouse"),
     "is_finished_item":1,
     "set_basic_rate_manually":1,
-    "basic_rate" : po_rate or item_price_rate or 0,
+    "basic_rate" : po_rate or last_rate or item_price_rate or 0,
     "expense_account": frappe.db.get_value("Company", {"name":doc.company}, "default_expense_account"),
     "reference_purchase_receipt":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_receipt"),
     "warehouse_location" : doc.scaned_location,
