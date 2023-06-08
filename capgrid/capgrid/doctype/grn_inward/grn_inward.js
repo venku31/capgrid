@@ -168,6 +168,7 @@ frappe.ui.form.on("GRN Inward Item", {
                   var qty = r.message[0].qty
                   var uom = r.message[0].uom
                   frappe.model.set_value(cdt, cdn, "rate", price);
+                  frappe.model.set_value(cdt, cdn, "rate1", price);
                   frappe.model.set_value(cdt, cdn, "po_qty", qty);
                   frappe.model.set_value(cdt, cdn, "uom", uom);
                   }
