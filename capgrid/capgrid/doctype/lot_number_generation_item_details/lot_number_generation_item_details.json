@@ -14,7 +14,8 @@
   "purchase_order",
   "type_of_po",
   "batch_no",
-  "lot_no"
+  "lot_no",
+  "last_purchase_rate"
  ],
  "fields": [
   {
@@ -83,12 +84,19 @@
    "label": "Main Lot",
    "options": "Lot Number",
    "read_only": 1
+  },
+  {
+   "fetch_from": "part_number.last_purchase_rate",
+   "fieldname": "last_purchase_rate",
+   "fieldtype": "Currency",
+   "label": "Last Purchase Rate",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-05-23 11:21:25.832063",
+ "modified": "2023-06-09 23:59:18.049083",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Lot Number Generation Item Details",

@@ -13,7 +13,8 @@
   "qty",
   "packet",
   "update",
-  "lot_no"
+  "lot_no",
+  "last_purchase_rate"
  ],
  "fields": [
   {
@@ -73,12 +74,19 @@
    "label": "Lot No",
    "options": "Lot Number",
    "read_only": 1
+  },
+  {
+   "fetch_from": "part_number.last_purchase_rate",
+   "fieldname": "last_purchase_rate",
+   "fieldtype": "Currency",
+   "label": "Last Purchase Rate",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-05-23 11:16:21.683731",
+ "modified": "2023-06-09 23:58:39.568215",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Lot Number Generation Item",

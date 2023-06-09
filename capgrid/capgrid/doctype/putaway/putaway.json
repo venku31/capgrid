@@ -29,11 +29,12 @@
   "override",
   "company",
   "main_warehouse",
+  "last_purchase_rate",
   "section_break_vcnw9",
   "amended_from",
+  "date",
   "column_break_lks38",
-  "stock_entry",
-  "date"
+  "stock_entry"
  ],
  "fields": [
   {
@@ -202,14 +203,23 @@
    "fieldname": "warehouse",
    "fieldtype": "Link",
    "label": "Warehouse",
-   "options": "Warehouse"
+   "options": "Warehouse",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "part_number.last_purchase_rate",
+   "fieldname": "last_purchase_rate",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "label": "Last purchase rate",
+   "read_only": 1
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-05-17 22:32:04.645618",
+ "modified": "2023-06-10 00:07:37.065425",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Putaway",

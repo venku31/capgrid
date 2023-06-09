@@ -1,0 +1,68 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-06-09 16:22:07.639718",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "part_number",
+  "part_number_name",
+  "qty",
+  "actual_stock",
+  "picked_qty"
+ ],
+ "fields": [
+  {
+   "columns": 2,
+   "fieldname": "part_number",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Part Number",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "columns": 2,
+   "fetch_from": "part_number.item_name",
+   "fieldname": "part_number_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Part Number Name"
+  },
+  {
+   "columns": 1,
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Qty",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "actual_stock",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Actual Stock"
+  },
+  {
+   "columns": 1,
+   "fieldname": "picked_qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Picked Qty"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-06-09 16:35:43.957727",
+ "modified_by": "Administrator",
+ "module": "Capgrid",
+ "name": "Pick List Upload Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

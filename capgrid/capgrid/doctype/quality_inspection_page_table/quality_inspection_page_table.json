@@ -20,7 +20,8 @@
   "update",
   "lot_no",
   "purchase_receipt",
-  "inward_grn"
+  "inward_grn",
+  "last_purchase_rate"
  ],
  "fields": [
   {
@@ -138,12 +139,19 @@
    "fieldtype": "Button",
    "hidden": 1,
    "label": "Update Status"
+  },
+  {
+   "fetch_from": "part_number.last_purchase_rate",
+   "fieldname": "last_purchase_rate",
+   "fieldtype": "Currency",
+   "label": "Last purchase rate",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-06-03 23:21:09.525500",
+ "modified": "2023-06-09 23:26:36.140696",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Quality Inspection Page Table",

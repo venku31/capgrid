@@ -18,6 +18,7 @@
   "scaned_location",
   "batch_no",
   "to_warehouse",
+  "last_purchase_rate",
   "section_break_4qw2j",
   "company",
   "date",
@@ -140,12 +141,20 @@
    "fieldtype": "Float",
    "label": "Actual_qty",
    "read_only": 1
+  },
+  {
+   "fetch_from": "part_number.last_purchase_rate",
+   "fieldname": "last_purchase_rate",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "label": "Last Purchase Rate",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-05-15 16:36:46.824708",
+ "modified": "2023-06-10 00:08:09.821711",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Location Movement",

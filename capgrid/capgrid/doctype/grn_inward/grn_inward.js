@@ -121,9 +121,9 @@ frappe.ui.form.on("GRN Inward", {
       //        },
          //  });
 frappe.ui.form.on("GRN Inward Item", {
-   // packet: function(frm, cdt, cdn){ 
-   //    frm.save();
-   //    },
+   qty: function(frm, cdt, cdn){ 
+      frm.save();
+      },
       packet: function(frm, cdt, cdn){ 
          var d = frappe.model.get_doc(cdt, cdn);
       if(frm.doc.purchase_order && (d.qty>d.po_qty)){
