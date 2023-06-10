@@ -141,6 +141,9 @@ doc_events = {
 "Salary Slip": {
 		"validate": "capgrid.api.salary_slip.compute_benifit_claim_year_to_date",
 	},
+"Sales Invoice": {
+		"validate": "capgrid.api.sales_invoice.validate_warehouse",
+	},
 }
 
 # Scheduled Tasks
