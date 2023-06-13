@@ -93,6 +93,7 @@ def create_purchase_receipt(doc,handler=""):
     # except Exception as e:
     #     return {"error":e} 
     # create_lot_split_entry(doc)
+    update_parent_lot(doc)
 
 #Main Lot
 @frappe.whitelist()
@@ -164,6 +165,7 @@ def set_or_create_main_lot(doc, method=None):
                     # lot.reference_name = doc.name
                     lot.save(ignore_permissions=True)
                     frappe.db.commit()
+                    
 
     if doc._action == "save":
         for item in doc.grn_inward_item:
@@ -430,3 +432,10 @@ def get_po_details(po,part_number):
     return frappe.get_all(
         "Purchase Order Item", filters={"docstatus": 1,"parent":po,"item_code":part_number}, fields=["item_code", "qty","uom","rate"]
     )
+@frappe.whitelist()
+def update_parent_lot(doc):
+        for item in doc.grn_inward_item_details:
+            if item.batch_no and not item.lot_no :
+                item.lot_no = frappe.db.get_value("Lot Number", {"name": item.batch_no}, "parent_lot")
+        doc.save(ignore_permissions=True)
+        frappe.db.commit()
