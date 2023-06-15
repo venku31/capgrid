@@ -212,6 +212,9 @@ fixtures = [
 # Overriding Methods
 # ------------------------------
 #
+override_doctype_class = {
+    "Stock Entry": "capgrid.api.stock_entry.CustomStockEntry"
+}
 # override_whitelisted_methods = {
 #	"frappe.desk.doctype.event.event.get_events": "capgrid.event.get_events"
 # }
