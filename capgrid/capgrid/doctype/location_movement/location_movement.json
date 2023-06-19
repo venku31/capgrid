@@ -54,7 +54,7 @@
    "read_only": 1
   },
   {
-   "fetch_from": "scan_location.main_warehouse",
+   "fetch_from": "part_number_location.main_warehouse",
    "fieldname": "main_warehouse",
    "fieldtype": "Link",
    "label": "Main Warehouse",
@@ -86,7 +86,7 @@
    "options": "Warehouse"
   },
   {
-   "fetch_from": "scan_location.warehouse",
+   "fetch_from": "part_number_location.warehouse",
    "fetch_if_empty": 1,
    "fieldname": "to_warehouse",
    "fieldtype": "Link",
@@ -154,7 +154,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-06-10 00:08:09.821711",
+ "modified": "2023-06-19 23:10:20.007340",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Location Movement",

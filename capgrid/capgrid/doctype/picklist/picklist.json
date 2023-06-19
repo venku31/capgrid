@@ -11,10 +11,9 @@
   "naming_series",
   "customer",
   "customer_name",
-  "company",
   "column_break_l86up",
   "date",
-  "plant_code",
+  "company",
   "warehouse",
   "section_break_w2piq",
   "details",
@@ -41,7 +40,8 @@
    "fetch_from": "customer.customer_name",
    "fieldname": "customer_name",
    "fieldtype": "Data",
-   "label": "Customer Name"
+   "label": "Customer Name",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_l86up",
@@ -59,7 +59,7 @@
    "fieldtype": "Link",
    "label": "Amended From",
    "no_copy": 1,
-   "options": "Pick List Upload",
+   "options": "PickList",
    "print_hide": 1,
    "read_only": 1
   },
@@ -75,17 +75,11 @@
    "fieldname": "details",
    "fieldtype": "Table",
    "label": "Details",
-   "options": "Pick List Upload Details"
+   "options": "PickList Details"
   },
   {
    "fieldname": "section_break_w2piq",
    "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "plant_code",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Plant Code"
   },
   {
    "fieldname": "naming_series",
@@ -122,6 +116,7 @@
   {
    "fieldname": "pick_list",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Pick List",
    "options": "Pick List",
    "read_only": 1
@@ -143,13 +138,14 @@
    "options": "Warehouse"
   }
  ],
+ "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-06-12 11:36:39.051228",
+ "modified": "2023-06-19 10:41:23.099300",
  "modified_by": "Administrator",
  "module": "Capgrid",
- "name": "Pick List Upload",
+ "name": "PickList",
  "name_case": "Title Case",
  "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
@@ -202,5 +198,6 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1
 }

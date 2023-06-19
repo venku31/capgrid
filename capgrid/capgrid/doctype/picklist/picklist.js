@@ -1,7 +1,7 @@
 // Copyright (c) 2023, Capgrid Solutions and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on('Pick List Upload Details', {
+frappe.ui.form.on('PickList Details', {
 qty: function(frm, cdt, cdn) {
 total_qty(frm, cdt, cdn);
 	},
@@ -12,14 +12,14 @@ validate: function(frm, cdt, cdn) {
 total_qty(frm, cdt, cdn);
 	},
 });
-frappe.ui.form.on('Pick List Upload', {
+frappe.ui.form.on('PickList', {
 validate: function(frm, cdt, cdn) {
 total_qty(frm, cdt, cdn);
 fetch_actual_qty(frm, cdt, cdn);
 	},
 });
 
-// frappe.ui.form.on("Pick List Upload", "validate", function(frm, cdt, cdn) {
+// frappe.ui.form.on("PickList", "validate", function(frm, cdt, cdn) {
 // 	$.each(frm.doc.details || [], function(i, d) {
 // 		if(d.part_number){
 // 		console.log("first call")    

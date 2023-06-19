@@ -147,6 +147,8 @@ def create_qi_stock_entry(doc, handler=""):
                 # "basic_rate" : frappe.db.get_value('Item', {'item_code':se_item.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':se_item.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
                 "basic_rate" : se_item.last_purchase_rate,
                 "valuation_rate" : se_item.last_purchase_rate,
+                "basic_amount" : se_item.accepted_qty*se_item.last_purchase_rate,
+                "amount" : se_item.accepted_qty*se_item.last_purchase_rate,
                 "conversion_factor": 1,
                 "allow_zero_valuation_rate":1,
                 "reference_purchase_receipt":doc.purchase_receipt,
@@ -165,6 +167,8 @@ def create_qi_stock_entry(doc, handler=""):
                 # "basic_rate" : frappe.db.get_value('Item', {'item_code':se_item.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':se_item.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
                 "basic_rate" : se_item.last_purchase_rate,
                 "valuation_rate" : se_item.last_purchase_rate,
+                "basic_amount" : se_item.accepted_qty*se_item.last_purchase_rate,
+                "amount" : se_item.accepted_qty*se_item.last_purchase_rate,
                 "conversion_factor": 1,
                 "is_finished_item":1,
                 "allow_zero_valuation_rate":1,
@@ -181,6 +185,8 @@ def create_qi_stock_entry(doc, handler=""):
                 # "basic_rate" : frappe.db.get_value('Item', {'item_code':se_item.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':se_item.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
                 "basic_rate" : se_item.last_purchase_rate,
                 "valuation_rate" : se_item.last_purchase_rate,
+                "basic_amount" : se_item.rejected_qty*se_item.last_purchase_rate,
+                "amount" : se_item.rejected_qty*se_item.last_purchase_rate,
                 "lot_number":se_item.batch_no,"expense_account":expense_account,
                 "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")})
                 se.append("items", { "item_code":se_item.part_number, "qty": se_item.rejected_qty,
@@ -191,6 +197,8 @@ def create_qi_stock_entry(doc, handler=""):
                 # "basic_rate" : frappe.db.get_value('Item', {'item_code':se_item.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':se_item.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
                 "basic_rate" : se_item.last_purchase_rate,
                 "valuation_rate" : se_item.last_purchase_rate,
+                "basic_amount" : se_item.rejected_qty*se_item.last_purchase_rate,
+                "amount" : se_item.rejected_qty*se_item.last_purchase_rate,
                 "conversion_factor": 1,"is_finished_item":1,"allow_zero_valuation_rate":1,"reference_purchase_receipt":doc.purchase_receipt,
                 "lot_number":se_item.batch_no,"warehouse_location":rejection_location,"expense_account":expense_account,
                 "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")})
@@ -202,6 +210,8 @@ def create_qi_stock_entry(doc, handler=""):
                 # "basic_rate" : frappe.db.get_value('Item', {'item_code':se_item.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':se_item.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
                 "basic_rate" : se_item.last_purchase_rate,
                 "valuation_rate" : se_item.last_purchase_rate,
+                "basic_amount" : se_item.hold_qty*se_item.last_purchase_rate,
+                "amount" : se_item.hold_qty*se_item.last_purchase_rate,
                 "conversion_factor": 1,"allow_zero_valuation_rate":1,
                 "reference_purchase_receipt":doc.purchase_receipt,"lot_number":se_item.batch_no,
                 "expense_account":expense_account,"cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")})
@@ -212,6 +222,8 @@ def create_qi_stock_entry(doc, handler=""):
                 # "basic_rate" : frappe.db.get_value('Item', {'item_code':se_item.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':se_item.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
                 "basic_rate" : se_item.last_purchase_rate,
                 "valuation_rate" : se_item.last_purchase_rate,
+                "basic_amount" : se_item.hold_qty*se_item.last_purchase_rate,
+                "amount" : se_item.hold_qty*se_item.last_purchase_rate,
                 "conversion_factor": 1,"is_finished_item":1,"allow_zero_valuation_rate":1,
                 "reference_purchase_receipt":doc.purchase_receipt,"lot_number":se_item.batch_no,"warehouse_location":hold_location,
                 "expense_account":expense_account,"cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")})

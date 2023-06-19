@@ -4,7 +4,7 @@
 # import frappe
 from frappe.model.document import Document
 
-class PickListUpload(Document):
+class PickList(Document):
     pass
 import frappe
 from frappe import _
