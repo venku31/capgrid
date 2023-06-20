@@ -70,7 +70,8 @@
   {
    "fieldname": "import_file",
    "fieldtype": "Attach",
-   "label": "Import File"
+   "label": "Import File",
+   "reqd": 1
   },
   {
    "fieldname": "download_template",
@@ -202,7 +203,7 @@
  ],
  "hide_toolbar": 1,
  "links": [],
- "modified": "2023-06-18 22:53:09.016213",
+ "modified": "2023-06-20 23:36:53.066312",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "PickList Upload",
