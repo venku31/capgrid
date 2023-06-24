@@ -10,8 +10,8 @@ class PickList(Document):
         self.total_picked_qty = 0
         if self.get('details'):
             for item in self.get('details'):
-                self.total_qty += item.trigger_qty
-                self.total_picked_qty += item.total_picked_qty if item.total_picked_qty else 0
+                self.total_qty += frappe.utils.flt(item.trigger_qty) if item.trigger_qty else 0
+                self.total_picked_qty += frappe.utils.flt(item.total_picked_qty) if item.total_picked_qty else 0
                 item.actual_stock = get_actual_stock(self.warehouse, item.part_number)
 
     
