@@ -17,6 +17,6 @@ class PickListUpload(Document):
 		  			'trigger_qty': d[3],'reason': d[4], 'remarks': d[5]})
 				
 			frappe.get_doc({'doctype':'PickList','customer': self.customer,'date': frappe.utils.today(),
-		   			'warehouse': final_data[0][0],'details': items}).insert(ignore_permissions=True)
+		   			'warehouse': final_data[0][0],'details': items}).submit()
 				
 
