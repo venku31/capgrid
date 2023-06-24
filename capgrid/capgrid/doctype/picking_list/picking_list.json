@@ -1,0 +1,126 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-06-24 11:16:00.642333",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "picklist",
+  "warehouse",
+  "part_number",
+  "total_qty",
+  "column_break_l1w4b",
+  "date",
+  "company",
+  "customer",
+  "section_break_tzc47",
+  "stock_details",
+  "scan_barcode",
+  "part_details"
+ ],
+ "fields": [
+  {
+   "fieldname": "picklist",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "PickList",
+   "options": "PickList",
+   "reqd": 1
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Warehouse",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "part_number",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Part Number",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "total_qty",
+   "fieldtype": "Int",
+   "label": "Total Qty",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_l1w4b",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_tzc47",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "scan_barcode",
+   "fieldtype": "Data",
+   "label": "Scan Lot No",
+   "options": "Barcode"
+  },
+  {
+   "fieldname": "part_details",
+   "fieldtype": "Table",
+   "label": "Part Details",
+   "options": "Picking List Item Details"
+  },
+  {
+   "fieldname": "stock_details",
+   "fieldtype": "HTML",
+   "label": "Stock Details"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-06-24 12:31:06.887227",
+ "modified_by": "Administrator",
+ "module": "Capgrid",
+ "name": "Picking List",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
