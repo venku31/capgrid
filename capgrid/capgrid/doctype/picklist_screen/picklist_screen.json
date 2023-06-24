@@ -1,28 +1,51 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2023-06-18 23:09:09.626804",
+ "autoname": "PS-.######.",
+ "creation": "2023-06-24 10:29:15.549384",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "details"
+  "pick_list",
+  "customer",
+  "action"
  ],
  "fields": [
   {
-   "fieldname": "details",
-   "fieldtype": "Table",
-   "options": "PickList Screen Details"
+   "fieldname": "pick_list",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Pick List",
+   "options": "PickList",
+   "reqd": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "action",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Action",
+   "options": "\nStart Picking\nCompleted"
   }
  ],
  "index_web_pages_for_search": 1,
- "issingle": 1,
  "links": [],
- "modified": "2023-06-18 23:09:09.626804",
+ "modified": "2023-06-24 10:34:23.122380",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "PickList Screen",
+ "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [
   {

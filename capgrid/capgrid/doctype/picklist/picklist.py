@@ -13,6 +13,10 @@ class PickList(Document):
                 self.total_qty += frappe.utils.flt(item.trigger_qty) if item.trigger_qty else 0
                 self.total_picked_qty += frappe.utils.flt(item.total_picked_qty) if item.total_picked_qty else 0
                 item.actual_stock = get_actual_stock(self.warehouse, item.part_number)
+    
+    def on_submit(self):
+        frappe.get_doc({'doctype':'PickList Screen','customer': self.customer, 'pick_list': self.name
+                        }).insert()
 
     
 
