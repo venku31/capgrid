@@ -9,9 +9,10 @@ class PickListScreen(Document):
 		if self.action == 'Start Picking':
 			pick_doc = frappe.get_doc('PickList', self.pick_list)
 			if pick_doc.get('details'):
-				for item in pick_doc.get('details'):
-					frappe.get_doc({'doctype': 'Picking List','picklist': pick_doc.name, 
+				# for item in pick_doc.get('details'):
+				part_number = frappe.db.get_value('PickList Details',{"parent":self.pick_list,'idx':1},'part_number')
+				frappe.get_doc({'doctype': 'Picking List','picklist': pick_doc.name, 
 		     					'date': frappe.utils.today(),'warehouse': pick_doc.warehouse, 
-								'company': pick_doc.company, 'customer': pick_doc.customer,
-								'part_number': item.get('part_number'), 'total_qty': item.trigger_qty
-								}).insert()
+								'company': pick_doc.company, 'customer': pick_doc.customer,'total_qty': pick_doc.total_qty,
+								'part_number': part_number
+							}).insert()

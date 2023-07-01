@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "Picking-.#####",
  "creation": "2023-06-24 11:16:00.642333",
  "default_view": "List",
  "doctype": "DocType",
@@ -10,37 +11,44 @@
   "picklist",
   "warehouse",
   "part_number",
-  "total_qty",
+  "scan_location",
+  "scan_barcode",
   "column_break_l1w4b",
   "date",
   "company",
   "customer",
-  "section_break_tzc47",
+  "warehouse_location",
   "stock_details",
-  "scan_barcode",
-  "part_details"
+  "section_break_tzc47",
+  "part_details",
+  "total_qty",
+  "total_scaned_qty"
  ],
  "fields": [
   {
    "fieldname": "picklist",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "PickList",
    "options": "PickList",
+   "read_only": 1,
    "reqd": 1
   },
   {
    "fieldname": "warehouse",
    "fieldtype": "Link",
+   "hidden": 1,
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Warehouse",
-   "options": "Warehouse",
-   "reqd": 1
+   "options": "Warehouse"
   },
   {
    "fieldname": "part_number",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Part Number",
    "options": "Item",
    "reqd": 1
@@ -49,32 +57,34 @@
    "fieldname": "total_qty",
    "fieldtype": "Int",
    "label": "Total Qty",
-   "reqd": 1
+   "read_only": 1
   },
   {
    "fieldname": "column_break_l1w4b",
    "fieldtype": "Column Break"
   },
   {
+   "default": "Today",
    "fieldname": "date",
    "fieldtype": "Date",
-   "label": "Date",
-   "reqd": 1
+   "hidden": 1,
+   "label": "Date"
   },
   {
    "fieldname": "company",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Company",
-   "options": "Company",
-   "reqd": 1
+   "options": "Company"
   },
   {
    "fieldname": "customer",
    "fieldtype": "Link",
+   "hidden": 1,
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Customer",
-   "options": "Customer",
-   "reqd": 1
+   "options": "Customer"
   },
   {
    "fieldname": "section_break_tzc47",
@@ -96,14 +106,35 @@
    "fieldname": "stock_details",
    "fieldtype": "HTML",
    "label": "Stock Details"
+  },
+  {
+   "fieldname": "scan_location",
+   "fieldtype": "Link",
+   "label": "Scan Location",
+   "options": "Warehouse Location"
+  },
+  {
+   "fieldname": "warehouse_location",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "warehouse_location",
+   "options": "Warehouse Location",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_scaned_qty",
+   "fieldtype": "Float",
+   "label": "Total Scaned Qty",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-24 12:31:06.887227",
+ "modified": "2023-07-01 13:39:19.847762",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Picking List",
+ "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [
   {

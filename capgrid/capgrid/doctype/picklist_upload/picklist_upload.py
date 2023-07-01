@@ -6,7 +6,7 @@ from frappe.model.document import Document
 from frappe.core.doctype.data_import.importer import ImportFile
 
 class PickListUpload(Document):
-	def on_update(self):
+	def on_submit(self):
 		if self.import_file:
 			data = ImportFile('PickList',self.import_file)
 			data.raw_data.pop(0)
