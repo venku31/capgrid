@@ -2,6 +2,7 @@
  "charts": [],
  "content": "[{\"id\":\"r1DRrVRjcw\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"iJCoi3_8Eq\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"GRN Inward\",\"col\":3}},{\"id\":\"heExoS2vPg\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Quality Inspection Page\",\"col\":3}},{\"id\":\"3Jppk2eRCR\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Putaway\",\"col\":3}},{\"id\":\"YY73xw1TeA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Location Movement\",\"col\":3}},{\"id\":\"0lisTOttIX\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"-RSMucM5Ec\",\"type\":\"card\",\"data\":{\"card_name\":\"Inwards\",\"col\":6}},{\"id\":\"HxhNAnqJLu\",\"type\":\"card\",\"data\":{\"card_name\":\"Quality\",\"col\":6}},{\"id\":\"-90XeZq5jX\",\"type\":\"card\",\"data\":{\"card_name\":\"Putaway\",\"col\":6}},{\"id\":\"4UEGzbKqkX\",\"type\":\"card\",\"data\":{\"card_name\":\"Picking And Dispatch\",\"col\":6}},{\"id\":\"X7Zaaywg-B\",\"type\":\"card\",\"data\":{\"card_name\":\"Master And Reports\",\"col\":4}},{\"id\":\"apExK3CuNZ\",\"type\":\"card\",\"data\":{\"card_name\":\"Lot Generation for existing stock\",\"col\":4}}]",
  "creation": "2023-03-19 22:09:13.093445",
+ "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
  "for_user": "",
@@ -327,16 +328,6 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "PickList Screen",
-   "link_count": 0,
-   "link_to": "PickList Screen",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
    "label": "Picking List",
    "link_count": 0,
    "link_to": "Picking List",
@@ -345,7 +336,7 @@
    "type": "Link"
   }
  ],
- "modified": "2023-06-24 12:26:47.408338",
+ "modified": "2023-07-22 10:56:35.365697",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "WMS",

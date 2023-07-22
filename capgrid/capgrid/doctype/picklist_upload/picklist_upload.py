@@ -12,11 +12,15 @@ class PickListUpload(Document):
 			data.raw_data.pop(0)
 			final_data = data.raw_data
 			items = []
+			# for d in final_data:
+			# 	items.append({'part_number': d[1],'warehouse':d[0], 'plant_code': d[2],
+		  	# 		'trigger_qty': d[3],'reason': d[4], 'remarks': d[5]})
 			for d in final_data:
-				items.append({'part_number': d[1],'warehouse':d[0], 'plant_code': d[2],
-		  			'trigger_qty': d[3],'reason': d[4], 'remarks': d[5]})
-				
+				items.append({'part_number': d[0], 'plant_code': d[1],
+		  			'trigger_qty': d[2]})
+			# frappe.get_doc({'doctype':'PickList','customer': self.customer,'date': frappe.utils.today(),
+		   	# 		'warehouse': final_data[0][0],'details': items}).submit()
 			frappe.get_doc({'doctype':'PickList','customer': self.customer,'date': frappe.utils.today(),
-		   			'warehouse': final_data[0][0],'details': items}).submit()
+		   		'warehouse': self.warehouse,'details': items}).submit()
 				
 

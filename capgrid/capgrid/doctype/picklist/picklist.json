@@ -11,6 +11,7 @@
   "naming_series",
   "customer",
   "customer_name",
+  "sales_order",
   "column_break_l86up",
   "date",
   "company",
@@ -136,13 +137,20 @@
    "fieldtype": "Link",
    "label": "Warehouse",
    "options": "Warehouse"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "sales_order",
+   "fieldtype": "Link",
+   "label": "Sales Order",
+   "options": "Sales Order"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-06-19 10:41:23.099300",
+ "modified": "2023-07-22 13:54:14.818552",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "PickList",

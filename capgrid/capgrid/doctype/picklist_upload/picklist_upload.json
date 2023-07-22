@@ -10,6 +10,7 @@
   "company",
   "customer",
   "customer_name",
+  "warehouse",
   "column_break_4",
   "google_sheets_url",
   "refresh_google_sheet",
@@ -30,7 +31,8 @@
   "reference_doctype",
   "import_type",
   "submit_after_import",
-  "mute_emails"
+  "mute_emails",
+  "amended_from"
  ],
  "fields": [
   {
@@ -117,6 +119,7 @@
   {
    "fieldname": "section_import_preview",
    "fieldtype": "Section Break",
+   "hidden": 1,
    "label": "Preview"
   },
   {
@@ -199,11 +202,28 @@
    "fieldtype": "Data",
    "label": "Customer Name",
    "read_only": 1
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "label": "Warehouse",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "PickList Upload",
+   "print_hide": 1,
+   "read_only": 1
   }
  ],
  "hide_toolbar": 1,
+ "is_submittable": 1,
  "links": [],
- "modified": "2023-06-20 23:36:53.066312",
+ "modified": "2023-07-15 12:33:24.083058",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "PickList Upload",

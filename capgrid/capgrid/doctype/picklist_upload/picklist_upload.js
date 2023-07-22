@@ -5,15 +5,24 @@ frappe.ui.form.on("PickList Upload", {
   download_template() {
     let export_fields = [
       [
-        "Warehouse",
+        // "Warehouse",
         "Part Number",
         "Plant Code",
         "Trigger Qty",
-        "Reason",
-        "Remarks",
+        // "Reason",
+        // "Remarks",
       ],
     ];
     frappe.tools.downloadify(export_fields, null, "Pick List");
 
   },
+refresh: function(frm) {
+  		cur_frm.fields_dict.warehouse.get_query = function(doc) {
+			 return {
+				filters: {
+				   company:frm.doc.company,
+				  //  is_group:1
+				}
+			 }
+      }}
 });

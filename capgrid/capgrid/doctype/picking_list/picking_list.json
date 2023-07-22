@@ -11,6 +11,7 @@
   "picklist",
   "warehouse",
   "part_number",
+  "to_be_picked",
   "scan_location",
   "scan_barcode",
   "column_break_l1w4b",
@@ -21,8 +22,8 @@
   "stock_details",
   "section_break_tzc47",
   "part_details",
-  "total_qty",
-  "total_scaned_qty"
+  "total_scaned_qty",
+  "total_qty"
  ],
  "fields": [
   {
@@ -36,6 +37,7 @@
    "reqd": 1
   },
   {
+   "fetch_from": "picklist.warehouse",
    "fieldname": "warehouse",
    "fieldtype": "Link",
    "hidden": 1,
@@ -56,7 +58,7 @@
   {
    "fieldname": "total_qty",
    "fieldtype": "Int",
-   "label": "Total Qty",
+   "label": "Total Pick List Qty",
    "read_only": 1
   },
   {
@@ -71,6 +73,7 @@
    "label": "Date"
   },
   {
+   "fetch_from": "picklist.company",
    "fieldname": "company",
    "fieldtype": "Link",
    "hidden": 1,
@@ -126,11 +129,17 @@
    "fieldtype": "Float",
    "label": "Total Scaned Qty",
    "read_only": 1
+  },
+  {
+   "fieldname": "to_be_picked",
+   "fieldtype": "Float",
+   "label": "To Be Picked",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-07-01 13:39:19.847762",
+ "modified": "2023-07-22 13:32:33.889692",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Picking List",
