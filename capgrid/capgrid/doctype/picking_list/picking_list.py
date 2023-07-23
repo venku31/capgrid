@@ -7,14 +7,25 @@ from frappe.model.document import Document
 class PickingList(Document):
 	# pass
     def on_update(doc):
-         if doc.part_details :
-            for row in doc.part_details:
-            
+         exists = frappe.db.get_value("PickList",{"name":doc.picklist},"name")
+         if exists :
+            workflow_state=frappe.db.get_value("PickList",{"name":doc.picklist},"workflow_state")
+            if workflow_state == "Pending" and doc.total_scaned_qty  :
                 frappe.db.sql("""
-				update `tabPickList Details` 
-					set total_picked_qty = '{qty}'
-					where docstatus=1 AND parent = "{picklist}" AND part_number="{part_number}";""".format(picklist = doc.picklist,part_number=row.part_number,qty=row.qty))
-                frappe.db.commit()
+				update `tabPickList` 
+					set workflow_state = "Picking Started"
+					where docstatus<2 AND name = "{picklist}";""".format(picklist = doc.picklist))
+            
+
+            if doc.part_details :
+                for row in doc.part_details:
+                    qty = frappe.db.sql(""" Select sum(`tabPicking List Item Details`.qty) as qty from `tabPicking List` LEFT JOIN `tabPicking List Item Details` ON (`tabPicking List`.name=`tabPicking List Item Details`.parent) where `tabPicking List`.picklist ="{picklist}"
+                    and `tabPicking List Item Details`.part_number="{part_number}" group by `tabPicking List Item Details`.part_number;""".format(picklist = doc.picklist,part_number=row.part_number))
+                    frappe.db.sql("""
+				    update `tabPickList Details` 
+					set total_picked_qty = {qty}
+					where parent = "{picklist}" AND part_number="{part_number}";""".format(picklist = doc.picklist,part_number=row.part_number,qty=qty[0][0]))
+                    frappe.db.commit()
 
 
 
@@ -73,7 +84,7 @@ def picklist_item_query(doctype, txt, searchfield, start, page_len, filters):
     
 @frappe.whitelist()
 def picklist_item_qty(part_number,picklist):
-    stock = frappe.db.sql("""Select to_be_picked from `tabPickList Details` where docstatus=1 and parent ='%(picklist)s' and part_number='%(part_number)s' 
+    stock = frappe.db.sql("""Select to_be_picked from `tabPickList Details` where docstatus<2 and parent ='%(picklist)s' and part_number='%(part_number)s' 
     """%{"picklist": picklist,"part_number":part_number}, as_dict = 1)
     return stock
 

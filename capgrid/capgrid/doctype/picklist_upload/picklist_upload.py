@@ -20,7 +20,10 @@ class PickListUpload(Document):
 		  			'trigger_qty': d[2]})
 			# frappe.get_doc({'doctype':'PickList','customer': self.customer,'date': frappe.utils.today(),
 		   	# 		'warehouse': final_data[0][0],'details': items}).submit()
-			frappe.get_doc({'doctype':'PickList','customer': self.customer,'date': frappe.utils.today(),
-		   		'warehouse': self.warehouse,'details': items}).submit()
+			cust_shrt = "".join(segment.strip() for segment in self.customer_name.split("."))
+			# customer_short=self.customer_name.replace(' ','')[0:6]
+			customer_short=cust_shrt.replace(' ','')[0:6]
+			frappe.get_doc({'doctype':'PickList','customer': self.customer,"customer_short":customer_short,'date': frappe.utils.today(),
+		   		'warehouse': self.warehouse,'details': items}).save()
 				
 

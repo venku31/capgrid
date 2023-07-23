@@ -15,7 +15,7 @@ class PickList(Document):
                 item.actual_stock = get_actual_stock(self.warehouse, item.part_number)
                 item.to_be_picked=item.trigger_qty
     
-    def on_submit(self):
+    def on_update(self):
         # frappe.get_doc({'doctype':'PickList Screen','customer': self.customer, 'pick_list': self.name
         #                 }).insert()
         exists = frappe.db.get_value('Picking List',{"picklist":self.name},'name')

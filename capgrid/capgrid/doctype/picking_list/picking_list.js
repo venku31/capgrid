@@ -93,6 +93,11 @@ frappe.ui.form.on('Picking List', {
 		}
 		fetch_part_number_qty(frm);	
 	},
+	validate: function(frm){
+		if(frm.doc.workflow_state ="Pending" && frm.doc.total_scaned_qty){
+			frm.doc.workflow_state ="Picking Started"
+		}
+	}
 // 	this.frm.cscript.onload = function(frm) {
 // 		this.frm.set_query("part_number","grn_inward_item", function() {
 // 		  return {

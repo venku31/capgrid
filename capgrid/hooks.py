@@ -202,6 +202,42 @@ fixtures = [
             ]
         ],
     },
+    {
+        "doctype": "Workflow",
+        "filters": [
+            [
+                "name",
+                "in",
+                [
+                    "Picklistworkflow","Pickinglistworkflow",
+                ],
+            ]
+        ],
+    },
+    {
+        "doctype": "Workflow State",
+        "filters": [
+            [
+                "name",
+                "in",
+                [
+                    "Picking Started","Pending",
+                ],
+            ]
+        ],
+    },
+    {
+        "doctype": "Workflow Action Master",
+        "filters": [
+            [
+                "name",
+                "in",
+                [
+                    "Start",
+                ],
+            ]
+        ],
+    },
             ]
 
 # Testing

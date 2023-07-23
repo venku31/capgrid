@@ -16,6 +16,7 @@
   "date",
   "company",
   "warehouse",
+  "customer_short",
   "section_break_w2piq",
   "details",
   "section_break_ufqtt",
@@ -86,7 +87,7 @@
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "Naming Series",
-   "options": "PLU-",
+   "options": "customer_short.-.#",
    "read_only": 1,
    "reqd": 1
   },
@@ -144,13 +145,19 @@
    "fieldtype": "Link",
    "label": "Sales Order",
    "options": "Sales Order"
+  },
+  {
+   "fieldname": "customer_short",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Customer_short"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-07-22 13:54:14.818552",
+ "modified": "2023-07-23 23:50:05.640117",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "PickList",

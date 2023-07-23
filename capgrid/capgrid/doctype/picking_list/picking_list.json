@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "Picking-.#####",
+ "autoname": "field:picklist",
  "creation": "2023-06-24 11:16:00.642333",
  "default_view": "List",
  "doctype": "DocType",
@@ -34,7 +34,8 @@
    "label": "PickList",
    "options": "PickList",
    "read_only": 1,
-   "reqd": 1
+   "reqd": 1,
+   "unique": 1
   },
   {
    "fetch_from": "picklist.warehouse",
@@ -139,11 +140,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-07-22 13:32:33.889692",
+ "modified": "2023-07-23 23:58:41.902523",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Picking List",
- "naming_rule": "Expression (old style)",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
