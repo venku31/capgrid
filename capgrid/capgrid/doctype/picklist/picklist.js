@@ -10,12 +10,21 @@ frappe.ui.form.on("PickList Details", {
   },
   validate: function (frm, cdt, cdn) {
     total_qty(frm, cdt, cdn);
+    fetch_sales_order_rate_tax(frm, cdt, cdn);
+    // cur_frm.save();
   },
+
 });
 frappe.ui.form.on("PickList", {
   validate: function (frm, cdt, cdn) {
     total_qty(frm, cdt, cdn);
     fetch_actual_qty(frm, cdt, cdn);
+    fetch_sales_order_rate_tax(frm, cdt, cdn);
+   
+  },
+  sales_order: function (frm, cdt, cdn) {
+    cur_frm.refresh_fields()
+		cur_frm.save()
   },
 });
 
@@ -70,3 +79,41 @@ function fetch_actual_qty(frm, cdt, cdn) {
     }
   });
 }
+
+function fetch_sales_order_rate_tax(frm, cdt, cdn) {
+  $.each(frm.doc.details || [], function (i, d) {
+    if (frm.doc.sales_order) {
+      frappe.call({
+        method: "capgrid.capgrid.doctype.picklist.picklist.sales_order_price",
+        args: { sales_order: frm.doc.sales_order, part_number: d.part_number },
+        callback: function (r) {
+          console.log(r.message);
+          var rate = r.message[0].rate;
+          var tax_template = r.message[0].item_tax_template
+          frappe.model.set_value(cdt, cdn, d.price, rate);
+          frappe.model.set_value(cdt, cdn, d.item_tax_template, tax_template);
+          d.price = rate;
+          d.item_tax_template = tax_template
+        },
+      });
+    }
+  });
+}
+frappe.ui.form.on("PickList", {
+  refresh: function(frm, cdt, cdn) {
+    if (frm.doc.sales_order) {
+      frappe.call({
+        method: "capgrid.capgrid.doctype.picklist.picklist.sales_order_price",
+        args: { sales_order: frm.doc.sales_order, part_number: d.part_number },
+        callback: function (r) {
+          console.log(r.message);
+          var rate = r.message[0].rate;
+          var tax_template = r.message[0].item_tax_template
+          frm.doc.details.forEach(function(d) { d.price = rate; });
+      frm.doc.details.forEach(function(d) { d.item_tax_template= tax_template; });
+        },
+      });
+    }
+    cur_frm.refresh_fields()
+  },
+})

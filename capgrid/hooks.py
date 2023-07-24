@@ -233,7 +233,7 @@ fixtures = [
                 "name",
                 "in",
                 [
-                    "Start",
+                    "Start","Generate Invoice"
                 ],
             ]
         ],
