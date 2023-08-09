@@ -14,7 +14,10 @@ frappe.ui.form.on('Cycle Count', {
 		},
 	next_part: function(frm){
 	frappe.set_route("Form", "Cycle Count", "new-cycle-count-1");
-	}
+	},
+	validate: function(frm, cdt, cdn) {
+		total_scaned_qty(frm, cdt, cdn)
+		},
 });
 
 function fetch_lot_entry(frm) {
@@ -48,6 +51,17 @@ function fetch_lot_entry(frm) {
 };
 
 frappe.ui.form.on('Cycle Count Details', {
+	lot_number: function(frm, cdt, cdn) {
+		var d = locals[cdt][cdn];
+		$.each(frm.doc.cycle_count_details, function(i, row) {
+			if (row.lot_number === d.lot_number && row.name != d.name) {
+			   frappe.msgprint('Lot No already exists on the table.');
+			   frappe.model.remove_from_locals(cdt, cdn);
+			   frm.refresh_field('cycle_count_details');
+			   return false;
+			}
+		});
+	},
 	quantity: function(frm, cdt, cdn) {
 		total_scaned_qty(frm, cdt, cdn)
 		frm.save();
@@ -56,6 +70,7 @@ frappe.ui.form.on('Cycle Count Details', {
 		total_scaned_qty(frm, cdt, cdn);
 		frm.save();
 	},
+	
 })
 
 function total_scaned_qty(frm, cdt, cdn) {

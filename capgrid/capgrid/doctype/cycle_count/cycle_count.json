@@ -18,7 +18,8 @@
   "tab_break_ynn8n",
   "naming_series",
   "company",
-  "warehouse"
+  "warehouse",
+  "amended_from"
  ],
  "fields": [
   {
@@ -91,11 +92,21 @@
    "fieldname": "next_part",
    "fieldtype": "Button",
    "label": "Next Part"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Cycle Count",
+   "print_hide": 1,
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
+ "is_submittable": 1,
  "links": [],
- "modified": "2023-08-09 10:55:30.347380",
+ "modified": "2023-08-09 21:27:45.597904",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Cycle Count",
