@@ -14,6 +14,7 @@
  ],
  "fields": [
   {
+   "columns": 2,
    "fieldname": "lot_number",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -57,7 +58,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-08-09 21:27:21.814384",
+ "modified": "2023-08-12 21:20:10.355370",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Cycle Count Details",

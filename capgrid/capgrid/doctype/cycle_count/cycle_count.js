@@ -2,9 +2,9 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Cycle Count', {
-	// refresh: function(frm) {
-
-	// }
+	refresh: function(frm) {
+	frm.get_field("cycle_count_details").grid.cannot_add_rows = true;
+	},
 	lot_no_scan: function(frm){
 		fetch_lot_entry(frm);	
 
@@ -17,6 +17,7 @@ frappe.ui.form.on('Cycle Count', {
 	},
 	validate: function(frm, cdt, cdn) {
 		total_scaned_qty(frm, cdt, cdn)
+		cur_frm.set_value("created_by", frappe.session.user)
 		},
 });
 
@@ -26,7 +27,7 @@ function fetch_lot_entry(frm) {
 	  "method": "capgrid.capgrid.doctype.cycle_count.cycle_count.scan_lot",
 	  "args": {
 		"lot_no": frm.doc.lot_no_scan,
-		"warehouse_location":frm.doc.location,
+		// "warehouse_location":frm.doc.location,
 	   },
 	  callback: function (r) {
 		console.log(r)
