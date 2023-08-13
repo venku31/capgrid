@@ -40,6 +40,7 @@ function fetch_lot_entry(frm) {
 			frappe.model.set_value(child.doctype, child.name, "lot_number", stock.lot_number)
 			// frappe.model.set_value(child.doctype, child.name, "qty", stock.actual_qty)
 			frappe.model.set_value(child.doctype, child.name, "location", stock.warehouse_location)
+			frappe.model.set_value(child.doctype, child.name, "warehouse", stock.warehouse)
 		   });
 	    // cur_frm.refresh_fields()
 			

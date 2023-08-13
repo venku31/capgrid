@@ -27,7 +27,7 @@ function fetch_lot_entry(frm) {
 			cur_frm.set_value("lot_number",stock.lot_number)
 			cur_frm.set_value("qty",stock.actual_qty)
 			cur_frm.set_value("location",stock.warehouse_location)
-		
+			cur_frm.set_value("warehouse",stock.warehouse)
 		   });
 	    // cur_frm.refresh_fields()
 			
