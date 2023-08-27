@@ -21,7 +21,12 @@ from datetime import date,timedelta
 from frappe.model.document import Document
 
 class QualityInspectionPage(Document):
-	pass
+    # pass
+    def validate(self):
+        for row in self.quality_inspection_page_table:
+            exists = frappe.get_value("Quality Inspection Page Table",{"batch_no":row.batch_no,"docstatus":1},'parent')
+            if exists:
+                frappe.throw(_("QI already done for this Lot {0} in Quality Inspection :<b>{1}</b>").format(row.batch_no,exists))
 
 @frappe.whitelist()
 def search_lot(batch,):
@@ -34,11 +39,11 @@ def search_lot(batch,):
     if not qi_lot :
         if main_lot :
             stock = frappe.db.sql("""SELECT iw.name as grn,iw.purchase_order,iw.purchase_receipt,iwd.part_number,iwd.item_name,iwd.packet,iwd.qty,iwd.batch_no,iwd.lot_no,iw.supplier,iw.supplier_name,iw.supplier_invoice_no,iw.supplier_invoice_date,iw.owner,iw.main_warehouse,iw.company
-	        from `tabGRN Inward` iw LEFT JOIN `tabGRN Inward Item Details` iwd ON (iw.name=iwd.parent) where iw.docstatus=1 and iwd.lot_no = '%(batch)s' order by iwd.batch_no  """%{"batch": main_lot}, as_dict = 1)
+            from `tabGRN Inward` iw LEFT JOIN `tabGRN Inward Item Details` iwd ON (iw.name=iwd.parent) where iw.docstatus=1 and iwd.lot_no = '%(batch)s' order by iwd.batch_no  """%{"batch": main_lot}, as_dict = 1)
             return stock
         else :
             stock = frappe.db.sql("""SELECT iw.name as grn,iw.purchase_order,iw.purchase_receipt,iwd.part_number,iwd.item_name,iwd.packet,iwd.qty,iwd.batch_no,iwd.lot_no,iw.supplier,iw.supplier_name,iw.supplier_invoice_no,iw.supplier_invoice_date,iw.owner,iw.main_warehouse,iw.company
-	        from `tabGRN Inward` iw LEFT JOIN `tabGRN Inward Item Details` iwd ON (iw.name=iwd.parent) where iw.docstatus=1 and iwd.lot_no = '%(batch)s' order by iwd.batch_no  """%{"batch": batch}, as_dict = 1)
+            from `tabGRN Inward` iw LEFT JOIN `tabGRN Inward Item Details` iwd ON (iw.name=iwd.parent) where iw.docstatus=1 and iwd.lot_no = '%(batch)s' order by iwd.batch_no  """%{"batch": batch}, as_dict = 1)
             return stock
     
 def create_quality_inspection(doc, handler=""):

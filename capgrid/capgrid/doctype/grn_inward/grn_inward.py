@@ -58,6 +58,8 @@ def create_purchase_receipt(doc,handler=""):
     pr.supplier_delivery_note = doc.supplier_invoice_no
     pr.supplier_invoice_date = doc.supplier_invoice_date
     pr.company = doc.company
+    pr.tax_category = frappe.db.get_value('Purchase Order', {'name':doc.purchase_order}, 'tax_category')
+    pr.taxes_and_charges = frappe.db.get_value('Purchase Order', {'name':doc.purchase_order}, 'taxes_and_charges')
         # pr.supplier_address:""
             
     for item in doc.grn_inward_item:
@@ -81,21 +83,61 @@ def create_purchase_receipt(doc,handler=""):
             "expense_account": frappe.db.get_value("Company", {"name": doc.company}, "default_expense_account"),
             "cost_center": frappe.db.get_value("Company", {"name": doc.company}, "cost_center"),
         })
-                    
+    po_taxes = frappe.db.sql(""" select a.charge_type, a.row_id, a.account_head, a.description, a.rate, a.account_currency,a.cost_center from `tabPurchase Taxes and Charges` a 
+    where a.parent = '{name}' """.format(name=doc.purchase_order), as_dict=1) 
+    for x in po_taxes:
+            taxes = pr.append("taxes", {})
+            taxes.charge_type = x.charge_type
+            taxes.row_id = x.row_id
+            taxes.account_head = x.account_head
+            taxes.description = x.description
+            taxes.cost_center = x.cost_center               
     pr.flags.ignore_mandatory = True
     pr.set_missing_values()
     pr.docstatus=1
     pr.insert(ignore_permissions=True)
-        # pr.save(ignore_permissions = True)
-        # pr.submit()
+    # pr.save(ignore_permissions = True)
+    # pr.submit()
     doc.purchase_receipt =pr.name
     doc.save(ignore_permissions=True)
     # except Exception as e:
     #     return {"error":e} 
     # create_lot_split_entry(doc)
+    update_received_qty(pr.name)
     update_parent_lot(doc)
 
 #Main Lot
+@frappe.whitelist()
+def update_received_qty(pr_name):
+    pr_doc= frappe.get_doc("Purchase Receipt", pr_name)
+    for pr_i in pr_doc.items:
+        if pr_i.get('purchase_order'):
+            po = frappe.get_doc("Purchase Order", pr_i.get('purchase_order'))
+            for po_i in po.items:
+                if pr_i.item_code == po_i.item_code and po_i.parent == pr_i.purchase_order:
+                    received_qty = po_i.received_qty + pr_i.qty
+                    frappe.db.sql("update `tabPurchase Order Item` set received_qty = {0} \
+                        where name = '{1}'".format(received_qty, po_i.name))
+                    # if po_i.qty >= received_qty:
+                    #     po_status = "To Bill"
+                    #     frappe.db.sql("update `tabPurchase Order` set status = '{0}' \
+                    #     where name = '{1}'".format(po_status, po_i.name))
+
+
+    # po_nos = frappe.db.get_all("Purchase Receipt Item", { "parent": pr_doc.name }, "purchase_order as po")
+
+    # for po in po_nos:
+    #     if po.get('po'):
+    #         po = frappe.get_doc("Purchase Order", po.get('po'))
+    #         all_received = True
+    #         for i in po.items:
+    #             if i.qty >= i.received_qty:
+    #                 all_received = False
+    #         # po_status = "To Bill" if all_received else "To Receive and Bill"
+    #         po_status = "To Bill"
+    #         frappe.db.sql("update `tabPurchase Order` set status = '{0}' \
+    #             where name = '{1}'".format(po_status, po.name))
+
 @frappe.whitelist()
 def set_or_create_main_lot(doc, method=None):
     def set_existing_main_lot(item):
@@ -298,7 +340,7 @@ def after_validate(doc, method):
 def po_item_query(doctype, txt, searchfield, start, page_len, filters):
     if filters.get("parent"):
         return frappe.db.sql(""" select item_code,item_name,parent,qty,stock_uom from `tabPurchase Order Item`
-        where parent = %(parent)s and item_name like %(txt)s
+        where parent = %(parent)s and (qty-received_qty)>0 and item_name like %(txt)s
         limit %(start)s, %(page_len)s""", {
             'parent': filters.get("parent"),
             'start': start,
