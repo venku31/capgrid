@@ -48,6 +48,7 @@ def search_lot(batch,company):
     (select warehouse_location from `tabItem Default` where parent=iwd.part_number and company='%(company)s') as location
     from `tabLot Number Generation` iw LEFT JOIN `tabLot Number Generation Item Details` iwd ON(iw.name=iwd.parent) where iw.docstatus=1 and iwd.batch_no = '%(batch)s' 
     """%{"batch": batch,"company":company}, as_dict = 1)
+    
     return stock
 # def create_quality_inspection(doc, handler=""):
 #     for item in doc.quality_inspection_page_table:
@@ -66,11 +67,14 @@ def create_stock_entry(doc, handler=""):
     po_rate = frappe.db.get_value('Purchase Order Item', {'item_code':doc.part_number,'parent':po}, 'rate')
     last_rate = frappe.db.get_value('Item', {'item_code':doc.part_number}, 'last_purchase_rate')
     item_price_rate = frappe.db.get_value('Item Price', {'item_code':doc.part_number,'price_list':"Standard Buying"}, 'price_list_rate')
+
     if doc.lot_status=="Accepted" :
         location = ""
     else :
         location = doc.location
-	    
+    
+    wh = frappe.db.get_value("Warehouse Location", {"company":doc.company,"main_warehouse":doc.main_warehouse,"location":doc.location}, "warehouse")
+    item_bin_rate = frappe.db.get_value('Bin', {'item_code':doc.part_number,'warehouse':wh}, 'valuation_rate')
     qc_qty_accepted = frappe.db.get_value("Lot Number", {"name": doc.batch_no}, "accepted_qty")
     qc_qty_rejected = frappe.db.get_value("Lot Number", {"name": doc.batch_no}, "rejected_qty")
     qc_qty_hold = frappe.db.get_value("Lot Number", {"name": doc.batch_no}, "hold_qty")
@@ -80,7 +84,7 @@ def create_stock_entry(doc, handler=""):
         basic_amount = item_bin_rate
     else:
         basic_amount = po_rate
-	    
+   
     se.append("items", { 
     "item_code":doc.part_number,
     "qty": frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "lot_qty"),
@@ -89,8 +93,8 @@ def create_stock_entry(doc, handler=""):
     "t_warehouse": "",
     "set_basic_rate_manually":1,
     # "basic_rate" : frappe.db.get_value('Item', {'item_code':doc.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':doc.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
-    "basic_rate" :basic_amount,
-    "valuation_rate" :basic_amount,
+    "basic_rate" :basic_amount,#doc.last_purchase_rate,
+    "valuation_rate" :basic_amount,#doc.last_purchase_rate,
     "basic_amount" :round(basic_amount * flt(qc_qty_accepted or qc_qty_rejected or qc_qty_hold or qc_qty_lot),4),
     "amount" :round(basic_amount * flt(qc_qty_accepted or qc_qty_rejected or qc_qty_hold or qc_qty_lot),4),
     # "basic_rate" :doc.last_purchase_rate,
@@ -195,7 +199,7 @@ def update_item_location(doc, handler=""):
         FROM `tabItem Default`
         WHERE company = %(company)s
         AND parent =%(part_number)s """, values={"company": doc.company, "part_number":doc.part_number},as_dict=1,)
-        print("///////",item_default)
+        # print("///////",item_default)
         company=doc.company
         scaned_location=doc.scaned_location
         itemcode=doc.part_number
