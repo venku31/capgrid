@@ -88,13 +88,16 @@ def create_stock_entry(doc, handler=""):
     # frappe.throw(str(po1)+"PO1")
     basic_amount = 0
     if not po1:
-        if not item_bin_rate:
-            frappe.throw("Zero Valuation Rate not to be allowed...!")
-        else:
+        if po_rate:
+            basic_amount = po_rate
+        elif item_bin_rate:
             basic_amount = item_bin_rate
+        else:
+            frappe.throw("Zero Valuation Rate not to be allowed...!")
     else:
-        basic_amount =  po1 or po_rate 
+        basic_amount =  po1
 
+    # print("PO1:",po1,"\n\n\nBIN:",item_bin_rate,"\n\nBin\nPoRate",po_rate)
     # frappe.throw(str(basic_amount)+"basic_amount")
     se.append("items", { 
     "item_code":doc.part_number,
