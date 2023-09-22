@@ -81,7 +81,7 @@
   "doctype": "Workflow",
   "document_type": "PickList",
   "is_active": 1,
-  "modified": "2023-09-13 11:54:42.553159",
+  "modified": "2023-09-21 20:55:40.592021",
   "name": "Picklistworkflow",
   "override_status": 0,
   "send_email_alert": 0,
@@ -137,11 +137,24 @@
     "state": "Completed",
     "update_field": null,
     "update_value": null
+   },
+   {
+    "allow_edit": "Sales User",
+    "doc_status": "2",
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "parent": "Picklistworkflow",
+    "parentfield": "states",
+    "parenttype": "Workflow",
+    "state": "Cancelled",
+    "update_field": null,
+    "update_value": null
    }
   ],
   "transitions": [
    {
-    "action": "Start",
+    "action": "Picking Completed",
     "allow_self_approval": 1,
     "allowed": "Sales User",
     "condition": null,
@@ -150,17 +163,6 @@
     "parentfield": "transitions",
     "parenttype": "Workflow",
     "state": "Pending"
-   },
-   {
-    "action": "Picking Completed",
-    "allow_self_approval": 1,
-    "allowed": "Sales User",
-    "condition": null,
-    "next_state": "Picking Completed",
-    "parent": "Picklistworkflow",
-    "parentfield": "transitions",
-    "parenttype": "Workflow",
-    "state": "Picking Started"
    },
    {
     "action": "Generate Invoice",
@@ -172,6 +174,17 @@
     "parentfield": "transitions",
     "parenttype": "Workflow",
     "state": "Picking Completed"
+   },
+   {
+    "action": "Cancel",
+    "allow_self_approval": 1,
+    "allowed": "Sales User",
+    "condition": null,
+    "next_state": "Cancelled",
+    "parent": "Picklistworkflow",
+    "parentfield": "transitions",
+    "parenttype": "Workflow",
+    "state": "Completed"
    }
   ],
   "workflow_name": "Picklistworkflow",
