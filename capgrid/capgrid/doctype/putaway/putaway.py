@@ -73,7 +73,7 @@ def create_stock_entry(doc, handler=""):
     else :
         location = doc.location
     
-    wh = frappe.db.get_value("Warehouse Location", {"company":doc.company,"main_warehouse":doc.main_warehouse,"location":doc.location}, "warehouse")
+    wh = frappe.db.get_value("Warehouse Location", {"company":doc.company,"main_warehouse":doc.main_warehouse,"location":doc.scaned_location}, "warehouse")
     item_bin_rate = frappe.db.get_value('Bin', {'item_code':doc.part_number,'warehouse':wh}, 'valuation_rate')
     qc_qty_accepted = frappe.db.get_value("Lot Number", {"name": doc.batch_no}, "accepted_qty")
     qc_qty_rejected = frappe.db.get_value("Lot Number", {"name": doc.batch_no}, "rejected_qty")
@@ -89,7 +89,7 @@ def create_stock_entry(doc, handler=""):
     "item_code":doc.part_number,
     "qty": frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "lot_qty"),
     "transfer_qty":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty"),
-    "s_warehouse": frappe.db.get_value("Warehouse Location", {"company":doc.company,"location":doc.location}, "warehouse"),
+    "s_warehouse": frappe.db.get_value("Warehouse Location", {"company":doc.company,"location":doc.scaned_location}, "warehouse"),
     "t_warehouse": "",
     "set_basic_rate_manually":1,
     # "basic_rate" : frappe.db.get_value('Item', {'item_code':doc.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':doc.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
