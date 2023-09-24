@@ -73,6 +73,7 @@ function fetch_batch_entry(frm) {
 		  cur_frm.set_value("location", stock.location)
 		  cur_frm.set_value("lot_status", stock.status)
 		  cur_frm.set_value("main_warehouse", stock.main_warehouse)
+		  cur_frm.set_value("qty", stock.accepted_qty)
 		//   cur_frm.set_value("grn", stock.grn)
 		//   cur_frm.set_value("purchase_order", stock.purchase_order)
 		//   cur_frm.set_value("purchase_receipt", stock.purchase_receipt)
