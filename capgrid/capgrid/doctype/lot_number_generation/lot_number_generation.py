@@ -185,7 +185,7 @@ def create_lot_stock_entry(doc, handler=""):
         po_rate = frappe.db.get_value('Item', {'item_code':item.part_number}, 'last_purchase_rate')
         # print("///////////",po_rate)
         valuation_rate=frappe.get_all('Stock Ledger Entry', filters={'item_code':item.part_number,'valuation_rate' : ['>', '0'],'is_cancelled':0}, fields=['valuation_rate'],limit =1)
-        print("///////////",valuation_rate)
+        # print("///////////",valuation_rate)
         item_price_rate = frappe.db.get_value('Item Price', {'item_code':item.part_number,'price_list':"Standard Buying"}, 'price_list_rate')
         if item.lot_no:
             se.append("items", 
@@ -198,10 +198,10 @@ def create_lot_stock_entry(doc, handler=""):
                 "set_basic_rate_manually":1,
                 # "basic_rate" : frappe.db.get_value('Item', {'item_code':item.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':item.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
                 # "valuation_rate" : frappe.db.get_value('Item', {'item_code':item.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':item.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
-                "basic_rate" : valuation_rate[0].valuation_rate,#item.last_purchase_rate or
-                "valuation_rate" :valuation_rate[0].valuation_rate,#item.last_purchase_rate or 
-                "basic_amount" : valuation_rate[0].valuation_rate*item.qty,#item.last_purchase_rate*item.qty or 
-                "amount" :valuation_rate[0].valuation_rate*item.qty,#item.last_purchase_rate*item.qty or 
+                "basic_rate" : valuation_rate[0].valuation_rate or item.last_purchase_rate,
+                "valuation_rate" :valuation_rate[0].valuation_rate or item.last_purchase_rate, 
+                "basic_amount" : valuation_rate[0].valuation_rate*item.qty or item.last_purchase_rate*item.qty,
+                "amount" :valuation_rate[0].valuation_rate*item.qty or item.last_purchase_rate*item.qty,
                 "conversion_factor": 1,
                 "allow_zero_valuation_rate":1,
                 # "reference_purchase_receipt":doc.purchase_receipt,
@@ -223,10 +223,10 @@ def create_lot_stock_entry(doc, handler=""):
                 "uom" : item.uom,
                 "set_basic_rate_manually":1,
                 # "basic_rate" : frappe.db.get_value('Item', {'item_code':se_item.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':se_item.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
-                "basic_rate" : valuation_rate[0].valuation_rate,#item.last_purchase_rate or
-                "valuation_rate" :valuation_rate[0].valuation_rate,#item.last_purchase_rate or 
-                "basic_amount" : valuation_rate[0].valuation_rate*item.qty,#item.last_purchase_rate*item.qty or 
-                "amount" :valuation_rate[0].valuation_rate*item.qty,#item.last_purchase_rate*item.qty or 
+                "basic_rate" : valuation_rate[0].valuation_rate or item.last_purchase_rate, 
+                "valuation_rate" :valuation_rate[0].valuation_rate or item.last_purchase_rate ,
+                "basic_amount" : valuation_rate[0].valuation_rate*item.qty or item.last_purchase_rate*item.qty,
+                "amount" :valuation_rate[0].valuation_rate*item.qty or item.last_purchase_rate*item.qty,
                 "conversion_factor": 1,
                 "allow_zero_valuation_rate":1,
                 # "reference_purchase_receipt":doc.purchase_receipt,

@@ -27,14 +27,16 @@
   "batch_no",
   "scaned_location",
   "override",
+  "last_purchase_rate",
+  "tab_break_kdee7",
+  "section_break_vcnw9",
   "company",
   "main_warehouse",
-  "last_purchase_rate",
-  "section_break_vcnw9",
   "amended_from",
   "date",
   "column_break_lks38",
-  "stock_entry"
+  "stock_entry",
+  "qty"
  ],
  "fields": [
   {
@@ -199,7 +201,6 @@
    "read_only": 1
   },
   {
-   "fetch_from": "location.warehouse",
    "fieldname": "warehouse",
    "fieldtype": "Link",
    "label": "Warehouse",
@@ -213,13 +214,23 @@
    "hidden": 1,
    "label": "Last purchase rate",
    "read_only": 1
+  },
+  {
+   "fieldname": "tab_break_kdee7",
+   "fieldtype": "Tab Break",
+   "label": "Info"
+  },
+  {
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "label": "Qty"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-06-10 00:07:37.065425",
+ "modified": "2023-09-24 20:44:28.176192",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Putaway",

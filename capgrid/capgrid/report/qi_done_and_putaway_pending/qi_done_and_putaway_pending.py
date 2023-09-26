@@ -77,7 +77,7 @@ def get_data(filters):
         det.lot_no ,
         det.batch_no,
         det.qty,qi.purchase_order,qi.main_warehouse 
-        from `tabQuality Inspection Page` qi join `tabQuality Inspection Page Table` det ON(qi.name=det.parent and qi.docstatus=1 and qi.date>="2023-05-30")
+        from `tabQuality Inspection Page` qi join `tabQuality Inspection Page Table` det ON(qi.name=det.parent and qi.docstatus=1 and qi.date>="2023-09-01")
 		WHERE
 			company = %(company)s
 			AND DATE(qi.date) BETWEEN %(from_date)s AND %(to_date)s
