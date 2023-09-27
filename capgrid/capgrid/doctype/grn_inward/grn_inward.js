@@ -126,10 +126,8 @@ frappe.ui.form.on("GRN Inward Item", {
       },
       packet: function(frm, cdt, cdn){ 
          var d = frappe.model.get_doc(cdt, cdn);
-       
       if(frm.doc.purchase_order && (d.qty>d.po_qty)){
-         var row_number = d.idx;
-         frappe.msgprint(__('Qty is greater than PO Qty in row {0}, Please check',[row_number])); 
+         frappe.msgprint(__("Qty is greater than PO Qty , Please check"));  
          d.diff = 1;
       }
       if(frm.doc.purchase_order && (d.qty<=d.po_qty)){
@@ -182,9 +180,7 @@ frappe.ui.form.on("GRN Inward Item", {
        qty(frm,cdt,cdn){  
       var d = frappe.model.get_doc(cdt, cdn);
       if(frm.doc.purchase_order && (d.qty>d.po_qty)){
-         var row_number = d.idx;
-         frappe.msgprint(__('Qty is greater than PO Qty in row {0}, Please check',[row_number])); 
-         // frappe.msgprint(__("Qty is greater than PO Qty , Please check acsdsds"));  
+         frappe.msgprint(__("Qty is greater than PO Qty , Please check"));  
          d.diff = 1;
       }
       if(frm.doc.purchase_order && (d.qty<=d.po_qty)){
