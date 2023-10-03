@@ -127,7 +127,8 @@ frappe.ui.form.on("GRN Inward Item", {
       packet: function(frm, cdt, cdn){ 
          var d = frappe.model.get_doc(cdt, cdn);
       if(frm.doc.purchase_order && (d.qty>d.po_qty)){
-         frappe.msgprint(__("Qty is greater than PO Qty , Please check"));  
+         var row_number = d.idx;
+         frappe.msgprint(__('Qty is greater than PO Qty in row {0}, Please check',[row_number])); 
          d.diff = 1;
       }
       if(frm.doc.purchase_order && (d.qty<=d.po_qty)){
@@ -166,10 +167,14 @@ frappe.ui.form.on("GRN Inward Item", {
                   console.log(r.message);
                   var price = r.message[0].rate
                   var qty = r.message[0].qty
+                  var received_qty = r.message[0].received_qty
                   var uom = r.message[0].uom
+                  var set_qty = qty-received_qty
                   frappe.model.set_value(cdt, cdn, "rate", price);
                   frappe.model.set_value(cdt, cdn, "rate1", price);
+                  frappe.model.set_value(cdt, cdn, "qty", set_qty);
                   frappe.model.set_value(cdt, cdn, "po_qty", qty);
+                  frappe.model.set_value(cdt, cdn, "received_qty", received_qty);
                   frappe.model.set_value(cdt, cdn, "uom", uom);
                   }
                });	
@@ -180,7 +185,16 @@ frappe.ui.form.on("GRN Inward Item", {
        qty(frm,cdt,cdn){  
       var d = frappe.model.get_doc(cdt, cdn);
       if(frm.doc.purchase_order && (d.qty>d.po_qty)){
-         frappe.msgprint(__("Qty is greater than PO Qty , Please check"));  
+         var row_number = d.idx;
+         frappe.msgprint(__('Qty is greater than PO Qty in row {0}, Please check',[row_number])); 
+         // frappe.msgprint(__("Qty is greater than PO Qty , Please check acsdsds"));  
+         d.diff = 1;
+      }
+      var rec_qty  = (d.po_qty - d.received_qty)
+      if( frm.doc.purchase_order && d.qty > rec_qty){
+         var row_number = d.idx;
+         frappe.model.set_value(cdt, cdn, "qty", rec_qty);
+         frappe.throw(__('Qty is greater than already received Qty {0} in row {1}, Please check').replace('{0}', rec_qty).replace('{1}', row_number));
          d.diff = 1;
       }
       if(frm.doc.purchase_order && (d.qty<=d.po_qty)){
@@ -189,9 +203,6 @@ frappe.ui.form.on("GRN Inward Item", {
        },  
        });
        
-
-   
-
    frappe.ui.form.on('GRN Inward', {
    //    refresh: function(frm, cdt, cdn) {
    //    frm.add_custom_button(__("Update Lot"),function () {

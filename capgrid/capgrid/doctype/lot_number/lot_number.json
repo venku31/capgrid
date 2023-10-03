@@ -27,6 +27,7 @@
   "supplier",
   "quality_inspection_page",
   "quality_inspection_status",
+  "purchase_rate",
   "column_break_9",
   "reference_doctype",
   "reference_name",
@@ -214,7 +215,7 @@
    "fieldname": "type",
    "fieldtype": "Select",
    "label": "Type",
-   "options": "\nParent\nChild",
+   "options": "\nParent\nChild\nManual",
    "read_only": 1
   },
   {
@@ -266,13 +267,18 @@
    "fieldtype": "Data",
    "label": "idx no",
    "read_only": 1
+  },
+  {
+   "fieldname": "purchase_rate",
+   "fieldtype": "Currency",
+   "label": "Purchase Rate"
   }
  ],
  "icon": "fa fa-archive",
  "image_field": "image",
  "links": [],
  "max_attachments": 5,
- "modified": "2023-08-09 21:56:04.354656",
+ "modified": "2023-09-20 11:01:58.612592",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Lot Number",

@@ -12,6 +12,7 @@
   "rate",
   "uom",
   "qty",
+  "received_qty",
   "packet",
   "update",
   "lot_no",
@@ -107,12 +108,17 @@
    "fieldtype": "Data",
    "label": "Rate1",
    "read_only": 1
+  },
+  {
+   "fieldname": "received_qty",
+   "fieldtype": "Float",
+   "label": "Received Qty"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-06-08 21:49:53.598697",
+ "modified": "2023-09-25 12:24:29.230716",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "GRN Inward Item",

@@ -248,6 +248,11 @@ def set_or_create_batch(doc, method):
                     "Lot Number",
                     {"idx_no": item.idx,"supplier": doc.supplier,"reference_doctype": doc.doctype,"reference_name": doc.name,"type":"Child"},
                 )
+            # for item in doc.grn_inward_item_details:
+            #     po_details = get_po_details(doc.purchase_order,item.part_number)
+            #     if po_details:
+            #         first_po_detail = po_details[0]  
+            #         purchase_rate = first_po_detail.get('rate')
             item.batch_no = batch_no
             item.save()
 
@@ -258,12 +263,17 @@ def set_or_create_batch(doc, method):
             lambda item: item.idx < x.idx
             and item.idx == x.idx,
             doc.grn_inward_item_details,
+            print(item.idx,"prashantwhile update")
         ),
     )
 
     def create_new_batch(item):
         # warehouse = "t_warehouse" if doc.doctype == "Stock Entry" else "warehouse"
         for item in doc.grn_inward_item_details:
+            po_details = get_po_details(doc.purchase_order,item.part_number)
+            if po_details:
+                first_po_detail = po_details[0]  
+                purchase_rate = first_po_detail.get('rate')
             if not item.batch_no:
                 has_batch_no, create_new_batch = frappe.db.get_value(
                 "Item",
@@ -287,6 +297,7 @@ def set_or_create_batch(doc, method):
                 "reference_doctype": doc.doctype,
                 "reference_name": doc.name or "",
                 # "purchase_order":doc.purchase_order or " ",
+                "purchase_rate":purchase_rate,
                 "packet":item.packet,
                 "idx_no":item.idx,
                 "type":"Child"
@@ -295,7 +306,24 @@ def set_or_create_batch(doc, method):
                 item.batch_no = batch.name
                 item.lot_no = batch.parent_lot
                 doc.save(ignore_permissions = True)
+
+    def set_po_rate_in_lot_number(item):
+         print(item.batch_no,"pkitem.batch_no")
+         for item in doc.grn_inward_item_details:
+            po_details = get_po_details(doc.purchase_order,item.part_number)
+            if po_details:
+                first_po_detail = po_details[0]  
+                purchase_rate = first_po_detail.get('rate')
+            if item.batch_no:
+                lot = frappe.get_doc('Lot Number', item.batch_no)
+                lot.purchase_rate = purchase_rate
+                lot.save(ignore_permissions=True)
+                frappe.db.commit()
+
+
+
     def update_lot(item):
+        
         for item in doc.grn_inward_item_details:
             if item.batch_no :
                 lot = frappe.get_doc('Lot Number', item.batch_no)
@@ -306,9 +334,11 @@ def set_or_create_batch(doc, method):
 
     if doc._action == "save":
         # delete_existing_batch()
+   
         for item in doc.grn_inward_item_details:
             if not item.batch_no :
                 set_existing_batch(item)
+                
             # else :
             #     update_lot(item)
 
@@ -319,6 +349,8 @@ def set_or_create_batch(doc, method):
         for item in doc.grn_inward_item_details:
             if not item.batch_no :
                 create_new_batch(item)
+            if item.batch_no:
+                set_po_rate_in_lot_number(item)
 
 
                 
@@ -481,7 +513,7 @@ def create_new_batches(grn,product_description,supplier):
 @frappe.whitelist()
 def get_po_details(po,part_number):
     return frappe.get_all(
-        "Purchase Order Item", filters={"docstatus": 1,"parent":po,"item_code":part_number}, fields=["item_code", "qty","uom","rate"]
+        "Purchase Order Item", filters={"docstatus": 1,"parent":po,"item_code":part_number}, fields=["item_code", "qty","uom","rate","received_qty"]
     )
 @frappe.whitelist()
 def update_parent_lot(doc):

@@ -44,7 +44,7 @@ app_license = "MIT"
 
 # website user home page (by Role)
 # role_home_page = {
-#	"Role": "home_page"
+# "Role": "home_page"
 # }
 
 # Generators
@@ -76,11 +76,11 @@ app_license = "MIT"
 # Permissions evaluated in scripted ways
 
 # permission_query_conditions = {
-#	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
+# "Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
 # }
 #
 # has_permission = {
-#	"Event": "frappe.desk.doctype.event.event.has_permission",
+# "Event": "frappe.desk.doctype.event.event.has_permission",
 # }
 
 # DocType Class
@@ -88,7 +88,7 @@ app_license = "MIT"
 # Override standard doctype classes
 
 # override_doctype_class = {
-#	"ToDo": "custom_app.overrides.CustomToDo"
+# "ToDo": "custom_app.overrides.CustomToDo"
 # }
 
 # Document Events
@@ -96,101 +96,101 @@ app_license = "MIT"
 # Hook on document methods and events
 
 doc_events = {
-#	"*": {
-#		"on_update": "method",
-#		"on_cancel": "method",
-#		"on_trash": "method"
-#	}
-# "Inward GRN": {
-#          "on_update": "capgrid.capgrid.doctype.inward_grn.inward_grn.before_validate",
-# 		#  "after_validate": "capgrid.capgrid.doctype.inward_grn.inward_grn.before_validate",
-#     },
-"Quality Inspection Page": {
-		"before_submit":  "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_quality_inspection",
-		"on_submit": ["capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_qi_stock_entry",
-	 				  
-		],
-		# "on_update_after_submit": "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_qi_status_change_entry",
-		# "save": "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_update_status",
-	},
-# "Purchase Receipt": {
-# 		 "on_submit": "capgrid.capgrid.doctype.grn_inward.grn_inward.create_lot_split_entry",
-# 	},
-"GRN Inward": {
-         "on_update": ["capgrid.capgrid.doctype.grn_inward.grn_inward.before_validate",
-		 				"capgrid.capgrid.doctype.grn_inward.grn_inward.after_validate",
-		 ],
-		#  "after_validate": "capgrid.capgrid.doctype.grn_inward.grn_inward.after_validate",
-		 "on_submit": ["capgrid.capgrid.doctype.grn_inward.grn_inward.create_purchase_receipt",
-		 				"capgrid.capgrid.doctype.grn_inward.grn_inward.create_lot_split_entry",
-		 ],
-		 "validate": "capgrid.capgrid.doctype.grn_inward.grn_inward.validate_supplier_invoice_no",
-	},
-"Lot Number Generation": {
-         "on_update": "capgrid.capgrid.doctype.lot_number_generation.lot_number_generation.before_validate",
-		 "on_submit": "capgrid.capgrid.doctype.lot_number_generation.lot_number_generation.create_lot_stock_entry",
-		 
-	},
-"Putaway": {
-		"before_save": "capgrid.capgrid.doctype.putaway.putaway.update_item_location",
-		"on_submit": "capgrid.capgrid.doctype.putaway.putaway.create_stock_entry",
-	},
-"Location Movement": {
-		"on_submit": "capgrid.capgrid.doctype.location_movement.location_movement.create_lm_stock_entry",
-	},
-"Salary Slip": {
-		"validate": "capgrid.api.salary_slip.compute_benifit_claim_year_to_date",
-	},
-"Sales Invoice": {
-		"validate": "capgrid.api.sales_invoice.validate_warehouse",
-	},
+    # "*": {
+    # "on_update": "method",
+    # "on_cancel": "method",
+    # "on_trash": "method"
+    # }
+    # "Inward GRN": {
+    #          "on_update": "capgrid.capgrid.doctype.inward_grn.inward_grn.before_validate",
+    # 		#  "after_validate": "capgrid.capgrid.doctype.inward_grn.inward_grn.before_validate",
+    #     },
+    "Quality Inspection Page": {
+        "before_submit":  "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_quality_inspection",
+        "on_submit": ["capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_qi_stock_entry",
+
+                      ],
+        # "on_update_after_submit": "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_qi_status_change_entry",
+        # "save": "capgrid.capgrid.doctype.quality_inspection_page.quality_inspection_page.create_update_status",
+    },
+    # "Purchase Receipt": {
+    # 		 "on_submit": "capgrid.capgrid.doctype.grn_inward.grn_inward.create_lot_split_entry",
+    # 	},
+    "GRN Inward": {
+        "on_update": ["capgrid.capgrid.doctype.grn_inward.grn_inward.before_validate",
+                      "capgrid.capgrid.doctype.grn_inward.grn_inward.after_validate",
+                      ],
+        #  "after_validate": "capgrid.capgrid.doctype.grn_inward.grn_inward.after_validate",
+        "on_submit": ["capgrid.capgrid.doctype.grn_inward.grn_inward.create_purchase_receipt",
+                      "capgrid.capgrid.doctype.grn_inward.grn_inward.create_lot_split_entry",
+                      ],
+        "validate": "capgrid.capgrid.doctype.grn_inward.grn_inward.validate_supplier_invoice_no",
+    },
+    "Lot Number Generation": {
+        "on_update": "capgrid.capgrid.doctype.lot_number_generation.lot_number_generation.before_validate",
+        "on_submit": "capgrid.capgrid.doctype.lot_number_generation.lot_number_generation.create_lot_stock_entry",
+
+    },
+    "Putaway": {
+        "before_save": "capgrid.capgrid.doctype.putaway.putaway.update_item_location",
+        "on_submit": "capgrid.capgrid.doctype.putaway.putaway.create_stock_entry",
+    },
+    "Location Movement": {
+        "on_submit": "capgrid.capgrid.doctype.location_movement.location_movement.create_lm_stock_entry",
+    },
+    "Salary Slip": {
+        "validate": "capgrid.api.salary_slip.compute_benifit_claim_year_to_date",
+    },
+    "Sales Invoice": {
+        "validate": "capgrid.api.sales_invoice.validate_warehouse",
+    },
 }
 
 # Scheduled Tasks
 # ---------------
 
 # scheduler_events = {
-#	"all": [
-#		"capgrid.tasks.all"
-#	],
-#	"daily": [
-#		"capgrid.tasks.daily"
-#	],
-#	"hourly": [
-#		"capgrid.tasks.hourly"
-#	],
-#	"weekly": [
-#		"capgrid.tasks.weekly"
-#	]
-#	"monthly": [
-#		"capgrid.tasks.monthly"
-#	]
+# "all": [
+# "capgrid.tasks.all"
+# ],
+# "daily": [
+# "capgrid.tasks.daily"
+# ],
+# "hourly": [
+# "capgrid.tasks.hourly"
+# ],
+# "weekly": [
+# "capgrid.tasks.weekly"
+# ]
+# "monthly": [
+# "capgrid.tasks.monthly"
+# ]
 # }
 fixtures = [
-            {"doctype": "Inventory Dimension", "filters": [
-            [   
-            "name", "in", [
-                      "Lot Number",
-					  "Warehouse Location",
-    		       ]
+    {"doctype": "Inventory Dimension", "filters": [
+        [
+                "name", "in", [
+                    "Lot Number",
+                    "Warehouse Location",
                 ]
-            ]},
-			{"doctype": "Custom Field",
-        	"filters": [
-            [
-                "name",
-                "in",
-                [
-                    "Item Default-warehouse_location",
-					"Stock Entry-putaway",
-					"Salary Slip-claimed_benefits",
-					"Salary Slip-total_fy_benefits_claimed",
-					"Salary Slip-gross_pay_without_claim_benifit",
-					"Salary Slip-gross_pay_year_without_claim_benifit",
-			]
-			]
-			]},
-			{
+        ]
+    ]},
+    {"doctype": "Custom Field",
+     "filters": [
+         [
+             "name",
+             "in",
+             [
+                 "Item Default-warehouse_location",
+                 "Stock Entry-putaway",
+                 "Salary Slip-claimed_benefits",
+                 "Salary Slip-total_fy_benefits_claimed",
+                 "Salary Slip-gross_pay_without_claim_benifit",
+                 "Salary Slip-gross_pay_year_without_claim_benifit",
+             ]
+         ]
+     ]},
+    {
         "doctype": "Property Setter",
         "filters": [
             [
@@ -202,43 +202,7 @@ fixtures = [
             ]
         ],
     },
-    {
-        "doctype": "Workflow",
-        "filters": [
-            [
-                "name",
-                "in",
-                [
-                    "Picklistworkflow","Pickinglistworkflow",
-                ],
-            ]
-        ],
-    },
-    {
-        "doctype": "Workflow State",
-        "filters": [
-            [
-                "name",
-                "in",
-                [
-                    "Picking Started","Pending",
-                ],
-            ]
-        ],
-    },
-    {
-        "doctype": "Workflow Action Master",
-        "filters": [
-            [
-                "name",
-                "in",
-                [
-                    "Start","Generate Invoice"
-                ],
-            ]
-        ],
-    },
-            ]
+]
 
 # Testing
 # -------
@@ -252,14 +216,14 @@ override_doctype_class = {
     "Stock Entry": "capgrid.api.stock_entry.CustomStockEntry"
 }
 # override_whitelisted_methods = {
-#	"frappe.desk.doctype.event.event.get_events": "capgrid.event.get_events"
+# "frappe.desk.doctype.event.event.get_events": "capgrid.event.get_events"
 # }
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
 # override_doctype_dashboards = {
-#	"Task": "capgrid.task.get_dashboard_data"
+# "Task": "capgrid.task.get_dashboard_data"
 # }
 
 # exempt linked doctypes from being automatically cancelled
@@ -280,31 +244,31 @@ override_doctype_class = {
 # --------------------
 
 user_data_fields = [
-	{
-		"doctype": "{doctype_1}",
-		"filter_by": "{filter_by}",
-		"redact_fields": ["{field_1}", "{field_2}"],
-		"partial": 1,
-	},
-	{
-		"doctype": "{doctype_2}",
-		"filter_by": "{filter_by}",
-		"partial": 1,
-	},
-	{
-		"doctype": "{doctype_3}",
-		"strict": False,
-	},
-	{
-		"doctype": "{doctype_4}"
-	}
+    {
+        "doctype": "{doctype_1}",
+        "filter_by": "{filter_by}",
+        "redact_fields": ["{field_1}", "{field_2}"],
+        "partial": 1,
+    },
+    {
+        "doctype": "{doctype_2}",
+        "filter_by": "{filter_by}",
+        "partial": 1,
+    },
+    {
+        "doctype": "{doctype_3}",
+        "strict": False,
+    },
+    {
+        "doctype": "{doctype_4}"
+    }
 ]
 
 # Authentication and authorization
 # --------------------------------
 
 # auth_hooks = [
-#	"capgrid.auth.validate"
+# "capgrid.auth.validate"
 # ]
 
 # from erpnext.controllers.accounts_controller import AccountsController as _AccountsController
