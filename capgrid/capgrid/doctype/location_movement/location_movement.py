@@ -28,7 +28,7 @@ def search_location_mv_lot(lot_number,company):
 def create_lm_stock_entry(doc, handler=""):
     # if doc.scaned_location == doc.location :
     se = frappe.new_doc("Stock Entry")
-    se.update({ "purpose": "Repack" , "stock_entry_type": "Repack"})
+    se.update({ "purpose": "Repack" , "stock_entry_type": "Repack","company":doc.company})
     item_code = doc.part_number
     po = frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_order") 
     po_rate = frappe.db.get_value('Purchase Order Item', {'item_code':doc.part_number,'parent':po}, 'rate')
