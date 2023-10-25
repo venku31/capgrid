@@ -1,0 +1,20 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "question-sign",
+  "modified": "2023-07-23 15:22:13.469293",
+  "name": "Pending",
+  "style": "Primary",
+  "workflow_state_name": "Pending"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2023-07-24 00:01:11.457334",
+  "name": "Picking Started",
+  "style": "Warning",
+  "workflow_state_name": "Picking Started"
+ }
+]

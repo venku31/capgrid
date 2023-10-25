@@ -2,6 +2,7 @@
  {
   "docstatus": 0,
   "doctype": "Workflow",
+<<<<<<< HEAD
   "document_type": "PickList",
   "is_active": 1,
   "modified": "2023-07-24 15:56:14.629192",
@@ -79,6 +80,8 @@
  {
   "docstatus": 0,
   "doctype": "Workflow",
+=======
+>>>>>>> parent of e35530a (remove outward Workflow/Action & state fixtures)
   "document_type": "Picking List",
   "is_active": 1,
   "modified": "2023-07-23 22:50:21.354966",
@@ -152,5 +155,122 @@
   ],
   "workflow_name": "Pickinglistworkflow",
   "workflow_state_field": "workflow_state"
+<<<<<<< HEAD
+=======
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow",
+  "document_type": "PickList",
+  "is_active": 1,
+  "modified": "2023-09-21 20:55:40.592021",
+  "name": "Picklistworkflow",
+  "override_status": 0,
+  "send_email_alert": 0,
+  "states": [
+   {
+    "allow_edit": "Sales User",
+    "doc_status": "0",
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "parent": "Picklistworkflow",
+    "parentfield": "states",
+    "parenttype": "Workflow",
+    "state": "Pending",
+    "update_field": null,
+    "update_value": null
+   },
+   {
+    "allow_edit": "Sales User",
+    "doc_status": "0",
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "parent": "Picklistworkflow",
+    "parentfield": "states",
+    "parenttype": "Workflow",
+    "state": "Picking Started",
+    "update_field": null,
+    "update_value": null
+   },
+   {
+    "allow_edit": "Sales User",
+    "doc_status": "0",
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "parent": "Picklistworkflow",
+    "parentfield": "states",
+    "parenttype": "Workflow",
+    "state": "Picking Completed",
+    "update_field": null,
+    "update_value": null
+   },
+   {
+    "allow_edit": "Sales User",
+    "doc_status": "1",
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "parent": "Picklistworkflow",
+    "parentfield": "states",
+    "parenttype": "Workflow",
+    "state": "Completed",
+    "update_field": null,
+    "update_value": null
+   },
+   {
+    "allow_edit": "Sales User",
+    "doc_status": "2",
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "parent": "Picklistworkflow",
+    "parentfield": "states",
+    "parenttype": "Workflow",
+    "state": "Cancelled",
+    "update_field": null,
+    "update_value": null
+   }
+  ],
+  "transitions": [
+   {
+    "action": "Picking Completed",
+    "allow_self_approval": 1,
+    "allowed": "Sales User",
+    "condition": null,
+    "next_state": "Picking Started",
+    "parent": "Picklistworkflow",
+    "parentfield": "transitions",
+    "parenttype": "Workflow",
+    "state": "Pending"
+   },
+   {
+    "action": "Generate Invoice",
+    "allow_self_approval": 1,
+    "allowed": "Sales User",
+    "condition": null,
+    "next_state": "Completed",
+    "parent": "Picklistworkflow",
+    "parentfield": "transitions",
+    "parenttype": "Workflow",
+    "state": "Picking Completed"
+   },
+   {
+    "action": "Cancel",
+    "allow_self_approval": 1,
+    "allowed": "Sales User",
+    "condition": null,
+    "next_state": "Cancelled",
+    "parent": "Picklistworkflow",
+    "parentfield": "transitions",
+    "parenttype": "Workflow",
+    "state": "Completed"
+   }
+  ],
+  "workflow_name": "Picklistworkflow",
+  "workflow_state_field": "workflow_state"
+>>>>>>> parent of e35530a (remove outward Workflow/Action & state fixtures)
  }
 ]
