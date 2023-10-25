@@ -202,18 +202,18 @@ fixtures = [
             ]
         ],
     },
-    {
-        "doctype": "Workflow",
-        "filters": [
-            [
-                "name",
-                "in",
-                [
-                    "Picklistworkflow","Pickinglistworkflow",
-                ],
-            ]
-        ],
-    },
+    # {
+    #     "doctype": "Workflow",
+    #     "filters": [
+    #         [
+    #             "name",
+    #             "in",
+    #             [
+    #                 "Picklistworkflow","Pickinglistworkflow",
+    #             ],
+    #         ]
+    #     ],
+    # },
     {
         "doctype": "Workflow State",
         "filters": [

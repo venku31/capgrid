@@ -117,10 +117,11 @@ frappe.ui.form.on('Putaway', {
 				frappe.set_route("Form", "Putaway", "new_putaway");
 			},
 	before_cancel: function(frm) {
-			frappe.msgprint(__("Please Cance Stock Entry"));
+		if (frm.doc.stock_entry){
+			frappe.msgprint(__("Please Cancel Stock Entry"));
 			frappe.validated = false;
-				
-         },
+		}		
+        },
 })
 
 // frappe.ui.form.on('Putaway Details', {

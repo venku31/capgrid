@@ -59,87 +59,87 @@ def search_lot(batch,company):
 #         qi.insert()
 
 def create_stock_entry(doc, handler=""):
-    # if doc.scaned_location == doc.location :
-    se = frappe.new_doc("Stock Entry")
-    se.update({ "purpose": "Repack" , "stock_entry_type": "Repack","company":doc.company,"putaway":doc.name})
-    item_code = doc.part_number
-    po = frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_order") 
-    po_rate = frappe.db.get_value('Purchase Order Item', {'item_code':doc.part_number,'parent':po}, 'rate')
-    last_rate = frappe.db.get_value('Item', {'item_code':doc.part_number}, 'last_purchase_rate')
-    item_price_rate = frappe.db.get_value('Item Price', {'item_code':doc.part_number,'price_list':"Standard Buying"}, 'price_list_rate')
+    if not doc.skip_stock_entry :
+        se = frappe.new_doc("Stock Entry")
+        se.update({ "purpose": "Repack" , "stock_entry_type": "Repack","company":doc.company,"putaway":doc.name})
+        item_code = doc.part_number
+        po = frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_order") 
+        po_rate = frappe.db.get_value('Purchase Order Item', {'item_code':doc.part_number,'parent':po}, 'rate')
+        last_rate = frappe.db.get_value('Item', {'item_code':doc.part_number}, 'last_purchase_rate')
+        item_price_rate = frappe.db.get_value('Item Price', {'item_code':doc.part_number,'price_list':"Standard Buying"}, 'price_list_rate')
 
-    if doc.lot_status=="Accepted" :
-        location = ""
-    else :
-        location = doc.location
+        if doc.lot_status=="Accepted" :
+            location = ""
+        else :
+            location = doc.location
     
-    wh = frappe.db.get_value("Warehouse Location", {"company":doc.company,"main_warehouse":doc.main_warehouse,"location":doc.scaned_location}, "warehouse")
-    item_bin_rate = frappe.db.get_value('Bin', {'item_code':doc.part_number,'warehouse':wh}, 'valuation_rate')
-    qc_qty_accepted = frappe.db.get_value("Lot Number", {"name": doc.batch_no}, "accepted_qty")
-    qc_qty_rejected = frappe.db.get_value("Lot Number", {"name": doc.batch_no}, "rejected_qty")
-    qc_qty_hold = frappe.db.get_value("Lot Number", {"name": doc.batch_no}, "hold_qty")
-    qc_qty_lot = frappe.db.get_value("Lot Number", {"name": doc.batch_no}, "lot_qty")
+        wh = frappe.db.get_value("Warehouse Location", {"company":doc.company,"main_warehouse":doc.main_warehouse,"location":doc.scaned_location}, "warehouse")
+        item_bin_rate = frappe.db.get_value('Bin', {'item_code':doc.part_number,'warehouse':wh}, 'valuation_rate')
+        qc_qty_accepted = frappe.db.get_value("Lot Number", {"name": doc.batch_no}, "accepted_qty")
+        qc_qty_rejected = frappe.db.get_value("Lot Number", {"name": doc.batch_no}, "rejected_qty")
+        qc_qty_hold = frappe.db.get_value("Lot Number", {"name": doc.batch_no}, "hold_qty")
+        qc_qty_lot = frappe.db.get_value("Lot Number", {"name": doc.batch_no}, "lot_qty")
     
-    if po_rate is None:
-        basic_amount = item_bin_rate or last_rate
-    else:
-        basic_amount = po_rate or last_rate
+        if po_rate is None:
+            basic_amount = item_bin_rate or last_rate
+        else:
+            basic_amount = po_rate or last_rate
    
-    se.append("items", { 
-    "item_code":doc.part_number,
-    "qty": doc.qty or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "lot_qty"),
-    "transfer_qty":doc.qty or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty"),
-    "s_warehouse": frappe.db.get_value("Warehouse Location", {"company":doc.company,"location":doc.scaned_location}, "warehouse"),
-    "t_warehouse": "",
-    "set_basic_rate_manually":1,
-    # "basic_rate" : frappe.db.get_value('Item', {'item_code':doc.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':doc.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
-    "basic_rate" :basic_amount,#doc.last_purchase_rate,
-    "valuation_rate" :basic_amount,#doc.last_purchase_rate,
-    "basic_amount" :round(basic_amount * flt(doc.qty or qc_qty_accepted or qc_qty_rejected or qc_qty_hold or qc_qty_lot),4),
-    "amount" :round(basic_amount * flt(doc.qty or qc_qty_accepted or qc_qty_rejected or qc_qty_hold or qc_qty_lot),4),
-    # "basic_rate" :doc.last_purchase_rate,
-    # "valuation_rate" :doc.last_purchase_rate,
-    # "basic_amount" :doc.last_purchase_rate*frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "lot_qty"),
-    # "amount" :doc.last_purchase_rate*frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "lot_qty"),
-    "expense_account": frappe.db.get_value("Company", {"name":doc.company}, "stock_adjustment_account"),
-    "reference_purchase_receipt":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_receipt"),
-    "warehouse_location" : location,
-    "lot_number":doc.batch_no,
-    "allow_zero_valuation_rate":1,
-    "conversion_factor":1,
-    "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")
-    })
-    se.append("items", { 
-    "item_code":doc.part_number,
-    "qty": doc.qty or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "lot_qty"),
-    "transfer_qty":doc.qty or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty"),
-    "s_warehouse": "",
-    "t_warehouse": frappe.db.get_value("Warehouse Location", {"company":doc.company,"name":doc.scaned_location}, "warehouse"),
-    "is_finished_item":1,
-    "set_basic_rate_manually":1,
-    # "basic_rate" : frappe.db.get_value('Item', {'item_code':doc.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':doc.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
-    "basic_rate" :basic_amount,
-    "valuation_rate" :basic_amount,
-    "basic_amount" :round(basic_amount * flt(doc.qty or qc_qty_accepted or qc_qty_rejected or qc_qty_hold or qc_qty_lot),4),
-    "amount" :round(basic_amount * flt(doc.qty or qc_qty_accepted or qc_qty_rejected or qc_qty_hold or qc_qty_lot),4),
-    # "basic_rate" :doc.last_purchase_rate,
-    # "valuation_rate" :doc.last_purchase_rate,
-    # "basic_amount" :doc.last_purchase_rate*frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "lot_qty"),
-    # "amount" :doc.last_purchase_rate*frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "lot_qty"),
-    "expense_account": frappe.db.get_value("Company", {"name":doc.company}, "stock_adjustment_account"),
-    "reference_purchase_receipt":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_receipt"),
-    "warehouse_location" : doc.scaned_location,
-    "lot_number":doc.batch_no,
-    "allow_zero_valuation_rate":1,
-    "conversion_factor":1,
-    "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")
-    })
-    se.flags.ignore_mandatory = True
-    se.set_missing_values()
-    se.docstatus=1
-    se.insert(ignore_permissions=True)
-    doc.stock_entry =se.name
-    doc.save(ignore_permissions=True)
+        se.append("items", { 
+        "item_code":doc.part_number,
+        "qty": doc.qty or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "lot_qty"),
+        "transfer_qty":doc.qty or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty"),
+        "s_warehouse": frappe.db.get_value("Warehouse Location", {"company":doc.company,"location":doc.scaned_location}, "warehouse"),
+        "t_warehouse": "",
+        "set_basic_rate_manually":1,
+        # "basic_rate" : frappe.db.get_value('Item', {'item_code':doc.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':doc.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
+        "basic_rate" :basic_amount,#doc.last_purchase_rate,
+        "valuation_rate" :basic_amount,#doc.last_purchase_rate,
+        "basic_amount" :round(basic_amount * flt(doc.qty or qc_qty_accepted or qc_qty_rejected or qc_qty_hold or qc_qty_lot),4),
+        "amount" :round(basic_amount * flt(doc.qty or qc_qty_accepted or qc_qty_rejected or qc_qty_hold or qc_qty_lot),4),
+        # "basic_rate" :doc.last_purchase_rate,
+        # "valuation_rate" :doc.last_purchase_rate,
+        # "basic_amount" :doc.last_purchase_rate*frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "lot_qty"),
+        # "amount" :doc.last_purchase_rate*frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "lot_qty"),
+        "expense_account": frappe.db.get_value("Company", {"name":doc.company}, "stock_adjustment_account"),
+        "reference_purchase_receipt":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_receipt"),
+        "warehouse_location" : location,
+        "lot_number":doc.batch_no,
+        "allow_zero_valuation_rate":1,
+        "conversion_factor":1,
+        "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")
+        })
+        se.append("items", { 
+        "item_code":doc.part_number,
+        "qty": doc.qty or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "lot_qty"),
+        "transfer_qty":doc.qty or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty"),
+        "s_warehouse": "",
+        "t_warehouse": frappe.db.get_value("Warehouse Location", {"company":doc.company,"name":doc.scaned_location}, "warehouse"),
+        "is_finished_item":1,
+        "set_basic_rate_manually":1,
+        # "basic_rate" : frappe.db.get_value('Item', {'item_code':doc.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':doc.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
+        "basic_rate" :basic_amount,
+        "valuation_rate" :basic_amount,
+        "basic_amount" :round(basic_amount * flt(doc.qty or qc_qty_accepted or qc_qty_rejected or qc_qty_hold or qc_qty_lot),4),
+        "amount" :round(basic_amount * flt(doc.qty or qc_qty_accepted or qc_qty_rejected or qc_qty_hold or qc_qty_lot),4),
+        # "basic_rate" :doc.last_purchase_rate,
+        # "valuation_rate" :doc.last_purchase_rate,
+        # "basic_amount" :doc.last_purchase_rate*frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "lot_qty"),
+        # "amount" :doc.last_purchase_rate*frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "lot_qty"),
+        "expense_account": frappe.db.get_value("Company", {"name":doc.company}, "stock_adjustment_account"),
+        "reference_purchase_receipt":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_receipt"),
+        "warehouse_location" : doc.scaned_location,
+        "lot_number":doc.batch_no,
+        "allow_zero_valuation_rate":1,
+        "conversion_factor":1,
+        "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")
+        })
+        se.flags.ignore_mandatory = True
+        se.set_missing_values()
+        se.docstatus=1
+        se.insert(ignore_permissions=True)
+        doc.stock_entry =se.name
+        doc.save(ignore_permissions=True)
     # else :
     #     se = frappe.new_doc("Stock Entry")
     #     se.update({ "purpose": "Material Transfer" , "stock_entry_type": "Material Transfer","putaway":doc.name})
