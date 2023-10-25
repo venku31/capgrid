@@ -1,0 +1,167 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:picklist",
+ "creation": "2023-06-24 11:16:00.642333",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "picklist",
+  "warehouse",
+  "part_number",
+  "to_be_picked",
+  "scan_location",
+  "scan_barcode",
+  "column_break_l1w4b",
+  "date",
+  "company",
+  "customer",
+  "warehouse_location",
+  "stock_details",
+  "section_break_tzc47",
+  "part_details",
+  "total_scaned_qty",
+  "total_qty"
+ ],
+ "fields": [
+  {
+   "fieldname": "picklist",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "PickList",
+   "options": "PickList",
+   "read_only": 1,
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fetch_from": "picklist.warehouse",
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "part_number",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Part Number",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "total_qty",
+   "fieldtype": "Int",
+   "label": "Total Pick List Qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_l1w4b",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "hidden": 1,
+   "label": "Date"
+  },
+  {
+   "fetch_from": "picklist.company",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Customer",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "section_break_tzc47",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "scan_barcode",
+   "fieldtype": "Data",
+   "label": "Scan Lot No",
+   "options": "Barcode"
+  },
+  {
+   "fieldname": "part_details",
+   "fieldtype": "Table",
+   "label": "Part Details",
+   "options": "Picking List Item Details"
+  },
+  {
+   "fieldname": "stock_details",
+   "fieldtype": "HTML",
+   "label": "Stock Details"
+  },
+  {
+   "fieldname": "scan_location",
+   "fieldtype": "Link",
+   "label": "Scan Location",
+   "options": "Warehouse Location"
+  },
+  {
+   "fieldname": "warehouse_location",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "warehouse_location",
+   "options": "Warehouse Location",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_scaned_qty",
+   "fieldtype": "Float",
+   "label": "Total Scaned Qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "to_be_picked",
+   "fieldtype": "Float",
+   "label": "To Be Picked",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-07-23 23:58:41.902523",
+ "modified_by": "Administrator",
+ "module": "Capgrid",
+ "name": "Picking List",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
