@@ -15,7 +15,8 @@
   "type_of_po",
   "batch_no",
   "lot_no",
-  "parent_idx"
+  "parent_idx",
+  "is_stock_item"
  ],
  "fields": [
   {
@@ -90,12 +91,20 @@
    "fieldtype": "Int",
    "label": "parent idx",
    "read_only": 1
+  },
+  {
+   "default": "0",
+   "fetch_from": "part_number.is_stock_item",
+   "fieldname": "is_stock_item",
+   "fieldtype": "Check",
+   "label": "is stock item",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-06-09 23:40:13.939154",
+ "modified": "2023-11-16 22:53:58.716311",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "GRN Inward Item Details",
