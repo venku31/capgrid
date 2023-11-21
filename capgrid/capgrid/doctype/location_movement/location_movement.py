@@ -34,18 +34,20 @@ def create_lm_stock_entry(doc, handler=""):
     po_rate = frappe.db.get_value('Purchase Order Item', {'item_code':doc.part_number,'parent':po}, 'rate')
     last_rate = frappe.db.get_value('Item', {'item_code':doc.part_number}, 'last_purchase_rate')
     item_price_rate = frappe.db.get_value('Item Price', {'item_code':doc.part_number,'price_list':"Standard Buying"}, 'price_list_rate')
+    item_bin_rate = frappe.db.get_value('Bin', {'item_code':doc.part_number,'warehouse':doc.from_warehouse}, 'valuation_rate')
+    item_val_rate = frappe.db.get_value('Item', {'item_code':doc.part_number}, 'valuation_rate')
     se.append("items", { 
     "item_code":doc.part_number,
     "qty": doc.actual_qty,
     "transfer_qty":doc.actual_qty,
     "s_warehouse": doc.from_warehouse,
     "t_warehouse": "",
-    "set_basic_rate_manually":1,
+    "set_basic_rate_manually":0,
     # "basic_rate" : frappe.db.get_value('Item', {'item_code':doc.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':doc.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
-    "basic_rate" : doc.last_purchase_rate,
-    "valuation_rate" : doc.last_purchase_rate,
-    "basic_amount" : doc.last_purchase_rate*doc.actual_qty,
-    "amount" : doc.last_purchase_rate*doc.actual_qty,
+    "basic_rate" : item_bin_rate or doc.last_purchase_rate or item_val_rate,
+    "valuation_rate" :  item_bin_rate or doc.last_purchase_rate or item_val_rate,
+    "basic_amount" : item_bin_rate*doc.actual_qty or  item_val_rate*doc.actual_qty,
+    "amount" : item_bin_rate*doc.actual_qty or  item_val_rate*doc.actual_qty,
     "expense_account": frappe.db.get_value("Company", {"name":doc.company}, "stock_adjustment_account"),
     "reference_purchase_receipt":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_receipt"),
     "warehouse_location" : doc.part_number_location,
@@ -63,10 +65,10 @@ def create_lm_stock_entry(doc, handler=""):
     "is_finished_item":1,
     "set_basic_rate_manually":1,
     # "basic_rate" : frappe.db.get_value('Item', {'item_code':doc.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':doc.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
-    "basic_rate" : doc.last_purchase_rate,
-    "valuation_rate" : doc.last_purchase_rate,
-    "basic_amount" : doc.last_purchase_rate*doc.actual_qty,
-    "amount" : doc.last_purchase_rate*doc.actual_qty,
+    "basic_rate" :  item_bin_rate or doc.last_purchase_rate or item_val_rate,
+    "valuation_rate" : item_bin_rate or doc.last_purchase_rate or item_val_rate,
+    "basic_amount" : item_bin_rate*doc.actual_qty or  item_val_rate*doc.actual_qty,
+    "amount" : item_bin_rate*doc.actual_qty or  item_val_rate*doc.actual_qty,
     "expense_account": frappe.db.get_value("Company", {"name":doc.company}, "stock_adjustment_account"),
     "reference_purchase_receipt":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_receipt"),
     "warehouse_location" : doc.scaned_location,

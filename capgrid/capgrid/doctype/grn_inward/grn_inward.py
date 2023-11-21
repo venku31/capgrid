@@ -396,7 +396,8 @@ def create_lot_split_entry(doc, handler=""):
             last_rate = frappe.db.get_value('Item', {'item_code':item.part_number}, 'last_purchase_rate')
             item_price_rate = frappe.db.get_value('Item Price', {'item_code':item.part_number,'price_list':"Standard Buying"}, 'price_list_rate')
             item_bin_rate = frappe.db.get_value('Bin', {'item_code':item.part_number,'warehouse':s_warehouse}, 'valuation_rate')
-            base_rate = item_bin_rate or last_rate or 0.00
+            item_val_rate = frappe.db.get_value('Item', {'item_code':item.part_number}, 'valuation_rate')
+            base_rate = item_bin_rate or item_val_rate or last_rate or 0.00
             if item.lot_no:
                 se.append("items", 
                 { "item_code":item.part_number,
@@ -405,7 +406,7 @@ def create_lot_split_entry(doc, handler=""):
                 "t_warehouse": "",
                 "transfer_qty" : item.qty,
                 "uom" : item.uom,
-                "set_basic_rate_manually":1,
+                "set_basic_rate_manually":0,
                 "basic_rate" : base_rate ,#frappe.db.get_value('Item', {'item_code':item.part_number}, 'last_purchase_rate'),
                 "valuation_rate" : base_rate ,#frappe.db.get_value('Item', {'item_code':item.part_number}, 'last_purchase_rate'),
                 "basic_amount" :item.qty*base_rate,#frappe.db.get_value('Item', {'item_code':item.part_number}, 'last_purchase_rate'),
@@ -422,7 +423,8 @@ def create_lot_split_entry(doc, handler=""):
             last_rate = frappe.db.get_value('Item', {'item_code':se_item.part_number}, 'last_purchase_rate')
             item_price_rate = frappe.db.get_value('Item Price', {'item_code':item.part_number,'price_list':"Standard Buying"}, 'price_list_rate')
             item_bin_rate = frappe.db.get_value('Bin', {'item_code':se_item.part_number,'warehouse':s_warehouse}, 'valuation_rate')
-            base_rate = item_bin_rate or last_rate or 0.00
+            item_val_rate = frappe.db.get_value('Item', {'item_code':se_item.part_number}, 'valuation_rate')
+            base_rate = item_bin_rate or item_val_rate or last_rate or 0.00
             if se_item.batch_no:
                 se.append("items", 
                 { "item_code":se_item.part_number,
