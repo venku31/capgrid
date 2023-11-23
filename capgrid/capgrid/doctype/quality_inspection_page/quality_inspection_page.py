@@ -21,12 +21,16 @@ from datetime import date,timedelta
 from frappe.model.document import Document
 
 class QualityInspectionPage(Document):
-    # pass
     def validate(self):
         for row in self.quality_inspection_page_table:
-            exists = frappe.get_value("Quality Inspection Page Table",{"batch_no":row.batch_no,"docstatus":1},'parent')
+            exists = frappe.get_value("Quality Inspection Page Table", {"batch_no": row.batch_no, "docstatus": 1}, 'parent')
             if exists:
-                frappe.throw(_("QI already done for this Lot {0} in Quality Inspection :<b>{1}</b>").format(row.batch_no,exists))
+                frappe.throw(_("QI already done for this Lot {0} in Quality Inspection :<b>{1}</b>").format(row.batch_no, exists))
+
+        existing_grn = frappe.get_value("YourGRNDoctype", {"grn_field": self.grn, "docstatus": 1}, 'name')
+        if existing_grn:
+            frappe.throw(_("GRN '{0}' already exists in Quality Inspection Page '{1}'").format(self.grn, existing_grn))
+    
 
 @frappe.whitelist()
 def search_lot(batch,):
