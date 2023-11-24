@@ -406,7 +406,7 @@ def create_lot_split_entry(doc, handler=""):
                 "t_warehouse": "",
                 "transfer_qty" : item.qty,
                 "uom" : item.uom,
-                "set_basic_rate_manually":0,
+                "set_basic_rate_manually":1,
                 "basic_rate" : base_rate ,#frappe.db.get_value('Item', {'item_code':item.part_number}, 'last_purchase_rate'),
                 "valuation_rate" : base_rate ,#frappe.db.get_value('Item', {'item_code':item.part_number}, 'last_purchase_rate'),
                 "basic_amount" :item.qty*base_rate,#frappe.db.get_value('Item', {'item_code':item.part_number}, 'last_purchase_rate'),

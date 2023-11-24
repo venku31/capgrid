@@ -83,7 +83,7 @@ def create_stock_entry(doc, handler=""):
         if po_rate is None:
             basic_amount = item_bin_rate or last_rate
         else:
-            basic_amount = po_rate or last_rate
+            basic_amount = item_bin_rate or last_rate
    
         se.append("items", { 
         "item_code":doc.part_number,

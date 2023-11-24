@@ -42,7 +42,7 @@ def create_lm_stock_entry(doc, handler=""):
     "transfer_qty":doc.actual_qty,
     "s_warehouse": doc.from_warehouse,
     "t_warehouse": "",
-    "set_basic_rate_manually":0,
+    "set_basic_rate_manually":1,
     # "basic_rate" : frappe.db.get_value('Item', {'item_code':doc.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':doc.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
     "basic_rate" : item_bin_rate or doc.last_purchase_rate or item_val_rate,
     "valuation_rate" :  item_bin_rate or doc.last_purchase_rate or item_val_rate,
