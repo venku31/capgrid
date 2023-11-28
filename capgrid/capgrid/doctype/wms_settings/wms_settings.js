@@ -34,7 +34,7 @@ frappe.ui.form.on('WMS Settings', {
 			var d = locals[cdt][cdn]
 			return {
 				filters: [
-					['Warehouse', 'parent_warehouse', '=', d.main_warehouse],
+					// ['Warehouse', 'parent_warehouse', '=', d.main_warehouse],
 					['Warehouse', 'company', '=', d.company]
 				]
 			}
