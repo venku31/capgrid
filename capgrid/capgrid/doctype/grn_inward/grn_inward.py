@@ -492,3 +492,26 @@ def update_parent_lot(doc):
                 item.lot_no = frappe.db.get_value("Lot Number", {"name": item.batch_no}, "parent_lot")
         doc.save(ignore_permissions=True)
         frappe.db.commit()
+
+@frappe.whitelist()
+def delete_lot(doc,part_number,parent_lot):
+#         child_lots = frappe.db.sql(
+#         """
+#         SELECT batch_no from `tabGRN Inward Item Details`
+# where parent=%(doc)s and part_number=%(part_number)s """, values={"doc":doc,"part_number":part_number},as_dict=1,)
+#         for lots in child_lots:
+#             lot_doc = frappe.get_value("Lot Number",lots.batch_no)
+#             if lot_doc :
+#                 # lot_doc.flags.ignore_links = True
+#                 frappe.delete_doc("Lot Number",lot_doc)
+#                 frappe.db.commit()
+#         parent_lot_doc = frappe.get_value("Lot Number",parent_lot)
+#         if parent_lot_doc :
+#             # parent_lot_doc.flags.ignore_links = True
+#             frappe.delete_doc("Lot Number",parent_lot_doc)
+#             frappe.db.commit()
+    if part_number :
+        frappe.db.sql(""" DELETE FROM `tabLot Number` where reference_name = %(doc)s and parent_lot=%(parent_lot)s and item=%(part_number)s
+                  """,{ 'doc':doc,'parent_lot': parent_lot, 'part_number': part_number })
+        frappe.db.sql(""" DELETE FROM `tabLot Number` where reference_name = %(doc)s and name=%(parent_lot)s and item=%(part_number)s
+                  """,{ 'doc':doc,'parent_lot': parent_lot, 'part_number': part_number })

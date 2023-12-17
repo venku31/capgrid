@@ -27,7 +27,8 @@
    "in_list_view": 1,
    "label": "Part Number",
    "options": "Item",
-   "reqd": 1
+   "reqd": 1,
+   "set_only_once": 1
   },
   {
    "columns": 2,
@@ -51,8 +52,7 @@
    "fieldname": "packet",
    "fieldtype": "Int",
    "in_list_view": 1,
-   "label": "# of packets",
-   "reqd": 1
+   "label": "# of packets"
   },
   {
    "columns": 2,
@@ -112,7 +112,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-06-08 21:49:53.598697",
+ "modified": "2023-12-17 23:24:26.829163",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "GRN Inward Item",

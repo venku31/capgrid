@@ -187,6 +187,30 @@ frappe.ui.form.on("GRN Inward Item", {
          d.diff = 0;
       }
        },  
+
+       before_grn_inward_item_remove: function(frm, cdt, cdn) {	// remove row's from grn inward details child table
+         var deleted_row = frappe.get_doc(cdt, cdn);
+         var part_no = deleted_row.part_number;
+         var parent_lot = deleted_row.lot_no
+         if (parent_lot){
+         frappe.call({
+            method: "capgrid.capgrid.doctype.grn_inward.grn_inward.delete_lot",
+            args: { doc: frm.doc.name, part_number:part_no,parent_lot:parent_lot},
+            callback: function (r) {
+               console.log(r.message);
+            },
+         });
+         }
+   
+         frm.doc.grn_inward_item_details.forEach(function (row) {
+               if (row.part_number === part_no) {
+                   frappe.model.clear_doc(row.doctype, row.name);
+               }
+           });
+           refresh_field('grn_inward_item_details');
+         frm.save()
+      },
+      
        });
        
 
