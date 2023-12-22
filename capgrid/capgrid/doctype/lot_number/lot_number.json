@@ -23,6 +23,7 @@
   "accepted_qty",
   "rejected_qty",
   "hold_qty",
+  "out_qty",
   "source",
   "supplier",
   "quality_inspection_page",
@@ -266,13 +267,20 @@
    "fieldtype": "Data",
    "label": "idx no",
    "read_only": 1
+  },
+  {
+   "fieldname": "out_qty",
+   "fieldtype": "Float",
+   "ignore_user_permissions": 1,
+   "label": "Out Qty",
+   "read_only": 1
   }
  ],
  "icon": "fa fa-archive",
  "image_field": "image",
  "links": [],
  "max_attachments": 5,
- "modified": "2023-11-16 22:46:36.468215",
+ "modified": "2023-12-22 14:07:57.657402",
  "modified_by": "Administrator",
  "module": "Capgrid",
  "name": "Lot Number",

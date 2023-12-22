@@ -165,7 +165,7 @@ frappe.ui.form.on("GRN Inward Item", {
                   callback: function(r) {
                   console.log(r.message);
                   var price = r.message[0].rate
-                  var qty = r.message[0].qty
+                  var qty = r.message[0].qty-r.message[0].received_qty
                   var uom = r.message[0].uom
                   frappe.model.set_value(cdt, cdn, "rate", price);
                   frappe.model.set_value(cdt, cdn, "rate1", price);
@@ -180,7 +180,7 @@ frappe.ui.form.on("GRN Inward Item", {
        qty(frm,cdt,cdn){  
       var d = frappe.model.get_doc(cdt, cdn);
       if(frm.doc.purchase_order && (d.qty>d.po_qty)){
-         frappe.msgprint(__("Qty is greater than PO Qty , Please check"));  
+         frappe.msgprint(__("Qty is greater than PO Pending Qty , Please check"));  
          d.diff = 1;
       }
       if(frm.doc.purchase_order && (d.qty<=d.po_qty)){

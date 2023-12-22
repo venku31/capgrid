@@ -483,7 +483,7 @@ def create_new_batches(grn,product_description,supplier):
 @frappe.whitelist()
 def get_po_details(po,part_number):
     return frappe.get_all(
-        "Purchase Order Item", filters={"docstatus": 1,"parent":po,"item_code":part_number}, fields=["item_code", "qty","uom","rate"]
+        "Purchase Order Item", filters={"docstatus": 1,"parent":po,"item_code":part_number}, fields=["item_code", "qty","received_qty","uom","rate"]
     )
 @frappe.whitelist()
 def update_parent_lot(doc):
