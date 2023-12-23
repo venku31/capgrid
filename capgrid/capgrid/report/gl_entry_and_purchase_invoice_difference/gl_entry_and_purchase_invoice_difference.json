@@ -1,0 +1,60 @@
+{
+ "add_total_row": 1,
+ "columns": [],
+ "creation": "2023-12-23 22:50:19.488604",
+ "disable_prepared_report": 1,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "other",
+ "modified": "2023-12-23 22:50:19.488604",
+ "modified_by": "Administrator",
+ "module": "Capgrid",
+ "name": "GL Entry and Purchase Invoice Difference",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "Purchase Invoice",
+ "report_name": "GL Entry and Purchase Invoice Difference",
+ "report_type": "Script Report",
+ "roles": [
+  {
+   "role": "Accounts Manager"
+  },
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Sale Purchase Executive"
+  },
+  {
+   "role": "Sale Purchase Manager"
+  },
+  {
+   "role": "Sales Manager"
+  },
+  {
+   "role": "Accounts User"
+  },
+  {
+   "role": "Purchase User"
+  },
+  {
+   "role": "ERP System Assistant Manager"
+  },
+  {
+   "role": "Purchase Manager"
+  },
+  {
+   "role": "KAM Manager"
+  },
+  {
+   "role": "Finance Manager"
+  },
+  {
+   "role": "Employee Self Service"
+  }
+ ]
+}

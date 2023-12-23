@@ -58,6 +58,7 @@ def create_purchase_receipt(doc,handler=""):
     pr.supplier_delivery_note = doc.supplier_invoice_no
     pr.supplier_invoice_date = doc.supplier_invoice_date
     pr.company = doc.company
+    pr.supplier_address = frappe.db.get_value('Purchase Order', {'name':doc.purchase_order}, 'supplier_address')
     pr.tax_category = frappe.db.get_value('Purchase Order', {'name':doc.purchase_order}, 'tax_category')
     pr.taxes_and_charges = frappe.db.get_value('Purchase Order', {'name':doc.purchase_order}, 'taxes_and_charges')
         # pr.supplier_address:""
