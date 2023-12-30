@@ -73,6 +73,20 @@ frappe.ui.form.on("GRN Inward", {
 //       +"&no_letterhead=0"
 //       ));
 //    } 
+onload: function(frm) {
+   frm.get_field('grn_inward_item_details').grid.cannot_add_rows = true;
+   refresh_field("grn_inward_item_details");
+},
+validate(frm,cdt,cdn){  
+   var d = locals[cdt][cdn];
+   frm.doc.grn_inward_item.forEach(function(d) {
+      if(d.purchase_order != frm.doc.purchase_order){
+         frappe.msgprint(__("Part Number not belongs to above PO"));
+         frappe.validated = false; 
+      }
+      });
+  
+  },   
 });
 // frappe.ui.form.on("Inward GRN", {
 //    validate: function(frm){ 
@@ -171,6 +185,7 @@ frappe.ui.form.on("GRN Inward Item", {
                   frappe.model.set_value(cdt, cdn, "rate1", price);
                   frappe.model.set_value(cdt, cdn, "po_qty", qty);
                   frappe.model.set_value(cdt, cdn, "uom", uom);
+                  frappe.model.set_value(cdt, cdn, "purchase_order", frm.doc.purchase_order);
                   }
                });	
                refresh_field("part_number");
@@ -186,8 +201,9 @@ frappe.ui.form.on("GRN Inward Item", {
       if(frm.doc.purchase_order && (d.qty<=d.po_qty)){
          d.diff = 0;
       }
-       },  
-
+       },
+      
+       
        before_grn_inward_item_remove: function(frm, cdt, cdn) {	// remove row's from grn inward details child table
          var deleted_row = frappe.get_doc(cdt, cdn);
          var part_no = deleted_row.part_number;
@@ -209,6 +225,7 @@ frappe.ui.form.on("GRN Inward Item", {
            });
            refresh_field('grn_inward_item_details');
          frm.save()
+         
       },
       
        });
