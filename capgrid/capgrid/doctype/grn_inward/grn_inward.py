@@ -80,6 +80,7 @@ def create_purchase_receipt(doc,handler=""):
             "rate":item.rate or item_price_rate,
             "allow_zero_valuation_rate":1,
             "purchase_order":doc.purchase_order or '',
+            "purchase_order_item":item.po_item or '',
             "lot_number":item.lot_no,
             "expense_account": frappe.db.get_value("Company", {"name": doc.company}, "default_expense_account"),
             "cost_center": frappe.db.get_value("Company", {"name": doc.company}, "cost_center"),
@@ -104,7 +105,7 @@ def create_purchase_receipt(doc,handler=""):
     # except Exception as e:
     #     return {"error":e} 
     # create_lot_split_entry(doc)
-    update_received_qty(pr.name)
+    # update_received_qty(pr.name)
     update_parent_lot(doc)
 
 #Main Lot
@@ -340,7 +341,7 @@ def after_validate(doc, method):
     # 	'mcond':get_match_cond(doctype), 'start': start, 'page_len': page_len})
 def po_item_query(doctype, txt, searchfield, start, page_len, filters):
     if filters.get("parent"):
-        return frappe.db.sql(""" select item_code,item_name,parent,qty,stock_uom from `tabPurchase Order Item`
+        return frappe.db.sql(""" select item_code,item_name,parent,qty,stock_uom,name from `tabPurchase Order Item`
         where parent = %(parent)s and (qty-received_qty)>0 and item_name like %(txt)s
         limit %(start)s, %(page_len)s""", {
             'parent': filters.get("parent"),
@@ -484,7 +485,7 @@ def create_new_batches(grn,product_description,supplier):
 @frappe.whitelist()
 def get_po_details(po,part_number):
     return frappe.get_all(
-        "Purchase Order Item", filters={"docstatus": 1,"parent":po,"item_code":part_number}, fields=["item_code", "qty","received_qty","uom","rate"]
+        "Purchase Order Item", filters={"docstatus": 1,"parent":po,"item_code":part_number}, fields=["item_code", "qty","received_qty","uom","rate","name"]
     )
 @frappe.whitelist()
 def update_parent_lot(doc):

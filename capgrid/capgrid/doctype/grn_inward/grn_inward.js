@@ -181,11 +181,13 @@ frappe.ui.form.on("GRN Inward Item", {
                   var price = r.message[0].rate
                   var qty = r.message[0].qty-r.message[0].received_qty
                   var uom = r.message[0].uom
+                  var po_item = r.message[0].name
                   frappe.model.set_value(cdt, cdn, "rate", price);
                   frappe.model.set_value(cdt, cdn, "rate1", price);
                   frappe.model.set_value(cdt, cdn, "po_qty", qty);
                   frappe.model.set_value(cdt, cdn, "uom", uom);
                   frappe.model.set_value(cdt, cdn, "purchase_order", frm.doc.purchase_order);
+                  frappe.model.set_value(cdt, cdn, "po_item", po_item);
                   }
                });	
                refresh_field("part_number");
