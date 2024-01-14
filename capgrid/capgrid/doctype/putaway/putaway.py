@@ -91,7 +91,7 @@ def create_stock_entry(doc, handler=""):
         "transfer_qty":doc.qty or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "accepted_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "rejected_qty") or frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "hold_qty"),
         "s_warehouse": frappe.db.get_value("Warehouse Location", {"company":doc.company,"location":doc.scaned_location}, "warehouse"),
         "t_warehouse": "",
-        "set_basic_rate_manually":1,
+        "set_basic_rate_manually":0,
         # "basic_rate" : frappe.db.get_value('Item', {'item_code':doc.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':doc.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
         "basic_rate" :basic_amount,#doc.last_purchase_rate,
         "valuation_rate" :basic_amount,#doc.last_purchase_rate,
@@ -105,7 +105,7 @@ def create_stock_entry(doc, handler=""):
         "reference_purchase_receipt":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_receipt"),
         "warehouse_location" : location,
         "lot_number":doc.batch_no,
-        "allow_zero_valuation_rate":1,
+        "allow_zero_valuation_rate":0,
         "conversion_factor":1,
         "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")
         })
@@ -116,7 +116,7 @@ def create_stock_entry(doc, handler=""):
         "s_warehouse": "",
         "t_warehouse": frappe.db.get_value("Warehouse Location", {"company":doc.company,"name":doc.scaned_location}, "warehouse"),
         "is_finished_item":1,
-        "set_basic_rate_manually":1,
+        "set_basic_rate_manually":0,
         # "basic_rate" : frappe.db.get_value('Item', {'item_code':doc.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':doc.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
         "basic_rate" :basic_amount,
         "valuation_rate" :basic_amount,
@@ -130,7 +130,7 @@ def create_stock_entry(doc, handler=""):
         "reference_purchase_receipt":frappe.db.get_value("Lot Number", {"name":doc.batch_no}, "purchase_receipt"),
         "warehouse_location" : doc.scaned_location,
         "lot_number":doc.batch_no,
-        "allow_zero_valuation_rate":1,
+        "allow_zero_valuation_rate":0,
         "conversion_factor":1,
         "cost_center" : frappe.db.get_value("Company", {"name":doc.company}, "cost_center")
         })

@@ -185,7 +185,7 @@ def create_lot_stock_entry(doc, handler=""):
         po_rate = frappe.db.get_value('Item', {'item_code':item.part_number}, 'last_purchase_rate')
         # print("///////////",po_rate)
         valuation_rate=frappe.get_all('Stock Ledger Entry', filters={'item_code':item.part_number,'valuation_rate' : ['>', '0'],'is_cancelled':0}, fields=['valuation_rate'],limit =1)
-        print("///////////",valuation_rate)
+        # print("///////////",valuation_rate)
         item_price_rate = frappe.db.get_value('Item Price', {'item_code':item.part_number,'price_list':"Standard Buying"}, 'price_list_rate')
         item_bin_rate = frappe.db.get_value('Bin', {'item_code':item.part_number,'warehouse':s_warehouse}, 'valuation_rate')
         item_val_rate = frappe.db.get_value('Item', {'item_code':item.part_number}, 'valuation_rate')
@@ -198,7 +198,7 @@ def create_lot_stock_entry(doc, handler=""):
                 "t_warehouse": "",
                 "transfer_qty" : item.qty,
                 "uom" : item.uom,
-                "set_basic_rate_manually":1,
+                "set_basic_rate_manually":0,
                 # "basic_rate" : frappe.db.get_value('Item', {'item_code':item.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':item.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
                 # "valuation_rate" : frappe.db.get_value('Item', {'item_code':item.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':item.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
                 "basic_rate" : base_rate,
@@ -206,7 +206,7 @@ def create_lot_stock_entry(doc, handler=""):
                 "basic_amount" : base_rate*item.qty,
                 "amount" :base_rate*item.qty,
                 "conversion_factor": 1,
-                "allow_zero_valuation_rate":1,
+                "allow_zero_valuation_rate":0,
                 # "reference_purchase_receipt":doc.purchase_receipt,
                 "lot_number":item.lot_no,
                 "expense_account":expense_account,
@@ -227,14 +227,14 @@ def create_lot_stock_entry(doc, handler=""):
                 "t_warehouse": t_warehouse,
                 "transfer_qty" : se_item.qty,
                 "uom" : item.uom,
-                "set_basic_rate_manually":1,
+                "set_basic_rate_manually":0,
                 # "basic_rate" : frappe.db.get_value('Item', {'item_code':se_item.part_number}, 'last_purchase_rate') or frappe.db.get_value('Item Price', {'item_code':se_item.part_number,'price_list':"Standard Buying"}, 'price_list_rate') or 0,
                 "basic_rate" : base_rate,
                 "valuation_rate" :base_rate,
                 "basic_amount" : base_rate*se_item.qty,
                 "amount" :base_rate*se_item.qty,
                 "conversion_factor": 1,
-                "allow_zero_valuation_rate":1,
+                "allow_zero_valuation_rate":0,
                 # "reference_purchase_receipt":doc.purchase_receipt,
                 "lot_number":se_item.batch_no,
                 "expense_account":expense_account,
