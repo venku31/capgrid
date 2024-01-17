@@ -140,7 +140,7 @@ class CustomStockEntry(StockEntry):
 
             # do not round off basic rate to avoid precision loss
             d.basic_rate = flt(d.basic_rate)
-            d.basic_amount = flt(flt(d.transfer_qty) * flt(d.precision("basic_rate")), d.precision("basic_amount"))
+            d.basic_amount = flt(flt(d.transfer_qty) * flt(d.basic_rate), d.precision("basic_amount"))
 
         if items:
             message = ""
@@ -166,7 +166,7 @@ class CustomStockEntry(StockEntry):
                     if rate > 0:
                         d.basic_rate = rate
 
-                d.basic_amount = flt(flt(d.transfer_qty) * flt(d.precision("basic_rate")), d.precision("basic_amount"))
+                d.basic_amount = flt(flt(d.transfer_qty) * flt(d.basic_rate), d.precision("basic_amount"))
                 if not d.t_warehouse:
                     outgoing_items_cost += flt(d.basic_amount)
 
