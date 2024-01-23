@@ -1,8 +1,6 @@
 # Copyright (c) 2023, Capgrid Solutions and contributors
 # For license information, please see license.txt
 
-# import frappe
-
 
 import frappe
 from frappe import _
@@ -10,8 +8,51 @@ from frappe import _
 
 def execute(filters=None):
 	columns, data = get_columns(), get_data(filters)
+	columns, final_data = get_actual_qty(data, filters)
 	return columns, data
 
+def get_actual_qty(data, filters):
+    final_data = []
+    company = filters.get("company")
+
+    for row in data:
+        item_code = row.get("part_number")  # Assuming "part_number" is equivalent to "item_code"
+        parent_warehouse = row.get("main_warehouse")
+
+        # Determine the warehouse containing the substring "Under QC" for the given company
+        warehouse = frappe.db.sql(
+            """
+            SELECT name 
+            FROM `tabWarehouse`
+            WHERE company = %s
+			AND parent_warehouse = %s			
+            AND warehouse_name LIKE %s
+
+            LIMIT 1
+            """,
+            (company,parent_warehouse, "%Under QC%"),
+            as_dict=True,
+        )[0].get("name")
+
+        # Fetch the sum of actual_qty for the given item_code and dynamically determined warehouse
+        actual_qty = frappe.db.sql(
+            """
+            SELECT SUM(actual_qty) as qty 
+            FROM `tabStock Ledger Entry`
+            WHERE item_code = %s
+            AND warehouse = %s
+            AND docstatus = 1
+            """,
+            (item_code, warehouse),
+            as_dict=True,
+        )[0].get("qty")
+
+        # Add the actual_qty to the row
+        row["actual_qty"] = actual_qty
+        final_data.append(row)
+
+    columns = get_columns()
+    return columns, final_data
 
 def get_columns():
 	columns = [
@@ -54,6 +95,7 @@ def get_columns():
 		},
 		{"fieldname": "batch_no", "label": _("Lot No"), "fieldtype": "Link", "options": "Lot Number","width": 120},
 		{"fieldname": "qty", "label": _("Qty"), "fieldtype": "Float", "width": 100},
+		{"fieldname": "actual_qty", "label": _("Actual Qty"), "fieldtype": "Float", "width": 100},		
 		{"fieldname": "main_warehouse", "label": _("Main Warehouse"), "fieldtype": "Link", "options": "Warehouse","width": 150},
 		{"label": _("Supplier Bill No"), "fieldname": "supplier_invoice_no", "fieldtype": "Data", "width": 80},
 		{"label": _("Bill Date"), "fieldname": "supplier_invoice_date", "fieldtype": "Data", "width": 80},
