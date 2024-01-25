@@ -9,7 +9,7 @@ from frappe import _
 def execute(filters=None):
 	columns, data = get_columns(), get_data(filters)
 	columns, final_data = get_actual_qty(data, filters)
-	return columns, data
+	return columns, final_data
 
 def get_actual_qty(data, filters):
     final_data = []
